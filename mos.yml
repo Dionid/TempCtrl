@@ -1,0 +1,45 @@
+author: mongoose-os
+description: DHT sensor usage example (JavaScript)
+version: 1.0
+
+libs_version: ${mos.version}
+modules_version: ${mos.version}
+mongoose_os_version: ${mos.version}
+
+sources:
+  - src
+filesystem:
+  - fs
+config_schema:
+  - ["i2c.enable", true]
+  - ["app", "o", {title: "My app custom settings"}]
+  - ["app.devId", "s", "qweqweqwe", {title: "Device uniq ID"}]
+  - ["pins", "o", {title: "My pins"}]
+  - ["pins.DHT", "i", 0, {title: "GPIO pin DHT"}]
+  - ["pins.HEAT_S", "i", 13, {title: "GPIO pin ..."}]
+  - ["pins.POWER", "i", 16, {title: "GPIO pin ..."}]
+  - ["pins.DEC_BUTTON", "i", 5, {title: "GPIO pin ..."}]
+  - ["pins.INC_BUTTON", "i", 4, {title: "GPIO pin ..."}]
+  - ["pins.SWITCH_BUTTON", "i", 2, {title: "GPIO pin ..."}]
+libs:
+    # common mgos libs
+  - origin: https://github.com/mongoose-os-libs/ca-bundle
+  - origin: https://github.com/mongoose-os-libs/i2c
+  - origin: https://github.com/mongoose-os-libs/http-server
+  - origin: https://github.com/mongoose-os-libs/rpc-uart
+  - origin: https://github.com/mongoose-os-libs/rpc-loopback
+  - origin: https://github.com/mongoose-os-libs/rpc-service-config
+  - origin: https://github.com/mongoose-os-libs/rpc-service-fs
+  - origin: https://github.com/mongoose-os-libs/rpc-service-gpio
+  - origin: https://github.com/mongoose-os-libs/rpc-service-i2c
+  - origin: https://github.com/mongoose-os-libs/rpc-service-ota
+    # libs necessary for the current app
+  - origin: https://github.com/mongoose-os-libs/dht
+  - origin: https://github.com/mongoose-os-libs/mjs
+  - origin: https://github.com/Dionid/arduino-LiquidCrystal_I2C
+
+tags:
+  - js
+  - hw
+
+manifest_version: 2017-05-18
