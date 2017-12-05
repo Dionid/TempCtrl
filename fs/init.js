@@ -23,7 +23,7 @@ print("Hello!");
 let lcd = LiquidCrystalI2C.create(0x3F,20,4);
 lcd.init();
 lcd.backlight();
-lcd.print("Hello!");
+// lcd.print("Hello!");
 
 // GPIO
 
@@ -72,6 +72,46 @@ let state = {
   maxTempActions: [],
 };
 
+function RenderTemp() {
+  lcd.setCursor(0,0);
+  lcd.print(JSON.stringify(state.temp) + "C");
+}
+
+function RenderHum() {
+  lcd.setCursor(0,1);
+  lcd.print(JSON.stringify(state.hum) + "B");
+}
+
+function RenderMaxTemp(hide) {
+  if (hide) {
+    lcd.setCursor(4,0);
+    lcd.print("       ");
+  } else {
+    lcd.setCursor(4,0);
+    lcd.print(JSON.stringify(state.maxTemp) + "C max");
+  }
+}
+
+function RenderMinTemp(hide) {
+  if (hide) {
+    lcd.setCursor(4,1);
+    lcd.print("       ");
+  } else {
+    lcd.setCursor(4,1);
+    lcd.print(JSON.stringify(state.minTemp) + "C min");
+  }
+}
+
+function RenderHeaterTurnedOff(hide) {
+  if (hide) {
+    lcd.setCursor(13,0);
+    lcd.print("   ");
+  } else {
+    lcd.setCursor(13,0);
+    lcd.print(state.heaterTurnedOff ? "Off" : "On ");
+  }
+}
+
 function SetSelectedConfig(configNum) {
   state.selectedConfig = configNum;
 }
@@ -86,6 +126,7 @@ function SetNextSelectedConfig() {
 }
 
 function SetHeaterTurnedOff(heaterTurnedOff) {
+  RenderHeaterTurnedOff();
   GPIO.write(POWER_PIN, heaterTurnedOff);
   state.heaterTurnedOff = heaterTurnedOff;
 }
@@ -97,26 +138,30 @@ function SetHeaterHeatActive(heaterHeatActive) {
 
 function SetTemp(temp) {
   state.temp = temp;
+  RenderTemp();
 }
 
 function SetHum(hum) {
+  RenderHum();
   state.hum = hum;
 }
 
-// function GetHumAndTempData() {
-//   let t = dht.getTemp();
-//   let h = dht.getHumidity();
-//
-//   if (isNaN(h) || isNaN(t)) {
-//     print('Failed to read data from sensor');
-//     return;
-//   }
-//
-//   return [t, h];
-// }
+function RefreshHumAndTemp() {
+  let t = dht.getTemp();
+  let h = dht.getHumidity();
+
+  if (isNaN(h) || isNaN(t)) {
+    print('Failed to read data from sensor');
+    return;
+  } else {
+    SetTemp(t);
+    SetHum(h);
+  }
+}
 
 function SetMinTemp(minTemp) {
   state.minTemp = minTemp;
+  RenderMinTemp();
 }
 
 function DecrementMinTemp(minTemp) {
@@ -129,6 +174,7 @@ function IncrementMinTemp(minTemp) {
 
 function SetMaxTemp(maxTemp) {
   state.maxTemp = maxTemp;
+  RenderMaxTemp();
 }
 
 function DecrementMaxTemp(maxTemp) {
@@ -140,17 +186,7 @@ function IncrementMaxTemp(maxTemp) {
 }
 
 function GetState() {
-  let t = dht.getTemp();
-  let h = dht.getHumidity();
-
-  if (isNaN(h) || isNaN(t)) {
-    print('Failed to read data from sensor');
-    return;
-  } else {
-    SetTemp(t);
-    SetHum(h);
-  }
-
+  RefreshHumAndTemp();
   return state;
 }
 
@@ -206,11 +242,14 @@ RPC.addHandler(deviceId + '.GetState', function() {
   return GetState();
 });
 
-Timer.set(3000 /* milliseconds */, true /* repeat */, function() {
+Timer.set(10000 /* milliseconds */, true /* repeat */, function() {
+  RefreshHumAndTemp();
   let temp = state.temp;
+  let maxTemp = state.maxTemp;
+  let minTemp = state.minTemp;
 
-  if (curState.temp > curState.maxTemp) {
-    print('More:', curState.temp, '*C');
+  if (temp > maxTemp) {
+    print('More');
     // for (let i = 0; i < state.maxTempActions.length; i++) {
     //   let rpc = state.maxTempActions[i];
     //   let dst = rpc.local ? RPC.LOCAL : '';
@@ -218,12 +257,33 @@ Timer.set(3000 /* milliseconds */, true /* repeat */, function() {
     //     print(JSON.stringify(state));
     //   }, null);
     // }
-  } else if (curState.temp < curState.minTemp) {
-    print('Less:', curState.temp, '*C');
+  } else if (temp < minTemp) {
+    print('Less:', temp, '*C');
   }
 
-  print('Temperature:', curState.temp, '*C');
-  print('Humidity:', curState.hum, '%');
+  print('Temperature:', temp, '*C');
+  print('Humidity:', state.hum, '%');
+}, null);
+
+let isBlinking = false;
+
+Timer.set(500 /* milliseconds */, true /* repeat */, function() {
+  let selectedConfig = state.selectedConfig;
+
+  if (selectedConfig === deviceConfigs.NONE) {
+    RenderMaxTemp(false);
+    return;
+  } else if (selectedConfig === deviceConfigs.POWER) {
+    RenderHeaterTurnedOff(isBlinking);
+  } else if (selectedConfig === deviceConfigs.MIN_TEMP) {
+    RenderHeaterTurnedOff(false);
+    RenderMinTemp(isBlinking);
+  } else if (selectedConfig === deviceConfigs.MAX_TEMP) {
+    RenderHeaterTurnedOff(false);
+    RenderMinTemp(false);
+    RenderMaxTemp(isBlinking);
+  }
+  isBlinking = !isBlinking;
 }, null);
 
 GPIO.set_button_handler(DEC_BUTTON_PIN, GPIO.PULL_UP, GPIO.INT_EDGE_NEG, 200, function() {
@@ -275,6 +335,14 @@ GPIO.set_button_handler(INC_BUTTON_PIN, GPIO.PULL_UP, GPIO.INT_EDGE_NEG, 200, fu
   }
 }, null);
 
+
 GPIO.set_button_handler(SWITCH_BUTTON_PIN, GPIO.PULL_UP, GPIO.INT_EDGE_NEG, 200, function() {
   SetNextSelectedConfig();
+}, null);
+
+Timer.set(1000 /* milliseconds */, false /* repeat */, function() {
+  RefreshHumAndTemp();
+  RenderMaxTemp(false);
+  RenderMinTemp(false);
+  RenderHeaterTurnedOff(false);
 }, null);
