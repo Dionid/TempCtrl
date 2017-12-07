@@ -112,25 +112,6 @@ RPC.addHandler(deviceId + '.GetState', function() {
 
 let isBlinking = false;
 
-Timer.set(500 /* milliseconds */, true /* repeat */, function() {
-  let selectedConfig = state.selectedConfig;
-
-  if (selectedConfig === deviceConfigs.NONE) {
-    RenderMaxTemp(false);
-    return;
-  } else if (selectedConfig === deviceConfigs.POWER) {
-    RenderHeaterTurnedOff(isBlinking);
-  } else if (selectedConfig === deviceConfigs.MIN_TEMP) {
-    RenderHeaterTurnedOff(false);
-    RenderMinTemp(isBlinking);
-  } else if (selectedConfig === deviceConfigs.MAX_TEMP) {
-    RenderHeaterTurnedOff(false);
-    RenderMinTemp(false);
-    RenderMaxTemp(isBlinking);
-  }
-  isBlinking = !isBlinking;
-}, null);
-
 
 GPIO.set_button_handler(SWITCH_BUTTON_PIN, GPIO.PULL_UP, GPIO.INT_EDGE_NEG, 200, function() {
   SetNextSelectedConfig();
@@ -252,4 +233,23 @@ Timer.set(2000 /* milliseconds */, false /* repeat */, function() {
   RenderMaxTemp(false);
   RenderMinTemp(false);
   RenderHeaterTurnedOff(false);
+}, null);
+
+Timer.set(500 /* milliseconds */, true /* repeat */, function() {
+  let selectedConfig = state.selectedConfig;
+
+  if (selectedConfig === deviceConfigs.NONE) {
+    RenderMaxTemp(false);
+    return;
+  } else if (selectedConfig === deviceConfigs.POWER) {
+    RenderHeaterTurnedOff(isBlinking);
+  } else if (selectedConfig === deviceConfigs.MIN_TEMP) {
+    RenderHeaterTurnedOff(false);
+    RenderMinTemp(isBlinking);
+  } else if (selectedConfig === deviceConfigs.MAX_TEMP) {
+    RenderHeaterTurnedOff(false);
+    RenderMinTemp(false);
+    RenderMaxTemp(isBlinking);
+  }
+  isBlinking = !isBlinking;
 }, null);

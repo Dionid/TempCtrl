@@ -29,16 +29,28 @@ function RefreshHumAndTemp(obj) {
   }
 }
 
+function SaveModuleInCfg(obj) {
+  print();
+  print("Before save:");
+  let bs = Timer.now();
+  print(bs);
+  let modules = JSON.parse(Cfg.get('app.modules'));
+  let dhtObj = modules[obj.deviceId];
+  modules[obj.deviceId].state = obj.state;
+  Cfg.set({app: {modules: JSON.stringify(modules)}}, true);
+  print("After save:");
+  let as = Timer.now();
+  print(as);
+  print("Diff: ");
+  print(as - bs);
+  print();
+}
+
 function SetMinTemp(obj, minTemp) {
   // Cfg.set({app: {[deviceId]: {state: {minTemp: minTemp}}}}, false);
   obj.state.minTemp = minTemp;
   StateChangedRpcCall(obj.deviceId, obj.state);
-  let modules = JSON.parse(Cfg.get('app.modules'));
-  let dhtObj = modules[obj.deviceId];
-  modules[obj.deviceId] = {
-    state: obj.state,
-  };
-  Cfg.set({app: {modules: JSON.stringify(modules)}}, true);
+  SaveModuleInCfg(obj);
 }
 
 function DecrementMinTemp(obj, minTemp) {
@@ -53,12 +65,7 @@ function SetMaxTemp(obj, maxTemp) {
   // Cfg.set({app: {[deviceId]: {state: {maxTemp: maxTemp}}}}, false);
   obj.state.maxTemp = maxTemp;
   StateChangedRpcCall(obj.deviceId, obj.state);
-  let modules = JSON.parse(Cfg.get('app.modules'));
-  let dhtObj = modules[obj.deviceId];
-  modules[obj.deviceId] = {
-    state: obj.state,
-  };
-  Cfg.set({app: {modules: JSON.stringify(modules)}}, true);
+  SaveModuleInCfg(obj);
 }
 
 function DecrementMaxTemp(obj, maxTemp) {
@@ -72,22 +79,29 @@ function IncrementMaxTemp(obj, maxTemp) {
 function INIT_DHT(deviceId, mainDeviceId, DHT_PIN, minTemp, maxTemp, minTempActions, maxTempActions, mainTimerInterval) {
   print('Started INIT_DHT');
 
-  let modules = JSON.parse(Cfg.get('app.modules'));
-
-  let dhtObj = modules[deviceId];
-
   // Initialize DHT library
   let dht = DHT.create(DHT_PIN, DHT.DHT11);
 
-  let state = dhtObj ? dhtObj.state : {
-    temp: 0,
-    hum: 0,
-    minTemp: minTemp,
-    maxTemp: maxTemp,
-    minTempActions: minTempActions,
-    maxTempActions: maxTempActions,
-    mainTimerInterval: mainTimerInterval,
-  };
+  let modules = JSON.parse(Cfg.get('app.modules'));
+  print("modules: " + JSON.stringify(modules));
+
+  let dhtObj = null;
+  let state = null;
+  if (modules[deviceId]) {
+    dhtObj = modules[deviceId];
+    state = dhtObj.state;
+  } else {
+    dhtObj = {};
+    state = {
+      temp: 0,
+      hum: 0,
+      minTemp: minTemp,
+      maxTemp: maxTemp,
+      minTempActions: minTempActions,
+      maxTempActions: maxTempActions,
+      mainTimerInterval: mainTimerInterval,
+    };
+  }
 
   dhtObj = {
     dht: dht,
@@ -173,6 +187,7 @@ function INIT_DHT(deviceId, mainDeviceId, DHT_PIN, minTemp, maxTemp, minTempActi
   // forSave.app[deviceId] = {state: dhtObj.state};
   //
   // Cfg.set(forSave, false);
+
 
   modules[deviceId] = {
     state: state,

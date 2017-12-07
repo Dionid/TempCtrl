@@ -3,8 +3,8 @@
 #include <stddef.h>
 #include "mgos_config.h"
 
-const struct mgos_conf_entry mgos_config_schema_[88] = {
-  {.type = CONF_TYPE_OBJECT, .key = "", .num_desc = 87},
+const struct mgos_conf_entry mgos_config_schema_[89] = {
+  {.type = CONF_TYPE_OBJECT, .key = "", .num_desc = 88},
   {.type = CONF_TYPE_OBJECT, .key = "sntp", .num_desc = 5},
   {.type = CONF_TYPE_BOOL, .key = "enable", .offset = offsetof(struct mgos_config, sntp.enable)},
   {.type = CONF_TYPE_STRING, .key = "server", .offset = offsetof(struct mgos_config, sntp.server)},
@@ -24,14 +24,14 @@ const struct mgos_conf_entry mgos_config_schema_[88] = {
   {.type = CONF_TYPE_STRING, .key = "password", .offset = offsetof(struct mgos_config, device.password)},
   {.type = CONF_TYPE_OBJECT, .key = "debug", .num_desc = 8},
   {.type = CONF_TYPE_STRING, .key = "udp_log_addr", .offset = offsetof(struct mgos_config, debug.udp_log_addr)},
-  {.type = CONF_TYPE_INT, .key = "mbedtls_level", .offset = offsetof(struct mgos_config, debug.mbedtls_level)},
   {.type = CONF_TYPE_INT, .key = "level", .offset = offsetof(struct mgos_config, debug.level)},
   {.type = CONF_TYPE_STRING, .key = "filter", .offset = offsetof(struct mgos_config, debug.filter)},
   {.type = CONF_TYPE_INT, .key = "stdout_uart", .offset = offsetof(struct mgos_config, debug.stdout_uart)},
   {.type = CONF_TYPE_INT, .key = "stderr_uart", .offset = offsetof(struct mgos_config, debug.stderr_uart)},
   {.type = CONF_TYPE_INT, .key = "factory_reset_gpio", .offset = offsetof(struct mgos_config, debug.factory_reset_gpio)},
   {.type = CONF_TYPE_STRING, .key = "mg_mgr_hexdump_file", .offset = offsetof(struct mgos_config, debug.mg_mgr_hexdump_file)},
-  {.type = CONF_TYPE_OBJECT, .key = "sys", .num_desc = 7},
+  {.type = CONF_TYPE_INT, .key = "mbedtls_level", .offset = offsetof(struct mgos_config, debug.mbedtls_level)},
+  {.type = CONF_TYPE_OBJECT, .key = "sys", .num_desc = 8},
   {.type = CONF_TYPE_OBJECT, .key = "mount", .num_desc = 5},
   {.type = CONF_TYPE_STRING, .key = "path", .offset = offsetof(struct mgos_config, sys.mount.path)},
   {.type = CONF_TYPE_STRING, .key = "dev_type", .offset = offsetof(struct mgos_config, sys.mount.dev_type)},
@@ -39,6 +39,7 @@ const struct mgos_conf_entry mgos_config_schema_[88] = {
   {.type = CONF_TYPE_STRING, .key = "fs_type", .offset = offsetof(struct mgos_config, sys.mount.fs_type)},
   {.type = CONF_TYPE_STRING, .key = "fs_opts", .offset = offsetof(struct mgos_config, sys.mount.fs_opts)},
   {.type = CONF_TYPE_INT, .key = "wdt_timeout", .offset = offsetof(struct mgos_config, sys.wdt_timeout)},
+  {.type = CONF_TYPE_STRING, .key = "tz_spec", .offset = offsetof(struct mgos_config, sys.tz_spec)},
   {.type = CONF_TYPE_STRING, .key = "conf_acl", .offset = offsetof(struct mgos_config, conf_acl)},
   {.type = CONF_TYPE_OBJECT, .key = "i2c", .num_desc = 5},
   {.type = CONF_TYPE_BOOL, .key = "enable", .offset = offsetof(struct mgos_config, i2c.enable)},
@@ -159,9 +160,6 @@ const struct mgos_config_debug *mgos_config_get_debug(struct mgos_config *cfg) {
 const char *mgos_config_get_debug_udp_log_addr(struct mgos_config *cfg) {
   return cfg->debug.udp_log_addr;
 }
-int         mgos_config_get_debug_mbedtls_level(struct mgos_config *cfg) {
-  return cfg->debug.mbedtls_level;
-}
 int         mgos_config_get_debug_level(struct mgos_config *cfg) {
   return cfg->debug.level;
 }
@@ -179,6 +177,9 @@ int         mgos_config_get_debug_factory_reset_gpio(struct mgos_config *cfg) {
 }
 const char *mgos_config_get_debug_mg_mgr_hexdump_file(struct mgos_config *cfg) {
   return cfg->debug.mg_mgr_hexdump_file;
+}
+int         mgos_config_get_debug_mbedtls_level(struct mgos_config *cfg) {
+  return cfg->debug.mbedtls_level;
 }
 const struct mgos_config_sys *mgos_config_get_sys(struct mgos_config *cfg) {
   return &cfg->sys;
@@ -203,6 +204,9 @@ const char *mgos_config_get_sys_mount_fs_opts(struct mgos_config *cfg) {
 }
 int         mgos_config_get_sys_wdt_timeout(struct mgos_config *cfg) {
   return cfg->sys.wdt_timeout;
+}
+const char *mgos_config_get_sys_tz_spec(struct mgos_config *cfg) {
+  return cfg->sys.tz_spec;
 }
 const char *mgos_config_get_conf_acl(struct mgos_config *cfg) {
   return cfg->conf_acl;
@@ -411,9 +415,6 @@ void mgos_config_set_device_password(struct mgos_config *cfg, const char *val) {
 void mgos_config_set_debug_udp_log_addr(struct mgos_config *cfg, const char *val) {
   mgos_conf_set_str(&cfg->debug.udp_log_addr, val);
 }
-void mgos_config_set_debug_mbedtls_level(struct mgos_config *cfg, int         val) {
-  cfg->debug.mbedtls_level = val;
-}
 void mgos_config_set_debug_level(struct mgos_config *cfg, int         val) {
   cfg->debug.level = val;
 }
@@ -432,6 +433,9 @@ void mgos_config_set_debug_factory_reset_gpio(struct mgos_config *cfg, int      
 void mgos_config_set_debug_mg_mgr_hexdump_file(struct mgos_config *cfg, const char *val) {
   mgos_conf_set_str(&cfg->debug.mg_mgr_hexdump_file, val);
 }
+void mgos_config_set_debug_mbedtls_level(struct mgos_config *cfg, int         val) {
+  cfg->debug.mbedtls_level = val;
+}
 void mgos_config_set_sys_mount_path(struct mgos_config *cfg, const char *val) {
   mgos_conf_set_str(&cfg->sys.mount.path, val);
 }
@@ -449,6 +453,9 @@ void mgos_config_set_sys_mount_fs_opts(struct mgos_config *cfg, const char *val)
 }
 void mgos_config_set_sys_wdt_timeout(struct mgos_config *cfg, int         val) {
   cfg->sys.wdt_timeout = val;
+}
+void mgos_config_set_sys_tz_spec(struct mgos_config *cfg, const char *val) {
+  mgos_conf_set_str(&cfg->sys.tz_spec, val);
 }
 void mgos_config_set_conf_acl(struct mgos_config *cfg, const char *val) {
   mgos_conf_set_str(&cfg->conf_acl, val);

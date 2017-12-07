@@ -16,18 +16,18 @@
     "ssl_server_name": ""
   }, 
   "device": {
-    "id": "esp8266_??????", 
+    "id": "esp32_??????", 
     "password": ""
   }, 
   "debug": {
     "udp_log_addr": "", 
-    "mbedtls_level": 0, 
     "level": 2, 
     "filter": "", 
     "stdout_uart": 0, 
     "stderr_uart": 0, 
     "factory_reset_gpio": -1, 
-    "mg_mgr_hexdump_file": ""
+    "mg_mgr_hexdump_file": "", 
+    "mbedtls_level": 0
   }, 
   "sys": {
     "mount": {
@@ -37,15 +37,16 @@
       "fs_type": "", 
       "fs_opts": ""
     }, 
-    "wdt_timeout": 30
+    "wdt_timeout": 30, 
+    "tz_spec": ""
   }, 
   "conf_acl": "*", 
   "i2c": {
     "enable": true, 
     "freq": 100000, 
     "debug": false, 
-    "sda_gpio": 12, 
-    "scl_gpio": 14
+    "sda_gpio": 32, 
+    "scl_gpio": 33
   }, 
   "http": {
     "enable": true, 
