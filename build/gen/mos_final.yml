@@ -81,6 +81,7 @@ filesystem:
 - /fwbuild-volumes/1.21/apps/Garage/esp8266/build_contexts/build_ctx_178930274/fs/actions.js
 - /fwbuild-volumes/1.21/apps/Garage/esp8266/build_contexts/build_ctx_178930274/fs/connect.js
 - /fwbuild-volumes/1.21/apps/Garage/esp8266/build_contexts/build_ctx_178930274/fs/init.js
+- /fwbuild-volumes/1.21/apps/Garage/esp8266/build_contexts/build_ctx_178930274/fs/module_dht_sensor.js
 binary_libs:
 - /fwbuild-volumes/1.21/apps/Garage/esp8266/build_contexts/build_ctx_178930274/libs/ota-http-client/lib/esp8266/libota-http-client.a
 - /fwbuild-volumes/1.21/apps/Garage/esp8266/build_contexts/build_ctx_178930274/libs/rpc-service-ota/lib/esp8266/librpc-service-ota.a

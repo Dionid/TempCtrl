@@ -14,6 +14,7 @@ load('api_timer.js');
 load('api_dht.js');
 load('api_arduino_liquidcrystal_i2c.js');
 load('actions.js');
+load('module_dht_sensor.js');
 
 // // Device Id
 let deviceId = Cfg.get('app.devId');
@@ -363,3 +364,50 @@ GPIO.set_button_handler(SWITCH_BUTTON_PIN, GPIO.PULL_UP, GPIO.INT_EDGE_NEG, 200,
 //   RenderMinTemp(false);
 //   RenderHeaterTurnedOff(false);
 // }, null);
+
+// minTempActions: [
+//   {
+//     method: deviceId + '.SetState',
+//     args: {
+//       heaterHeatActive: true
+//     },
+//     local: true,
+//     lastCallTime: 0, // Uptime off last call
+//     interval: 60,
+//     // once: true, # if once is true than after first call this action will be deleted
+//   }
+// ],
+// maxTempActions: [
+//   {
+//     method: deviceId + '.SetState',
+//     args: {
+//       heaterHeatActive: false
+//     },
+//     local: true,
+//     lastCallTime: 0, // Uptime off last call
+//     interval: 60,
+//   }
+// ],
+
+INIT_DHT('123asdzxc', deviceId, Cfg.get('pins.DHT'), 10, 20, [
+  {
+    method: deviceId + '.SetState',
+    args: {
+      heaterHeatActive: true
+    },
+    local: true,
+    lastCallTime: 0, // Uptime off last call
+    interval: 60,
+    // once: true, # if once is true than after first call this action will be deleted
+  }
+], [
+  {
+    method: deviceId + '.SetState',
+    args: {
+      heaterHeatActive: false
+    },
+    local: true,
+    lastCallTime: 0, // Uptime off last call
+    interval: 60,
+  }
+], 5000);
