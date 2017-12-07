@@ -49,7 +49,7 @@ function INIT_HEATER_MODULE(options) {
     if (args.heaterTurnedOff !== undefined) {
       SetHeaterModuleTurnedOff(obj, args.heaterTurnedOff);
     }
-    if (args.heaterHeatActive) {
+    if (args.heaterHeatActive !== undefined) {
       SetHeaterModuleHeatActive(obj, args.heaterHeatActive);
     }
     return obj.state;

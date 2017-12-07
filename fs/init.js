@@ -38,13 +38,14 @@ globalState.mainHeaterState = mainHeaterObj.state;
 StateChangedRpcAddHandler(heaterDeviceId, function(args) {
   let changedProps = args.changedProps;
   if (changedProps.heaterTurnedOff) {
-    Cfg.set({devices: {mainHeater: {turnedOff: turnedOff}}}, true);
+    Cfg.set({devices: {mainHeater: {turnedOff: changedProps.heaterTurnedOff}}}, true);
   }
 });
 
 
+let mainDHTId = Cfg.get('devices.mainDHT.id');
 let mainDHTObj = INIT_DHT_MODULE({
-  deviceId: Cfg.get('devices.mainDHT.id'),
+  deviceId: mainDHTId,
   DHT_PIN: Cfg.get('devices.mainDHT.DHT_PIN'),
   minTemp: Cfg.get('devices.mainDHT.minTemp'),
   maxTemp: Cfg.get('devices.mainDHT.maxTemp'),
@@ -54,6 +55,16 @@ let mainDHTObj = INIT_DHT_MODULE({
 });
 
 globalState.mainDHTState = mainDHTObj.state;
+
+StateChangedRpcAddHandler(mainDHTId, function(args) {
+  let changedProps = args.changedProps;
+  if (changedProps.minTemp) {
+    Cfg.set({devices: {mainDHT: {minTemp: changedProps.minTemp}}}, true);
+  }
+  if (changedProps.maxTemp) {
+    Cfg.set({devices: {mainDHT: {maxTemp: changedProps.maxTemp}}}, true);
+  }
+});
 
 // // // Device Id
 // let deviceId = Cfg.get('app.devId');
