@@ -12,6 +12,8 @@ load('api_rpc.js');
 load('api_gpio.js');
 load('api_timer.js');
 load('api_dht.js');
+load('api_mqtt.js');
+load('api_sys.js');
 load('api_arduino_liquidcrystal_i2c.js');
 load('actions.js');
 load('module_dht_sensor.js');
@@ -138,7 +140,7 @@ let dhtObj = INIT_DHT(mainDHTId, deviceId, Cfg.get('pins.DHT'), 10, 20, [
     lastCallTime: 0, // Uptime off last call
     interval: 60,
   }
-], 5000);
+], 60000);
 
 GPIO.set_button_handler(DEC_BUTTON_PIN, GPIO.PULL_UP, GPIO.INT_EDGE_NEG, 200, function() {
   print('DEC_BUTTON');

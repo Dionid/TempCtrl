@@ -13,21 +13,24 @@
     "interval": 0, 
     "ssl_ca_file": "ca.pem", 
     "ssl_client_cert_file": "", 
-    "ssl_server_name": ""
+    "ssl_server_name": "", 
+    "enable_post": true
   }, 
   "device": {
-    "id": "esp32_??????", 
+    "id": "esp8266_??????", 
     "password": ""
   }, 
   "debug": {
     "udp_log_addr": "", 
+    "mbedtls_level": 0, 
     "level": 2, 
     "filter": "", 
     "stdout_uart": 0, 
     "stderr_uart": 0, 
     "factory_reset_gpio": -1, 
     "mg_mgr_hexdump_file": "", 
-    "mbedtls_level": 0
+    "stdout_topic": "", 
+    "stderr_topic": ""
   }, 
   "sys": {
     "mount": {
@@ -37,16 +40,48 @@
       "fs_type": "", 
       "fs_opts": ""
     }, 
-    "wdt_timeout": 30, 
-    "tz_spec": ""
+    "wdt_timeout": 30
   }, 
   "conf_acl": "*", 
   "i2c": {
     "enable": true, 
     "freq": 100000, 
     "debug": false, 
-    "sda_gpio": 32, 
-    "scl_gpio": 33
+    "sda_gpio": 12, 
+    "scl_gpio": 14
+  }, 
+  "wifi": {
+    "sta": {
+      "enable": false, 
+      "ssid": "", 
+      "pass": "", 
+      "user": "", 
+      "anon_identity": "", 
+      "cert": "", 
+      "key": "", 
+      "ca_cert": "", 
+      "ip": "", 
+      "netmask": "", 
+      "gw": "", 
+      "nameserver": "", 
+      "dhcp_hostname": ""
+    }, 
+    "ap": {
+      "enable": true, 
+      "ssid": "Mongoose_??????", 
+      "pass": "Mongoose", 
+      "hidden": false, 
+      "channel": 6, 
+      "max_connections": 10, 
+      "ip": "192.168.4.1", 
+      "netmask": "255.255.255.0", 
+      "gw": "192.168.4.1", 
+      "dhcp_start": "192.168.4.2", 
+      "dhcp_end": "192.168.4.100", 
+      "trigger_on_gpio": -1, 
+      "disable_after": 0, 
+      "keep_enabled": true
+    }
   }, 
   "http": {
     "enable": true, 
@@ -62,6 +97,26 @@
   }, 
   "mjs": {
     "generate_jsc": true
+  }, 
+  "mqtt": {
+    "enable": true, 
+    "server": "iot.eclipse.org:1883", 
+    "client_id": "", 
+    "user": "", 
+    "pass": "", 
+    "reconnect_timeout_min": 2.0, 
+    "reconnect_timeout_max": 60.0, 
+    "ssl_cert": "", 
+    "ssl_key": "", 
+    "ssl_ca_cert": "", 
+    "ssl_cipher_suites": "", 
+    "ssl_psk_identity": "", 
+    "ssl_psk_key": "", 
+    "clean_session": true, 
+    "keep_alive": 60, 
+    "will_topic": "", 
+    "will_message": "", 
+    "max_qos": 2
   }, 
   "rpc": {
     "enable": true, 
@@ -79,6 +134,10 @@
       "ssl_server_name": "", 
       "ssl_ca_file": "", 
       "ssl_client_cert_file": ""
+    }, 
+    "mqtt": {
+      "enable": true, 
+      "topic": ""
     }, 
     "uart": {
       "uart_no": 0, 

@@ -11,10 +11,6 @@ function SetHum(obj, hum) {
   obj.state.hum = hum;
 }
 
-function StateChangedRpcCall(deviceId, args) {
-  RPC.call(RPC.LOCAL, deviceId + '.StateChanged', args, function(){}, null);
-}
-
 function RefreshHumAndTemp(obj) {
   let t = obj.dht.getTemp();
   let h = obj.dht.getHumidity();
@@ -25,7 +21,7 @@ function RefreshHumAndTemp(obj) {
   } else {
     SetTemp(obj, t);
     SetHum(obj, h);
-    StateChangedRpcCall(obj.deviceId, obj.state);
+    StateChangedRpcCall(obj.deviceId, obj.state, {temp: t, hum: h});
   }
 }
 
@@ -49,8 +45,8 @@ function SaveModuleInCfg(obj) {
 function SetMinTemp(obj, minTemp) {
   // Cfg.set({app: {[deviceId]: {state: {minTemp: minTemp}}}}, false);
   obj.state.minTemp = minTemp;
-  StateChangedRpcCall(obj.deviceId, obj.state);
-  SaveModuleInCfg(obj);
+  StateChangedRpcCall(obj.deviceId, obj.state, {minTemp:minTemp});
+  // SaveModuleInCfg(obj);
 }
 
 function DecrementMinTemp(obj, minTemp) {
@@ -64,8 +60,8 @@ function IncrementMinTemp(obj, minTemp) {
 function SetMaxTemp(obj, maxTemp) {
   // Cfg.set({app: {[deviceId]: {state: {maxTemp: maxTemp}}}}, false);
   obj.state.maxTemp = maxTemp;
-  StateChangedRpcCall(obj.deviceId, obj.state);
-  SaveModuleInCfg(obj);
+  StateChangedRpcCall(obj.deviceId, obj.state, {maxTemp:maxTemp});
+  // SaveModuleInCfg(obj);
 }
 
 function DecrementMaxTemp(obj, maxTemp) {
@@ -180,18 +176,7 @@ function INIT_DHT(deviceId, mainDeviceId, DHT_PIN, minTemp, maxTemp, minTempActi
 
   print('Ended INIT_DHT');
 
-  // let forSave = {
-  //   app: {},
-  // };
-  //
-  // forSave.app[deviceId] = {state: dhtObj.state};
-  //
-  // Cfg.set(forSave, false);
-
-
-  modules[deviceId] = {
-    state: state,
-  };
+  modules[deviceId].state = state;
 
   Cfg.set({app: {modules: JSON.stringify(modules)}}, true);
 

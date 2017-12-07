@@ -12,6 +12,8 @@ load('api_rpc.js');
 load('api_gpio.js');
 load('api_timer.js');
 load('api_dht.js');
+load('api_mqtt.js');
+load('api_sys.js');
 load('api_arduino_liquidcrystal_i2c.js');
 load('actions.js');
 load('module_dht_sensor.js');
@@ -48,8 +50,6 @@ let deviceConfigs = {
 };
 
 let state = {
-  // LCD
-
   // Ctrlls
   selectedConfig: deviceConfigs.NONE,
 
@@ -117,28 +117,38 @@ GPIO.set_button_handler(SWITCH_BUTTON_PIN, GPIO.PULL_UP, GPIO.INT_EDGE_NEG, 200,
   SetNextSelectedConfig();
 }, null);
 
-let dhtObj = INIT_DHT(mainDHTId, deviceId, Cfg.get('pins.DHT'), 10, 20, [
-  {
-    method: deviceId + '.SetState',
-    args: {
-      heaterHeatActive: true
-    },
-    local: true,
-    lastCallTime: 0, // Uptime off last call
-    interval: 60,
-    // once: true, # if once is true than after first call this action will be deleted
-  }
-], [
-  {
-    method: deviceId + '.SetState',
-    args: {
-      heaterHeatActive: false
-    },
-    local: true,
-    lastCallTime: 0, // Uptime off last call
-    interval: 60,
-  }
-], 5000);
+// TODO: Find way to store data of this device
+
+let dhtObj = INIT_DHT(
+  mainDHTId,
+  deviceId,
+  Cfg.get('pins.DHT'),
+  10,
+  20,
+  [
+    {
+      method: deviceId + '.SetState',
+      args: {
+        heaterHeatActive: true
+      },
+      local: true,
+      lastCallTime: 0, // Uptime off last call
+      interval: 60,
+      // once: true, # if once is true than after first call this action will be deleted
+    }
+  ], [
+    {
+      method: deviceId + '.SetState',
+      args: {
+        heaterHeatActive: false
+      },
+      local: true,
+      lastCallTime: 0, // Uptime off last call
+      interval: 60,
+    }
+  ],
+  60000
+);
 
 GPIO.set_button_handler(DEC_BUTTON_PIN, GPIO.PULL_UP, GPIO.INT_EDGE_NEG, 200, function() {
   print('DEC_BUTTON');
@@ -219,12 +229,20 @@ function RenderMinTemp(hide) {
   }
 }
 
-RPC.addHandler(mainDHTId + '.StateChanged', function(state) {
-  RenderHum();
-  RenderTemp();
-  RenderMaxTemp(false);
-  RenderMinTemp(false);
-  RenderHeaterTurnedOff(false);
+RPC.addHandler(mainDHTId + '.StateChanged', function(args) {
+  let changedProps = args.changedProps;
+  if (changedProps.hum) {
+    RenderHum();
+  }
+  if (changedProps.temp) {
+    RenderTemp();
+  }
+  if (changedProps.maxTemp) {
+    RenderMaxTemp(false);
+  }
+  if (changedProps.minTemp) {
+    RenderMinTemp(false);
+  }
 });
 
 Timer.set(2000 /* milliseconds */, false /* repeat */, function() {
