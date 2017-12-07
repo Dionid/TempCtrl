@@ -40,7 +40,7 @@ function INIT_DHT(deviceId, mainDeviceId, DHT_PIN, minTemp, maxTemp, minTempActi
   }
 
   function SetMinTemp(minTemp) {
-    Cfg.set({app: {[deviceId]: {state: {minTemp: minTemp}}}}, true);
+    // Cfg.set({app: {[deviceId]: {state: {minTemp: minTemp}}}}, true);
     state.minTemp = minTemp;
   }
 
@@ -53,7 +53,7 @@ function INIT_DHT(deviceId, mainDeviceId, DHT_PIN, minTemp, maxTemp, minTempActi
   }
 
   function SetMaxTemp(maxTemp) {
-    Cfg.set({app: {[deviceId]: {state: {maxTemp: maxTemp}}}}, true);
+    // Cfg.set({app: {[deviceId]: {state: {maxTemp: maxTemp}}}}, true);
     state.maxTemp = maxTemp;
   }
 
@@ -66,13 +66,7 @@ function INIT_DHT(deviceId, mainDeviceId, DHT_PIN, minTemp, maxTemp, minTempActi
   }
 
   dhtObj = {
-    state: state,
-    SetMinTemp: SetMinTemp,
-    DecrementMinTemp: DecrementMinTemp,
-    IncrementMinTemp: IncrementMinTemp,
-    SetMaxTemp: SetMaxTemp,
-    DecrementMaxTemp: DecrementMaxTemp,
-    IncrementMaxTemp: IncrementMaxTemp,
+    state: state
   };
 
   // Cfd.set({app: {[deviceId]: {state: state}}}, true);

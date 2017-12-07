@@ -32,11 +32,11 @@ let DEC_BUTTON_PIN = Cfg.get('pins.DEC_BUTTON');
 let INC_BUTTON_PIN = Cfg.get('pins.INC_BUTTON');
 let SWITCH_BUTTON_PIN = Cfg.get('pins.SWITCH_BUTTON');
 
-// DHT
-let DHT_PIN = Cfg.get('pins.DHT');
-
-// Initialize DHT library
-let dht = DHT.create(DHT_PIN, DHT.DHT11);
+// // DHT
+// let DHT_PIN = Cfg.get('pins.DHT');
+//
+// // Initialize DHT library
+// let dht = DHT.create(DHT_PIN, DHT.DHT11);
 
 // HEATER
 let HEAT_PIN = Cfg.get('pins.HEAT_S');
@@ -63,43 +63,44 @@ let state = {
   heaterTurnedOff: true,
   heaterHeatActive: false,
 
-  temp: 0,
-  hum: 0,
-  minTemp: Cfg.get('app.minTemp'),
-  maxTemp: Cfg.get('app.maxTemp'),
-  minTempActions: [
-    {
-      method: deviceId + '.SetState',
-      args: {
-        heaterHeatActive: true
-      },
-      local: true,
-      lastCallTime: 0, // Uptime off last call
-      interval: 60,
-      // once: true, # if once is true than after first call this action will be deleted
-    }
-  ],
-  maxTempActions: [
-    {
-      method: deviceId + '.SetState',
-      args: {
-        heaterHeatActive: false
-      },
-      local: true,
-      lastCallTime: 0, // Uptime off last call
-      interval: 60,
-    }
-  ],
+  // // DHT
+  // temp: 0,
+  // hum: 0,
+  // minTemp: Cfg.get('app.minTemp'),
+  // maxTemp: Cfg.get('app.maxTemp'),
+  // minTempActions: [
+  //   {
+  //     method: deviceId + '.SetState',
+  //     args: {
+  //       heaterHeatActive: true
+  //     },
+  //     local: true,
+  //     lastCallTime: 0, // Uptime off last call
+  //     interval: 60,
+  //     // once: true, # if once is true than after first call this action will be deleted
+  //   }
+  // ],
+  // maxTempActions: [
+  //   {
+  //     method: deviceId + '.SetState',
+  //     args: {
+  //       heaterHeatActive: false
+  //     },
+  //     local: true,
+  //     lastCallTime: 0, // Uptime off last call
+  //     interval: 60,
+  //   }
+  // ],
 };
 
 function RenderTemp() {
   lcd.setCursor(0,0);
-  lcd.print(JSON.stringify(state.temp) + "C");
+  // lcd.print(JSON.stringify(state.temp) + "C");
 }
 
 function RenderHum() {
   lcd.setCursor(0,1);
-  lcd.print(JSON.stringify(state.hum) + "B");
+  // lcd.print(JSON.stringify(state.hum) + "B");
 }
 
 function RenderMaxTemp(hide) {
@@ -108,7 +109,7 @@ function RenderMaxTemp(hide) {
     lcd.print("       ");
   } else {
     lcd.setCursor(4,0);
-    lcd.print(JSON.stringify(state.maxTemp) + "C max");
+    // lcd.print(JSON.stringify(state.maxTemp) + "C max");
   }
 }
 
@@ -118,7 +119,7 @@ function RenderMinTemp(hide) {
     lcd.print("       ");
   } else {
     lcd.setCursor(4,1);
-    lcd.print(JSON.stringify(state.minTemp) + "C min");
+    // lcd.print(JSON.stringify(state.minTemp) + "C min");
   }
 }
 
@@ -156,93 +157,93 @@ function SetHeaterHeatActive(heaterHeatActive) {
   state.heaterHeatActive = heaterHeatActive;
 }
 
-function SetTemp(temp) {
-  state.temp = temp;
-  RenderTemp();
-}
-
-function SetHum(hum) {
-  state.hum = hum;
-  RenderHum();
-}
-
-function RefreshHumAndTemp() {
-  let t = dht.getTemp();
-  let h = dht.getHumidity();
-
-  if (isNaN(h) || isNaN(t)) {
-    print('Failed to read data from sensor');
-    return;
-  } else {
-    SetTemp(t);
-    SetHum(h);
-  }
-}
-
-function SetMinTemp(minTemp) {
-  Cfg.set({app: {minTemp: minTemp}}, true);
-  state.minTemp = minTemp;
-  RenderMinTemp();
-}
-
-function DecrementMinTemp(minTemp) {
-  SetMinTemp(state.minTemp - 1);
-}
-
-function IncrementMinTemp(minTemp) {
-  SetMinTemp(state.minTemp + 1);
-}
-
-function SetMaxTemp(maxTemp) {
-  Cfg.set({app: {maxTemp: maxTemp}}, true);
-  state.maxTemp = maxTemp;
-  RenderMaxTemp();
-}
-
-function DecrementMaxTemp(maxTemp) {
-  SetMaxTemp(state.maxTemp - 1);
-}
-
-function IncrementMaxTemp(maxTemp) {
-  SetMaxTemp(state.maxTemp + 1);
-}
+// function SetTemp(temp) {
+//   state.temp = temp;
+//   RenderTemp();
+// }
+//
+// function SetHum(hum) {
+//   state.hum = hum;
+//   RenderHum();
+// }
+//
+// function RefreshHumAndTemp() {
+//   let t = dht.getTemp();
+//   let h = dht.getHumidity();
+//
+//   if (isNaN(h) || isNaN(t)) {
+//     print('Failed to read data from sensor');
+//     return;
+//   } else {
+//     SetTemp(t);
+//     SetHum(h);
+//   }
+// }
+//
+// function SetMinTemp(minTemp) {
+//   Cfg.set({app: {minTemp: minTemp}}, true);
+//   state.minTemp = minTemp;
+//   RenderMinTemp();
+// }
+//
+// function DecrementMinTemp(minTemp) {
+//   SetMinTemp(state.minTemp - 1);
+// }
+//
+// function IncrementMinTemp(minTemp) {
+//   SetMinTemp(state.minTemp + 1);
+// }
+//
+// function SetMaxTemp(maxTemp) {
+//   Cfg.set({app: {maxTemp: maxTemp}}, true);
+//   state.maxTemp = maxTemp;
+//   RenderMaxTemp();
+// }
+//
+// function DecrementMaxTemp(maxTemp) {
+//   SetMaxTemp(state.maxTemp - 1);
+// }
+//
+// function IncrementMaxTemp(maxTemp) {
+//   SetMaxTemp(state.maxTemp + 1);
+// }
 
 function GetState() {
-  RefreshHumAndTemp();
+  // RefreshHumAndTemp();
   return state;
 }
 
-RPC.addHandler(deviceId + '.SetMinTemp', function(args) {
-  SetMinTemp(args.value);
-  return true;
-});
-
-RPC.addHandler(deviceId + '.IncrementMinTemp', function() {
-  IncrementMinTemp();
-  return true;
-});
-
-RPC.addHandler(deviceId + '.DecrementMinTemp', function() {
-  DecrementMinTemp();
-  return true;
-});
-
-RPC.addHandler(deviceId + '.SetMaxTemp', function(args) {
-  SetMaxTemp(args.value);
-  return true;
-});
-
-RPC.addHandler(deviceId + '.IncrementMaxTemp', function() {
-  print('IncrementMaxTemp');
-  IncrementMaxTemp();
-  return true;
-});
-
-RPC.addHandler(deviceId + '.DecrementMaxTemp', function() {
-  print('DecrementMaxTemp');
-  DecrementMaxTemp();
-  return true;
-});
+// RPC.addHandler(deviceId + '.SetMinTemp', function(args) {
+//   SetMinTemp(args.value);
+//   return true;
+// });
+//
+// RPC.addHandler(deviceId + '.IncrementMinTemp', function() {
+//   IncrementMinTemp();
+//   return true;
+// });
+//
+// RPC.addHandler(deviceId + '.DecrementMinTemp', function() {
+//   DecrementMinTemp();
+//   return true;
+// });
+//
+// RPC.addHandler(deviceId + '.SetMaxTemp', function(args) {
+//   SetMaxTemp(args.value);
+//   return true;
+// });
+//
+// RPC.addHandler(deviceId + '.IncrementMaxTemp', function() {
+//   print('IncrementMaxTemp');
+//   IncrementMaxTemp();
+//   return true;
+// });
+//
+// RPC.addHandler(deviceId + '.DecrementMaxTemp', function() {
+//   print('DecrementMaxTemp');
+//   DecrementMaxTemp();
+//   return true;
+// });
 
 RPC.addHandler(deviceId + '.SetState', function(args) {
   if (args.minTemp) {
@@ -264,26 +265,26 @@ RPC.addHandler(deviceId + '.GetState', function() {
   return GetState();
 });
 
-Timer.set(10000 /* milliseconds */, true /* repeat */, function() {
-  RefreshHumAndTemp();
-  let temp = state.temp;
-  let maxTemp = state.maxTemp;
-  let minTemp = state.minTemp;
-
-  if (temp > maxTemp) {
-    print('More');
-    for (let i = 0; i < state.maxTempActions.length; i++) {
-      DoAction(state.maxTempActions[i]);
-    }
-  } else if (temp < minTemp) {
-    for (let i = 0; i < state.minTempActions.length; i++) {
-      DoAction(state.minTempActions[i]);
-    }
-  }
-
-  print('Temperature:', temp, '*C');
-  print('Humidity:', state.hum, '%');
-}, null);
+// Timer.set(10000 /* milliseconds */, true /* repeat */, function() {
+//   RefreshHumAndTemp();
+//   let temp = state.temp;
+//   let maxTemp = state.maxTemp;
+//   let minTemp = state.minTemp;
+//
+//   if (temp > maxTemp) {
+//     print('More');
+//     for (let i = 0; i < state.maxTempActions.length; i++) {
+//       DoAction(state.maxTempActions[i]);
+//     }
+//   } else if (temp < minTemp) {
+//     for (let i = 0; i < state.minTempActions.length; i++) {
+//       DoAction(state.minTempActions[i]);
+//     }
+//   }
+//
+//   print('Temperature:', temp, '*C');
+//   print('Humidity:', state.hum, '%');
+// }, null);
 
 let isBlinking = false;
 
@@ -356,9 +357,9 @@ GPIO.set_button_handler(SWITCH_BUTTON_PIN, GPIO.PULL_UP, GPIO.INT_EDGE_NEG, 200,
   SetNextSelectedConfig();
 }, null);
 
-Timer.set(1000 /* milliseconds */, false /* repeat */, function() {
-  RefreshHumAndTemp();
-  RenderMaxTemp(false);
-  RenderMinTemp(false);
-  RenderHeaterTurnedOff(false);
-}, null);
+// Timer.set(1000 /* milliseconds */, false /* repeat */, function() {
+//   RefreshHumAndTemp();
+//   RenderMaxTemp(false);
+//   RenderMinTemp(false);
+//   RenderHeaterTurnedOff(false);
+// }, null);
