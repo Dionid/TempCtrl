@@ -78,6 +78,7 @@
   ["app.devId", "s", {"title": "Device uniq ID"}],
   ["app.minTemp", "i", {"title": "Min heater temperature"}],
   ["app.maxTemp", "i", {"title": "Max heater temperature"}],
+  ["app.modules", "s", {"title": "JSON with modules"}],
   ["pins", "o", {"title": "My pins"}],
   ["pins.DHT", "i", {"title": "GPIO pin DHT"}],
   ["pins.HEAT_S", "i", {"title": "GPIO pin ..."}],

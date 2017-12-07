@@ -176,6 +176,10 @@
   - i
   - 20
   - title: Max heater temperature
+- - app.modules
+  - s
+  - '{}'
+  - title: JSON with modules
 - - pins
   - o
   - title: My pins

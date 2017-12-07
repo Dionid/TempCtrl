@@ -18,6 +18,7 @@ load('module_dht_sensor.js');
 
 // // Device Id
 let deviceId = Cfg.get('app.devId');
+let mainDHTId = '123asdzxc';
 
 print("Hello!");
 
@@ -26,18 +27,10 @@ let lcd = LiquidCrystalI2C.create(0x3F,20,4);
 lcd.init();
 lcd.backlight();
 
-// GPIO
-
 // BUTTONS
 let DEC_BUTTON_PIN = Cfg.get('pins.DEC_BUTTON');
 let INC_BUTTON_PIN = Cfg.get('pins.INC_BUTTON');
 let SWITCH_BUTTON_PIN = Cfg.get('pins.SWITCH_BUTTON');
-
-// // DHT
-// let DHT_PIN = Cfg.get('pins.DHT');
-//
-// // Initialize DHT library
-// let dht = DHT.create(DHT_PIN, DHT.DHT11);
 
 // HEATER
 let HEAT_PIN = Cfg.get('pins.HEAT_S');
@@ -64,34 +57,7 @@ let state = {
   heaterTurnedOff: true,
   heaterHeatActive: false,
 
-  // // DHT
-  // temp: 0,
-  // hum: 0,
-  // minTemp: Cfg.get('app.minTemp'),
-  // maxTemp: Cfg.get('app.maxTemp'),
-  // minTempActions: [
-  //   {
-  //     method: deviceId + '.SetState',
-  //     args: {
-  //       heaterHeatActive: true
-  //     },
-  //     local: true,
-  //     lastCallTime: 0, // Uptime off last call
-  //     interval: 60,
-  //     // once: true, # if once is true than after first call this action will be deleted
-  //   }
-  // ],
-  // maxTempActions: [
-  //   {
-  //     method: deviceId + '.SetState',
-  //     args: {
-  //       heaterHeatActive: false
-  //     },
-  //     local: true,
-  //     lastCallTime: 0, // Uptime off last call
-  //     interval: 60,
-  //   }
-  // ],
+
 };
 
 function RenderTemp() {
@@ -247,12 +213,6 @@ function GetState() {
 // });
 
 RPC.addHandler(deviceId + '.SetState', function(args) {
-  if (args.minTemp) {
-    SetMinTemp(args.minTemp);
-  }
-  if (args.maxTemp) {
-    SetMaxTemp(args.maxTemp);
-  }
   if (args.heaterTurnedOff !== undefined) {
     SetHeaterTurnedOff(args.heaterTurnedOff);
   }
@@ -265,27 +225,6 @@ RPC.addHandler(deviceId + '.SetState', function(args) {
 RPC.addHandler(deviceId + '.GetState', function() {
   return GetState();
 });
-
-// Timer.set(10000 /* milliseconds */, true /* repeat */, function() {
-//   RefreshHumAndTemp();
-//   let temp = state.temp;
-//   let maxTemp = state.maxTemp;
-//   let minTemp = state.minTemp;
-//
-//   if (temp > maxTemp) {
-//     print('More');
-//     for (let i = 0; i < state.maxTempActions.length; i++) {
-//       DoAction(state.maxTempActions[i]);
-//     }
-//   } else if (temp < minTemp) {
-//     for (let i = 0; i < state.minTempActions.length; i++) {
-//       DoAction(state.minTempActions[i]);
-//     }
-//   }
-//
-//   print('Temperature:', temp, '*C');
-//   print('Humidity:', state.hum, '%');
-// }, null);
 
 let isBlinking = false;
 
@@ -365,31 +304,7 @@ GPIO.set_button_handler(SWITCH_BUTTON_PIN, GPIO.PULL_UP, GPIO.INT_EDGE_NEG, 200,
 //   RenderHeaterTurnedOff(false);
 // }, null);
 
-// minTempActions: [
-//   {
-//     method: deviceId + '.SetState',
-//     args: {
-//       heaterHeatActive: true
-//     },
-//     local: true,
-//     lastCallTime: 0, // Uptime off last call
-//     interval: 60,
-//     // once: true, # if once is true than after first call this action will be deleted
-//   }
-// ],
-// maxTempActions: [
-//   {
-//     method: deviceId + '.SetState',
-//     args: {
-//       heaterHeatActive: false
-//     },
-//     local: true,
-//     lastCallTime: 0, // Uptime off last call
-//     interval: 60,
-//   }
-// ],
-
-INIT_DHT('123asdzxc', deviceId, Cfg.get('pins.DHT'), 10, 20, [
+INIT_DHT(mainDHTId, deviceId, Cfg.get('pins.DHT'), 10, 20, [
   {
     method: deviceId + '.SetState',
     args: {

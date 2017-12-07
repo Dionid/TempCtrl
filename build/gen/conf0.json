@@ -89,7 +89,8 @@
   "app": {
     "devId": "qweqweqwe", 
     "minTemp": 10, 
-    "maxTemp": 20
+    "maxTemp": 20, 
+    "modules": "{}"
   }, 
   "pins": {
     "DHT": 0, 

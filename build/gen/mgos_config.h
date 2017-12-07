@@ -117,6 +117,7 @@ struct mgos_config_app {
   char *devId;
   int minTemp;
   int maxTemp;
+  char *modules;
 };
 
 struct mgos_config_pins {
@@ -223,6 +224,7 @@ const struct mgos_config_app *mgos_config_get_app(struct mgos_config *cfg);
 const char *mgos_config_get_app_devId(struct mgos_config *cfg);
 int         mgos_config_get_app_minTemp(struct mgos_config *cfg);
 int         mgos_config_get_app_maxTemp(struct mgos_config *cfg);
+const char *mgos_config_get_app_modules(struct mgos_config *cfg);
 const struct mgos_config_pins *mgos_config_get_pins(struct mgos_config *cfg);
 int         mgos_config_get_pins_DHT(struct mgos_config *cfg);
 int         mgos_config_get_pins_HEAT_S(struct mgos_config *cfg);
@@ -297,6 +299,7 @@ void mgos_config_set_rpc_uart_wait_for_start_frame(struct mgos_config *cfg, int 
 void mgos_config_set_app_devId(struct mgos_config *cfg, const char *val);
 void mgos_config_set_app_minTemp(struct mgos_config *cfg, int         val);
 void mgos_config_set_app_maxTemp(struct mgos_config *cfg, int         val);
+void mgos_config_set_app_modules(struct mgos_config *cfg, const char *val);
 void mgos_config_set_pins_DHT(struct mgos_config *cfg, int         val);
 void mgos_config_set_pins_HEAT_S(struct mgos_config *cfg, int         val);
 void mgos_config_set_pins_POWER(struct mgos_config *cfg, int         val);
@@ -386,6 +389,7 @@ static inline const struct mgos_config_app *mgos_sys_config_get_app(void) { retu
 static inline const char *mgos_sys_config_get_app_devId(void) { return mgos_config_get_app_devId(&mgos_sys_config); }
 static inline int         mgos_sys_config_get_app_minTemp(void) { return mgos_config_get_app_minTemp(&mgos_sys_config); }
 static inline int         mgos_sys_config_get_app_maxTemp(void) { return mgos_config_get_app_maxTemp(&mgos_sys_config); }
+static inline const char *mgos_sys_config_get_app_modules(void) { return mgos_config_get_app_modules(&mgos_sys_config); }
 static inline const struct mgos_config_pins *mgos_sys_config_get_pins(void) { return mgos_config_get_pins(&mgos_sys_config); }
 static inline int         mgos_sys_config_get_pins_DHT(void) { return mgos_config_get_pins_DHT(&mgos_sys_config); }
 static inline int         mgos_sys_config_get_pins_HEAT_S(void) { return mgos_config_get_pins_HEAT_S(&mgos_sys_config); }
@@ -460,6 +464,7 @@ static inline void mgos_sys_config_set_rpc_uart_wait_for_start_frame(int        
 static inline void mgos_sys_config_set_app_devId(const char *val) { mgos_config_set_app_devId(&mgos_sys_config, val); }
 static inline void mgos_sys_config_set_app_minTemp(int         val) { mgos_config_set_app_minTemp(&mgos_sys_config, val); }
 static inline void mgos_sys_config_set_app_maxTemp(int         val) { mgos_config_set_app_maxTemp(&mgos_sys_config, val); }
+static inline void mgos_sys_config_set_app_modules(const char *val) { mgos_config_set_app_modules(&mgos_sys_config, val); }
 static inline void mgos_sys_config_set_pins_DHT(int         val) { mgos_config_set_pins_DHT(&mgos_sys_config, val); }
 static inline void mgos_sys_config_set_pins_HEAT_S(int         val) { mgos_config_set_pins_HEAT_S(&mgos_sys_config, val); }
 static inline void mgos_sys_config_set_pins_POWER(int         val) { mgos_config_set_pins_POWER(&mgos_sys_config, val); }

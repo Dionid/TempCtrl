@@ -11,6 +11,10 @@ function SetHum(obj, hum) {
   obj.state.hum = hum;
 }
 
+function StateChangedRpcCall(deviceId, args) {
+  RPC.call(RPC.LOCAL, deviceId + '.StateChanged', args, function(){}, null);
+}
+
 function RefreshHumAndTemp(obj) {
   let t = obj.dht.getTemp();
   let h = obj.dht.getHumidity();
@@ -21,11 +25,20 @@ function RefreshHumAndTemp(obj) {
   } else {
     SetTemp(obj, t);
     SetHum(obj, h);
+    StateChangedRpcCall(obj.deviceId, obj.state);
   }
 }
 
 function SetMinTemp(obj, minTemp) {
+  // Cfg.set({app: {[deviceId]: {state: {minTemp: minTemp}}}}, false);
   obj.state.minTemp = minTemp;
+  StateChangedRpcCall(obj.deviceId, obj.state);
+  let modules = JSON.parse(Cfg.get('app.modules'));
+  let dhtObj = modules[obj.deviceId];
+  modules[obj.deviceId] = {
+    state: obj.state,
+  };
+  Cfg.set({app: {modules: JSON.stringify(modules)}}, true);
 }
 
 function DecrementMinTemp(obj, minTemp) {
@@ -37,8 +50,15 @@ function IncrementMinTemp(obj, minTemp) {
 }
 
 function SetMaxTemp(obj, maxTemp) {
-  // Cfg.set({app: {[deviceId]: {state: {maxTemp: maxTemp}}}}, true);
+  // Cfg.set({app: {[deviceId]: {state: {maxTemp: maxTemp}}}}, false);
   obj.state.maxTemp = maxTemp;
+  StateChangedRpcCall(obj.deviceId, obj.state);
+  let modules = JSON.parse(Cfg.get('app.modules'));
+  let dhtObj = modules[obj.deviceId];
+  modules[obj.deviceId] = {
+    state: obj.state,
+  };
+  Cfg.set({app: {modules: JSON.stringify(modules)}}, true);
 }
 
 function DecrementMaxTemp(obj, maxTemp) {
@@ -52,7 +72,9 @@ function IncrementMaxTemp(obj, maxTemp) {
 function INIT_DHT(deviceId, mainDeviceId, DHT_PIN, minTemp, maxTemp, minTempActions, maxTempActions, mainTimerInterval) {
   print('Started INIT_DHT');
 
-  let dhtObj = Cfg.get('app.' + deviceId);
+  let modules = JSON.parse(Cfg.get('app.modules'));
+
+  let dhtObj = modules[deviceId];
 
   // Initialize DHT library
   let dht = DHT.create(DHT_PIN, DHT.DHT11);
@@ -69,6 +91,7 @@ function INIT_DHT(deviceId, mainDeviceId, DHT_PIN, minTemp, maxTemp, minTempActi
 
   dhtObj = {
     dht: dht,
+    deviceId: deviceId,
     state: state
   };
 
@@ -115,7 +138,6 @@ function INIT_DHT(deviceId, mainDeviceId, DHT_PIN, minTemp, maxTemp, minTempActi
   }, dhtObj);
 
   RPC.addHandler(deviceId + '.GetState', function(args, sm, state) {
-    print(JSON.stringify(sm));
     return state;
   }, dhtObj.state);
 
@@ -137,13 +159,26 @@ function INIT_DHT(deviceId, mainDeviceId, DHT_PIN, minTemp, maxTemp, minTempActi
       }
     }
 
-    print('Max temperature:', maxTemp, '*C');
     print('Temperature:', temp, '*C');
     print('Humidity:', state.hum, '%');
     print(Timer.now());
   }, dhtObj);
 
   print('Ended INIT_DHT');
+
+  // let forSave = {
+  //   app: {},
+  // };
+  //
+  // forSave.app[deviceId] = {state: dhtObj.state};
+  //
+  // Cfg.set(forSave, false);
+
+  modules[deviceId] = {
+    state: state,
+  };
+
+  Cfg.set({app: {modules: JSON.stringify(modules)}}, true);
 
   return dhtObj;
 }

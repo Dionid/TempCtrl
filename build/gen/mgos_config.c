@@ -3,8 +3,8 @@
 #include <stddef.h>
 #include "mgos_config.h"
 
-const struct mgos_conf_entry mgos_config_schema_[87] = {
-  {.type = CONF_TYPE_OBJECT, .key = "", .num_desc = 86},
+const struct mgos_conf_entry mgos_config_schema_[88] = {
+  {.type = CONF_TYPE_OBJECT, .key = "", .num_desc = 87},
   {.type = CONF_TYPE_OBJECT, .key = "sntp", .num_desc = 5},
   {.type = CONF_TYPE_BOOL, .key = "enable", .offset = offsetof(struct mgos_config, sntp.enable)},
   {.type = CONF_TYPE_STRING, .key = "server", .offset = offsetof(struct mgos_config, sntp.server)},
@@ -80,10 +80,11 @@ const struct mgos_conf_entry mgos_config_schema_[87] = {
   {.type = CONF_TYPE_INT, .key = "baud_rate", .offset = offsetof(struct mgos_config, rpc.uart.baud_rate)},
   {.type = CONF_TYPE_INT, .key = "fc_type", .offset = offsetof(struct mgos_config, rpc.uart.fc_type)},
   {.type = CONF_TYPE_BOOL, .key = "wait_for_start_frame", .offset = offsetof(struct mgos_config, rpc.uart.wait_for_start_frame)},
-  {.type = CONF_TYPE_OBJECT, .key = "app", .num_desc = 3},
+  {.type = CONF_TYPE_OBJECT, .key = "app", .num_desc = 4},
   {.type = CONF_TYPE_STRING, .key = "devId", .offset = offsetof(struct mgos_config, app.devId)},
   {.type = CONF_TYPE_INT, .key = "minTemp", .offset = offsetof(struct mgos_config, app.minTemp)},
   {.type = CONF_TYPE_INT, .key = "maxTemp", .offset = offsetof(struct mgos_config, app.maxTemp)},
+  {.type = CONF_TYPE_STRING, .key = "modules", .offset = offsetof(struct mgos_config, app.modules)},
   {.type = CONF_TYPE_OBJECT, .key = "pins", .num_desc = 6},
   {.type = CONF_TYPE_INT, .key = "DHT", .offset = offsetof(struct mgos_config, pins.DHT)},
   {.type = CONF_TYPE_INT, .key = "HEAT_S", .offset = offsetof(struct mgos_config, pins.HEAT_S)},
@@ -338,6 +339,9 @@ int         mgos_config_get_app_minTemp(struct mgos_config *cfg) {
 int         mgos_config_get_app_maxTemp(struct mgos_config *cfg) {
   return cfg->app.maxTemp;
 }
+const char *mgos_config_get_app_modules(struct mgos_config *cfg) {
+  return cfg->app.modules;
+}
 const struct mgos_config_pins *mgos_config_get_pins(struct mgos_config *cfg) {
   return &cfg->pins;
 }
@@ -559,6 +563,9 @@ void mgos_config_set_app_minTemp(struct mgos_config *cfg, int         val) {
 }
 void mgos_config_set_app_maxTemp(struct mgos_config *cfg, int         val) {
   cfg->app.maxTemp = val;
+}
+void mgos_config_set_app_modules(struct mgos_config *cfg, const char *val) {
+  mgos_conf_set_str(&cfg->app.modules, val);
 }
 void mgos_config_set_pins_DHT(struct mgos_config *cfg, int         val) {
   cfg->pins.DHT = val;
