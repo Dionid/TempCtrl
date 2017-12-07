@@ -22,9 +22,13 @@ function DoAction(rpc) {
   }
 }
 
-
-// TODO: Change 'args' to 'state, changedProps' and send both of them
-
 function StateChangedRpcCall(deviceId, state, changedProps) {
   RPC.call(RPC.LOCAL, deviceId + '.StateChanged', {state: state, changedProps: changedProps}, function(){}, null);
+}
+
+function StateChangedRpcAddHandler(deviceId, cb, ud) {
+  if (ud === undefined) {
+    ud = null;
+  }
+  RPC.addHandler(deviceId + '.StateChanged', cb, ud);
 }

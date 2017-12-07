@@ -72,17 +72,26 @@ function IncrementMaxTemp(obj, maxTemp) {
   SetMaxTemp(obj, obj.state.maxTemp + 1);
 }
 
-function INIT_DHT(deviceId, mainDeviceId, DHT_PIN, minTemp, maxTemp, minTempActions, maxTempActions, mainTimerInterval) {
+function INIT_DHT_MODULE(options) {
+
+  let deviceId = options.deviceId;
+  let DHT_PIN = options.DHT_PIN;
+  let minTemp = options.minTemp;
+  let maxTemp = options.maxTemp;
+  let minTempActions = options.minTempActions;
+  let maxTempActions = options.maxTempActions;
+  let mainTimerInterval = options.mainTimerInterval;
+
   print('Started INIT_DHT');
 
   // Initialize DHT library
   let dht = DHT.create(DHT_PIN, DHT.DHT11);
 
-  let modules = JSON.parse(Cfg.get('app.modules'));
-  print("modules: " + JSON.stringify(modules));
+  let dhtObj = {};
+  let dhtState = {
+    
+  };
 
-  let dhtObj = null;
-  let state = null;
   if (modules[deviceId]) {
     dhtObj = modules[deviceId];
     state = dhtObj.state;
@@ -178,7 +187,7 @@ function INIT_DHT(deviceId, mainDeviceId, DHT_PIN, minTemp, maxTemp, minTempActi
 
   modules[deviceId].state = state;
 
-  Cfg.set({app: {modules: JSON.stringify(modules)}}, true);
+  // Cfg.set({app: {modules: JSON.stringify(modules)}}, true);
 
   return dhtObj;
 }
