@@ -13,6 +13,7 @@ load('api_gpio.js');
 load('api_timer.js');
 load('api_dht.js');
 load('api_arduino_liquidcrystal_i2c.js');
+load('actions.js');
 
 // // Device Id
 let deviceId = Cfg.get('app.devId');
@@ -66,10 +67,31 @@ let state = {
 
   temp: 0,
   hum: 0,
-  minTemp: 10,
-  maxTemp: 20,
-  minTempActions: [],
-  maxTempActions: [],
+  minTemp: 26,
+  maxTemp: 29,
+  minTempActions: [
+    {
+      method: deviceId + '.SetState',
+      args: {
+        heaterHeatActive: true
+      },
+      local: true,
+      lastCallTime: 0, // Uptime off last call
+      interval: 60,
+      // once: true, # if once is true than after first call this action will be deleted
+    }
+  ],
+  maxTempActions: [
+    {
+      method: deviceId + '.SetState',
+      args: {
+        heaterHeatActive: false
+      },
+      local: true,
+      lastCallTime: 0, // Uptime off last call
+      interval: 60,
+    }
+  ],
 };
 
 function RenderTemp() {
@@ -126,9 +148,9 @@ function SetNextSelectedConfig() {
 }
 
 function SetHeaterTurnedOff(heaterTurnedOff) {
-  RenderHeaterTurnedOff();
   GPIO.write(POWER_PIN, heaterTurnedOff);
   state.heaterTurnedOff = heaterTurnedOff;
+  RenderHeaterTurnedOff(false);
 }
 
 function SetHeaterHeatActive(heaterHeatActive) {
@@ -250,15 +272,13 @@ Timer.set(10000 /* milliseconds */, true /* repeat */, function() {
 
   if (temp > maxTemp) {
     print('More');
-    // for (let i = 0; i < state.maxTempActions.length; i++) {
-    //   let rpc = state.maxTempActions[i];
-    //   let dst = rpc.local ? RPC.LOCAL : '';
-    //   RPC.call(dst, rpc.method, rpc.args, function(res, ud) {
-    //     print(JSON.stringify(state));
-    //   }, null);
-    // }
+    for (let i = 0; i < state.maxTempActions.length; i++) {
+      DoAction(state.maxTempActions[i]);
+    }
   } else if (temp < minTemp) {
-    print('Less:', temp, '*C');
+    for (let i = 0; i < state.minTempActions.length; i++) {
+      DoAction(state.minTempActions[i]);
+    }
   }
 
   print('Temperature:', temp, '*C');
@@ -311,10 +331,6 @@ GPIO.set_button_handler(DEC_BUTTON_PIN, GPIO.PULL_UP, GPIO.INT_EDGE_NEG, 200, fu
 
 GPIO.set_button_handler(INC_BUTTON_PIN, GPIO.PULL_UP, GPIO.INT_EDGE_NEG, 200, function() {
   print('INC_BUTTON');
-  // RPC.call(RPC.LOCAL, deviceId + '.IncrementMaxTemp', {}, function(res, ud) {
-  //   print(JSON.stringify(state));
-  // }, null);
-
   let selectedConfig = state.selectedConfig;
 
   if (selectedConfig === deviceConfigs.NONE) {
