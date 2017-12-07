@@ -13,6 +13,7 @@ load('api_gpio.js');
 load('api_timer.js');
 load('api_dht.js');
 load('api_arduino_liquidcrystal_i2c.js');
+load('actions.js');
 
 // // Device Id
 let deviceId = Cfg.get('app.devId');
@@ -66,25 +67,29 @@ let state = {
 
   temp: 0,
   hum: 0,
-  minTemp: 10,
-  maxTemp: 20,
+  minTemp: Cfg.get('app.minTemp'),
+  maxTemp: Cfg.get('app.maxTemp'),
   minTempActions: [
     {
       method: deviceId + '.SetState',
       args: {
-        heaterTurnedOff: false
+        heaterHeatActive: true
       },
       local: true,
-      interval: 60000
+      lastCallTime: 0, // Uptime off last call
+      interval: 60,
+      // once: true, # if once is true than after first call this action will be deleted
     }
   ],
   maxTempActions: [
     {
       method: deviceId + '.SetState',
       args: {
-        heaterTurnedOff: true
+        heaterHeatActive: false
       },
-      local: true
+      local: true,
+      lastCallTime: 0, // Uptime off last call
+      interval: 60,
     }
   ],
 };
@@ -177,6 +182,7 @@ function RefreshHumAndTemp() {
 }
 
 function SetMinTemp(minTemp) {
+  Cfg.set({app: {minTemp: minTemp}}, true);
   state.minTemp = minTemp;
   RenderMinTemp();
 }
@@ -190,6 +196,7 @@ function IncrementMinTemp(minTemp) {
 }
 
 function SetMaxTemp(maxTemp) {
+  Cfg.set({app: {maxTemp: maxTemp}}, true);
   state.maxTemp = maxTemp;
   RenderMaxTemp();
 }
@@ -259,26 +266,6 @@ RPC.addHandler(deviceId + '.GetState', function() {
   return GetState();
 });
 
-function DoAction(rpc) {
-  let dst = rpc.local ? RPC.LOCAL : '';
-  print(Timer.now());
-  let doCall = true;
-  if (rpc.interval) {
-    if (rpc.lastCallTime) {
-      if ((rpc.lastCallTime + rpc.interval) > Timer.now()) {
-        doCall = false;
-      }
-    } else {
-      rpc.lastCallTime = Timer.now();
-    }
-  }
-  if (doCall) {
-    RPC.call(dst, rpc.method, rpc.args, function(res, ud) {
-      print(JSON.stringify(state));
-    }, null); 
-  }
-}
-
 Timer.set(10000 /* milliseconds */, true /* repeat */, function() {
   RefreshHumAndTemp();
   let temp = state.temp;
@@ -288,16 +275,11 @@ Timer.set(10000 /* milliseconds */, true /* repeat */, function() {
   if (temp > maxTemp) {
     print('More');
     for (let i = 0; i < state.maxTempActions.length; i++) {
-      let rpc = state.maxTempActions[i];
-      DoAction(rpc);
+      DoAction(state.maxTempActions[i]);
     }
   } else if (temp < minTemp) {
     for (let i = 0; i < state.minTempActions.length; i++) {
-      let rpc = state.minTempActions[i];
-      let dst = rpc.local ? RPC.LOCAL : '';
-      RPC.call(dst, rpc.method, rpc.args, function(res, ud) {
-        print(JSON.stringify(state));
-      }, null);
+      DoAction(state.minTempActions[i]);
     }
   }
 
@@ -351,10 +333,6 @@ GPIO.set_button_handler(DEC_BUTTON_PIN, GPIO.PULL_UP, GPIO.INT_EDGE_NEG, 200, fu
 
 GPIO.set_button_handler(INC_BUTTON_PIN, GPIO.PULL_UP, GPIO.INT_EDGE_NEG, 200, function() {
   print('INC_BUTTON');
-  // RPC.call(RPC.LOCAL, deviceId + '.IncrementMaxTemp', {}, function(res, ud) {
-  //   print(JSON.stringify(state));
-  // }, null);
-
   let selectedConfig = state.selectedConfig;
 
   if (selectedConfig === deviceConfigs.NONE) {

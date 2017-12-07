@@ -14,6 +14,8 @@ config_schema:
   - ["i2c.enable", true]
   - ["app", "o", {title: "My app custom settings"}]
   - ["app.devId", "s", "qweqweqwe", {title: "Device uniq ID"}]
+  - ["app.minTemp", "i", 10, {title: "Min heater temperature"}]
+  - ["app.maxTemp", "i", 20, {title: "Max heater temperature"}]
   - ["pins", "o", {title: "My pins"}]
   - ["pins.DHT", "i", 0, {title: "GPIO pin DHT"}]
   - ["pins.HEAT_S", "i", 13, {title: "GPIO pin ..."}]

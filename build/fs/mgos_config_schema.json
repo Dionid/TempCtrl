@@ -76,6 +76,8 @@
   ["rpc.uart.wait_for_start_frame", "b", {"title": "Wait for an incoming frame before using the channel"}],
   ["app", "o", {"title": "My app custom settings"}],
   ["app.devId", "s", {"title": "Device uniq ID"}],
+  ["app.minTemp", "i", {"title": "Min heater temperature"}],
+  ["app.maxTemp", "i", {"title": "Max heater temperature"}],
   ["pins", "o", {"title": "My pins"}],
   ["pins.DHT", "i", {"title": "GPIO pin DHT"}],
   ["pins.HEAT_S", "i", {"title": "GPIO pin ..."}],

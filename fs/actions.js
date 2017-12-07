@@ -1,4 +1,4 @@
-
+load('api_rpc.js');
 
 function DoAction(rpc) {
   let dst = rpc.local ? RPC.LOCAL : '';
@@ -18,6 +18,6 @@ function DoAction(rpc) {
     rpc.lastCallTime = now;
     RPC.call(dst, rpc.method, rpc.args, function(res, ud) {
       print('Call DONE FROM NEW FILE');
-    }, null); 
+    }, null);
   }
 }

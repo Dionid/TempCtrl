@@ -24,7 +24,6 @@ print("Hello!");
 let lcd = LiquidCrystalI2C.create(0x3F,20,4);
 lcd.init();
 lcd.backlight();
-// lcd.print("Hello!");
 
 // GPIO
 
@@ -36,6 +35,9 @@ let SWITCH_BUTTON_PIN = Cfg.get('pins.SWITCH_BUTTON');
 // DHT
 let DHT_PIN = Cfg.get('pins.DHT');
 
+// Initialize DHT library
+let dht = DHT.create(DHT_PIN, DHT.DHT11);
+
 // HEATER
 let HEAT_PIN = Cfg.get('pins.HEAT_S');
 let POWER_PIN = Cfg.get('pins.POWER');
@@ -43,10 +45,6 @@ GPIO.set_mode(HEAT_PIN, GPIO.MODE_OUTPUT);
 GPIO.set_mode(POWER_PIN, GPIO.MODE_OUTPUT);
 GPIO.write(HEAT_PIN, 0);
 GPIO.write(POWER_PIN, 1);
-
-
-// Initialize DHT library
-let dht = DHT.create(DHT_PIN, DHT.DHT11);
 
 let deviceConfigs = {
   NONE: 0,
@@ -67,8 +65,8 @@ let state = {
 
   temp: 0,
   hum: 0,
-  minTemp: 26,
-  maxTemp: 29,
+  minTemp: Cfg.get('app.minTemp'),
+  maxTemp: Cfg.get('app.maxTemp'),
   minTempActions: [
     {
       method: deviceId + '.SetState',
@@ -164,8 +162,8 @@ function SetTemp(temp) {
 }
 
 function SetHum(hum) {
-  RenderHum();
   state.hum = hum;
+  RenderHum();
 }
 
 function RefreshHumAndTemp() {
@@ -182,6 +180,7 @@ function RefreshHumAndTemp() {
 }
 
 function SetMinTemp(minTemp) {
+  Cfg.set({app: {minTemp: minTemp}}, true);
   state.minTemp = minTemp;
   RenderMinTemp();
 }
@@ -195,6 +194,7 @@ function IncrementMinTemp(minTemp) {
 }
 
 function SetMaxTemp(maxTemp) {
+  Cfg.set({app: {maxTemp: maxTemp}}, true);
   state.maxTemp = maxTemp;
   RenderMaxTemp();
 }

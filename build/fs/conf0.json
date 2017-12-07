@@ -87,7 +87,9 @@
     }
   }, 
   "app": {
-    "devId": "qweqweqwe"
+    "devId": "qweqweqwe", 
+    "minTemp": 10, 
+    "maxTemp": 20
   }, 
   "pins": {
     "DHT": 0, 

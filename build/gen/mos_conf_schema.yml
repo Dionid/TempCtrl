@@ -168,6 +168,14 @@
   - s
   - qweqweqwe
   - title: Device uniq ID
+- - app.minTemp
+  - i
+  - 10
+  - title: Min heater temperature
+- - app.maxTemp
+  - i
+  - 20
+  - title: Max heater temperature
 - - pins
   - o
   - title: My pins
