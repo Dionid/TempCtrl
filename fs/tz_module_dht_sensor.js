@@ -107,6 +107,10 @@ function INIT_DHT_MODULE(options) {
     print('Humidity:', state.hum, '%');
   }, dhtObj);
 
+  Timer.set(1000 /* milliseconds */, false /* repeat */, function(obj) {
+    DHTModuleRefreshHumAndTemp(obj);
+  }, dhtObj);
+
   print('Ended INIT_DHT_MODULE');
 
   return dhtObj;

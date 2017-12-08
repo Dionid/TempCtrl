@@ -19,9 +19,9 @@ function SetHeaterModuleHeatActive(obj, heatActive) {
 
 function INIT_HEATER_MODULE(options) {
 
-  print('Started INIT_DHT_MODULE');
+  print('Started INIT_HEATER_MODULE');
 
-  let heaterDeviceId = options.deviceId;
+  let deviceId = options.deviceId;
   let HEAT_PIN = options.HEAT_PIN;
   let POWER_PIN = options.POWER_PIN;
   let turnedOff = options.turnedOff;
@@ -39,7 +39,7 @@ function INIT_HEATER_MODULE(options) {
   GPIO.write(POWER_PIN, 1);
 
   let heaterObj = {
-    deviceId: heaterDeviceId,
+    deviceId: deviceId,
     pins: {
       HEAT_PIN: HEAT_PIN,
       POWER_PIN: POWER_PIN,
@@ -47,7 +47,7 @@ function INIT_HEATER_MODULE(options) {
     state: heaterState,
   };
 
-  RPC.addHandler(heaterDeviceId + '.SetState', function(args, sm, obj) {
+  RPC.addHandler(deviceId + '.SetState', function(args, sm, obj) {
     if (args.turnedOff !== undefined) {
       SetHeaterModuleTurnedOff(obj, args.turnedOff);
     }
@@ -57,11 +57,11 @@ function INIT_HEATER_MODULE(options) {
     return obj.state;
   }, heaterObj);
 
-  RPC.addHandler(heaterDeviceId + '.GetState', function(args, sm, obj) {
+  RPC.addHandler(deviceId + '.GetState', function(args, sm, obj) {
     return obj.state;
   }, heaterObj);
 
-  print('Ended INIT_DHT_MODULE');
+  print('Ended INIT_HEATER_MODULE');
 
   return heaterObj;
 }

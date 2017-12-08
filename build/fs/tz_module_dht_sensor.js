@@ -75,7 +75,7 @@ function INIT_DHT_MODULE(options) {
     if (args.maxTemp) {
       SetMaxTemp(dhtObj, args.maxTemp);
     }
-    return GetState();
+    return dhtObj.state;
   }, dhtObj);
 
   RPC.addHandler(deviceId + '.GetState', function(args, sm, state) {
@@ -105,6 +105,10 @@ function INIT_DHT_MODULE(options) {
 
     print('Temperature:', temp, '*C');
     print('Humidity:', state.hum, '%');
+  }, dhtObj);
+
+  Timer.set(1000 /* milliseconds */, false /* repeat */, function(obj) {
+    DHTModuleRefreshHumAndTemp(obj);
   }, dhtObj);
 
   print('Ended INIT_DHT_MODULE');

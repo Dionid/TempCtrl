@@ -26,7 +26,7 @@ load('oled.js');
 
 let heaterDeviceId = Cfg.get('devices.mainHeater.id');
 let mainHeaterObj = INIT_HEATER_MODULE({
-  heaterDeviceId: heaterDeviceId,
+  deviceId: heaterDeviceId,
   HEAT_PIN: Cfg.get('devices.mainHeater.HEAT_PIN'),
   POWER_PIN: Cfg.get('devices.mainHeater.POWER_PIN'),
   turnedOff: Cfg.get('devices.mainHeater.turnedOff'),
