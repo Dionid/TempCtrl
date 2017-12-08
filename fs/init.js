@@ -20,7 +20,7 @@ load('tz_actions.js');
 
 load('tz_module_heater.js');
 load('tz_module_dht_sensor.js');
-// load('oled.js');
+load('oled.js');
 // load('buttons.js');
 
 
@@ -29,7 +29,7 @@ let mainHeaterObj = INIT_HEATER_MODULE({
   heaterDeviceId: heaterDeviceId,
   HEAT_PIN: Cfg.get('devices.mainHeater.HEAT_PIN'),
   POWER_PIN: Cfg.get('devices.mainHeater.POWER_PIN'),
-  heaterTurnedOff: Cfg.get('devices.mainHeater.turnedOff'),
+  turnedOff: Cfg.get('devices.mainHeater.turnedOff'),
   heaterHeatActive: false,
 });
 
@@ -37,8 +37,8 @@ globalState.mainHeaterState = mainHeaterObj.state;
 
 StateChangedRpcAddHandler(heaterDeviceId, function(args) {
   let changedProps = args.changedProps;
-  if (changedProps.heaterTurnedOff) {
-    Cfg.set({devices: {mainHeater: {turnedOff: changedProps.heaterTurnedOff}}}, true);
+  if (changedProps.turnedOff) {
+    Cfg.set({devices: {mainHeater: {turnedOff: changedProps.turnedOff}}}, true);
   }
 });
 
@@ -49,8 +49,8 @@ let mainDHTObj = INIT_DHT_MODULE({
   DHT_PIN: Cfg.get('devices.mainDHT.DHT_PIN'),
   minTemp: Cfg.get('devices.mainDHT.minTemp'),
   maxTemp: Cfg.get('devices.mainDHT.maxTemp'),
-  minTempActions: Cfg.get('devices.mainDHT.minTempActions'),
-  maxTempActions: Cfg.get('devices.mainDHT.maxTempActions'),
+  minTempActions: JSON.parse(Cfg.get('devices.mainDHT.minTempActions')),
+  maxTempActions: JSON.parse(Cfg.get('devices.mainDHT.maxTempActions')),
   mainTimerInterval: Cfg.get('devices.mainDHT.mainTimerInterval')
 });
 
@@ -60,11 +60,27 @@ StateChangedRpcAddHandler(mainDHTId, function(args) {
   let changedProps = args.changedProps;
   if (changedProps.minTemp) {
     Cfg.set({devices: {mainDHT: {minTemp: changedProps.minTemp}}}, true);
+    RenderMinTemp(changedProps.minTemp);
   }
   if (changedProps.maxTemp) {
     Cfg.set({devices: {mainDHT: {maxTemp: changedProps.maxTemp}}}, true);
+    RenderMaxTemp(changedProps.maxTemp);
   }
+  if (changedProps.temp) {
+    RenderTemp(changedProps.temp);
+  }
+  if (changedProps.hum) {
+    RenderHum(changedProps.hum);
+  }
+  // if (changedProps.minTempActions) {
+  //   Cfg.set({devices: {mainDHT: {minTempActions: JSON.stringify(changedProps.minTempActions)}}}, true);
+  // }
+  // if (changedProps.maxTempActions) {
+  //   Cfg.set({devices: {mainDHT: {maxTempActions: JSON.stringify(changedProps.maxTempActions)}}}, true);
+  // }
 });
+
+let oledObj = INIT_OLED(mainDHTObj.state, mainHeaterObj.state);
 
 // // // Device Id
 // let deviceId = Cfg.get('app.devId');

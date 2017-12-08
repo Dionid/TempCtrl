@@ -188,13 +188,26 @@ struct mgos_config_app {
   char *modules;
 };
 
-struct mgos_config_pins {
-  int DHT;
-  int HEAT_S;
-  int POWER;
-  int DEC_BUTTON;
-  int INC_BUTTON;
-  int SWITCH_BUTTON;
+struct mgos_config_devices_mainHeater {
+  char *id;
+  int HEAT_PIN;
+  int POWER_PIN;
+  int turnedOff;
+};
+
+struct mgos_config_devices_mainDHT {
+  char *id;
+  int DHT_PIN;
+  int minTemp;
+  int maxTemp;
+  char *minTempActions;
+  char *maxTempActions;
+  int mainTimerInterval;
+};
+
+struct mgos_config_devices {
+  struct mgos_config_devices_mainHeater mainHeater;
+  struct mgos_config_devices_mainDHT mainDHT;
 };
 
 struct mgos_config {
@@ -211,7 +224,7 @@ struct mgos_config {
   struct mgos_config_mqtt mqtt;
   struct mgos_config_rpc rpc;
   struct mgos_config_app app;
-  struct mgos_config_pins pins;
+  struct mgos_config_devices devices;
 };
 
 /* Parametrized accessor prototypes {{{ */
@@ -350,13 +363,20 @@ const char *mgos_config_get_app_devId(struct mgos_config *cfg);
 int         mgos_config_get_app_minTemp(struct mgos_config *cfg);
 int         mgos_config_get_app_maxTemp(struct mgos_config *cfg);
 const char *mgos_config_get_app_modules(struct mgos_config *cfg);
-const struct mgos_config_pins *mgos_config_get_pins(struct mgos_config *cfg);
-int         mgos_config_get_pins_DHT(struct mgos_config *cfg);
-int         mgos_config_get_pins_HEAT_S(struct mgos_config *cfg);
-int         mgos_config_get_pins_POWER(struct mgos_config *cfg);
-int         mgos_config_get_pins_DEC_BUTTON(struct mgos_config *cfg);
-int         mgos_config_get_pins_INC_BUTTON(struct mgos_config *cfg);
-int         mgos_config_get_pins_SWITCH_BUTTON(struct mgos_config *cfg);
+const struct mgos_config_devices *mgos_config_get_devices(struct mgos_config *cfg);
+const struct mgos_config_devices_mainHeater *mgos_config_get_devices_mainHeater(struct mgos_config *cfg);
+const char *mgos_config_get_devices_mainHeater_id(struct mgos_config *cfg);
+int         mgos_config_get_devices_mainHeater_HEAT_PIN(struct mgos_config *cfg);
+int         mgos_config_get_devices_mainHeater_POWER_PIN(struct mgos_config *cfg);
+int         mgos_config_get_devices_mainHeater_turnedOff(struct mgos_config *cfg);
+const struct mgos_config_devices_mainDHT *mgos_config_get_devices_mainDHT(struct mgos_config *cfg);
+const char *mgos_config_get_devices_mainDHT_id(struct mgos_config *cfg);
+int         mgos_config_get_devices_mainDHT_DHT_PIN(struct mgos_config *cfg);
+int         mgos_config_get_devices_mainDHT_minTemp(struct mgos_config *cfg);
+int         mgos_config_get_devices_mainDHT_maxTemp(struct mgos_config *cfg);
+const char *mgos_config_get_devices_mainDHT_minTempActions(struct mgos_config *cfg);
+const char *mgos_config_get_devices_mainDHT_maxTempActions(struct mgos_config *cfg);
+int         mgos_config_get_devices_mainDHT_mainTimerInterval(struct mgos_config *cfg);
 
 void mgos_config_set_sntp_enable(struct mgos_config *cfg, int         val);
 void mgos_config_set_sntp_server(struct mgos_config *cfg, const char *val);
@@ -475,12 +495,17 @@ void mgos_config_set_app_devId(struct mgos_config *cfg, const char *val);
 void mgos_config_set_app_minTemp(struct mgos_config *cfg, int         val);
 void mgos_config_set_app_maxTemp(struct mgos_config *cfg, int         val);
 void mgos_config_set_app_modules(struct mgos_config *cfg, const char *val);
-void mgos_config_set_pins_DHT(struct mgos_config *cfg, int         val);
-void mgos_config_set_pins_HEAT_S(struct mgos_config *cfg, int         val);
-void mgos_config_set_pins_POWER(struct mgos_config *cfg, int         val);
-void mgos_config_set_pins_DEC_BUTTON(struct mgos_config *cfg, int         val);
-void mgos_config_set_pins_INC_BUTTON(struct mgos_config *cfg, int         val);
-void mgos_config_set_pins_SWITCH_BUTTON(struct mgos_config *cfg, int         val);
+void mgos_config_set_devices_mainHeater_id(struct mgos_config *cfg, const char *val);
+void mgos_config_set_devices_mainHeater_HEAT_PIN(struct mgos_config *cfg, int         val);
+void mgos_config_set_devices_mainHeater_POWER_PIN(struct mgos_config *cfg, int         val);
+void mgos_config_set_devices_mainHeater_turnedOff(struct mgos_config *cfg, int         val);
+void mgos_config_set_devices_mainDHT_id(struct mgos_config *cfg, const char *val);
+void mgos_config_set_devices_mainDHT_DHT_PIN(struct mgos_config *cfg, int         val);
+void mgos_config_set_devices_mainDHT_minTemp(struct mgos_config *cfg, int         val);
+void mgos_config_set_devices_mainDHT_maxTemp(struct mgos_config *cfg, int         val);
+void mgos_config_set_devices_mainDHT_minTempActions(struct mgos_config *cfg, const char *val);
+void mgos_config_set_devices_mainDHT_maxTempActions(struct mgos_config *cfg, const char *val);
+void mgos_config_set_devices_mainDHT_mainTimerInterval(struct mgos_config *cfg, int         val);
 /* }}} */
 
 extern struct mgos_config mgos_sys_config;
@@ -620,13 +645,20 @@ static inline const char *mgos_sys_config_get_app_devId(void) { return mgos_conf
 static inline int         mgos_sys_config_get_app_minTemp(void) { return mgos_config_get_app_minTemp(&mgos_sys_config); }
 static inline int         mgos_sys_config_get_app_maxTemp(void) { return mgos_config_get_app_maxTemp(&mgos_sys_config); }
 static inline const char *mgos_sys_config_get_app_modules(void) { return mgos_config_get_app_modules(&mgos_sys_config); }
-static inline const struct mgos_config_pins *mgos_sys_config_get_pins(void) { return mgos_config_get_pins(&mgos_sys_config); }
-static inline int         mgos_sys_config_get_pins_DHT(void) { return mgos_config_get_pins_DHT(&mgos_sys_config); }
-static inline int         mgos_sys_config_get_pins_HEAT_S(void) { return mgos_config_get_pins_HEAT_S(&mgos_sys_config); }
-static inline int         mgos_sys_config_get_pins_POWER(void) { return mgos_config_get_pins_POWER(&mgos_sys_config); }
-static inline int         mgos_sys_config_get_pins_DEC_BUTTON(void) { return mgos_config_get_pins_DEC_BUTTON(&mgos_sys_config); }
-static inline int         mgos_sys_config_get_pins_INC_BUTTON(void) { return mgos_config_get_pins_INC_BUTTON(&mgos_sys_config); }
-static inline int         mgos_sys_config_get_pins_SWITCH_BUTTON(void) { return mgos_config_get_pins_SWITCH_BUTTON(&mgos_sys_config); }
+static inline const struct mgos_config_devices *mgos_sys_config_get_devices(void) { return mgos_config_get_devices(&mgos_sys_config); }
+static inline const struct mgos_config_devices_mainHeater *mgos_sys_config_get_devices_mainHeater(void) { return mgos_config_get_devices_mainHeater(&mgos_sys_config); }
+static inline const char *mgos_sys_config_get_devices_mainHeater_id(void) { return mgos_config_get_devices_mainHeater_id(&mgos_sys_config); }
+static inline int         mgos_sys_config_get_devices_mainHeater_HEAT_PIN(void) { return mgos_config_get_devices_mainHeater_HEAT_PIN(&mgos_sys_config); }
+static inline int         mgos_sys_config_get_devices_mainHeater_POWER_PIN(void) { return mgos_config_get_devices_mainHeater_POWER_PIN(&mgos_sys_config); }
+static inline int         mgos_sys_config_get_devices_mainHeater_turnedOff(void) { return mgos_config_get_devices_mainHeater_turnedOff(&mgos_sys_config); }
+static inline const struct mgos_config_devices_mainDHT *mgos_sys_config_get_devices_mainDHT(void) { return mgos_config_get_devices_mainDHT(&mgos_sys_config); }
+static inline const char *mgos_sys_config_get_devices_mainDHT_id(void) { return mgos_config_get_devices_mainDHT_id(&mgos_sys_config); }
+static inline int         mgos_sys_config_get_devices_mainDHT_DHT_PIN(void) { return mgos_config_get_devices_mainDHT_DHT_PIN(&mgos_sys_config); }
+static inline int         mgos_sys_config_get_devices_mainDHT_minTemp(void) { return mgos_config_get_devices_mainDHT_minTemp(&mgos_sys_config); }
+static inline int         mgos_sys_config_get_devices_mainDHT_maxTemp(void) { return mgos_config_get_devices_mainDHT_maxTemp(&mgos_sys_config); }
+static inline const char *mgos_sys_config_get_devices_mainDHT_minTempActions(void) { return mgos_config_get_devices_mainDHT_minTempActions(&mgos_sys_config); }
+static inline const char *mgos_sys_config_get_devices_mainDHT_maxTempActions(void) { return mgos_config_get_devices_mainDHT_maxTempActions(&mgos_sys_config); }
+static inline int         mgos_sys_config_get_devices_mainDHT_mainTimerInterval(void) { return mgos_config_get_devices_mainDHT_mainTimerInterval(&mgos_sys_config); }
 
 static inline void mgos_sys_config_set_sntp_enable(int         val) { mgos_config_set_sntp_enable(&mgos_sys_config, val); }
 static inline void mgos_sys_config_set_sntp_server(const char *val) { mgos_config_set_sntp_server(&mgos_sys_config, val); }
@@ -745,12 +777,17 @@ static inline void mgos_sys_config_set_app_devId(const char *val) { mgos_config_
 static inline void mgos_sys_config_set_app_minTemp(int         val) { mgos_config_set_app_minTemp(&mgos_sys_config, val); }
 static inline void mgos_sys_config_set_app_maxTemp(int         val) { mgos_config_set_app_maxTemp(&mgos_sys_config, val); }
 static inline void mgos_sys_config_set_app_modules(const char *val) { mgos_config_set_app_modules(&mgos_sys_config, val); }
-static inline void mgos_sys_config_set_pins_DHT(int         val) { mgos_config_set_pins_DHT(&mgos_sys_config, val); }
-static inline void mgos_sys_config_set_pins_HEAT_S(int         val) { mgos_config_set_pins_HEAT_S(&mgos_sys_config, val); }
-static inline void mgos_sys_config_set_pins_POWER(int         val) { mgos_config_set_pins_POWER(&mgos_sys_config, val); }
-static inline void mgos_sys_config_set_pins_DEC_BUTTON(int         val) { mgos_config_set_pins_DEC_BUTTON(&mgos_sys_config, val); }
-static inline void mgos_sys_config_set_pins_INC_BUTTON(int         val) { mgos_config_set_pins_INC_BUTTON(&mgos_sys_config, val); }
-static inline void mgos_sys_config_set_pins_SWITCH_BUTTON(int         val) { mgos_config_set_pins_SWITCH_BUTTON(&mgos_sys_config, val); }
+static inline void mgos_sys_config_set_devices_mainHeater_id(const char *val) { mgos_config_set_devices_mainHeater_id(&mgos_sys_config, val); }
+static inline void mgos_sys_config_set_devices_mainHeater_HEAT_PIN(int         val) { mgos_config_set_devices_mainHeater_HEAT_PIN(&mgos_sys_config, val); }
+static inline void mgos_sys_config_set_devices_mainHeater_POWER_PIN(int         val) { mgos_config_set_devices_mainHeater_POWER_PIN(&mgos_sys_config, val); }
+static inline void mgos_sys_config_set_devices_mainHeater_turnedOff(int         val) { mgos_config_set_devices_mainHeater_turnedOff(&mgos_sys_config, val); }
+static inline void mgos_sys_config_set_devices_mainDHT_id(const char *val) { mgos_config_set_devices_mainDHT_id(&mgos_sys_config, val); }
+static inline void mgos_sys_config_set_devices_mainDHT_DHT_PIN(int         val) { mgos_config_set_devices_mainDHT_DHT_PIN(&mgos_sys_config, val); }
+static inline void mgos_sys_config_set_devices_mainDHT_minTemp(int         val) { mgos_config_set_devices_mainDHT_minTemp(&mgos_sys_config, val); }
+static inline void mgos_sys_config_set_devices_mainDHT_maxTemp(int         val) { mgos_config_set_devices_mainDHT_maxTemp(&mgos_sys_config, val); }
+static inline void mgos_sys_config_set_devices_mainDHT_minTempActions(const char *val) { mgos_config_set_devices_mainDHT_minTempActions(&mgos_sys_config, val); }
+static inline void mgos_sys_config_set_devices_mainDHT_maxTempActions(const char *val) { mgos_config_set_devices_mainDHT_maxTempActions(&mgos_sys_config, val); }
+static inline void mgos_sys_config_set_devices_mainDHT_mainTimerInterval(int         val) { mgos_config_set_devices_mainDHT_mainTimerInterval(&mgos_sys_config, val); }
 
 
 const struct mgos_conf_entry *mgos_config_schema();

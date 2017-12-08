@@ -152,12 +152,21 @@
     "maxTemp": 20, 
     "modules": "{}"
   }, 
-  "pins": {
-    "DHT": 0, 
-    "HEAT_S": 13, 
-    "POWER": 16, 
-    "DEC_BUTTON": 5, 
-    "INC_BUTTON": 4, 
-    "SWITCH_BUTTON": 2
+  "devices": {
+    "mainHeater": {
+      "id": "asdqwezxc", 
+      "HEAT_PIN": 13, 
+      "POWER_PIN": 16, 
+      "turnedOff": true
+    }, 
+    "mainDHT": {
+      "id": "qweiopasd", 
+      "DHT_PIN": 0, 
+      "minTemp": 10, 
+      "maxTemp": 20, 
+      "minTempActions": "[{\"method\":\"asdqwezxc.SetState\",\"args\":{\"heaterHeatActive\":true},\"local\":true,\"interval\":60}]", 
+      "maxTempActions": "[{\"method\":\"asdqwezxc.SetState\",\"args\":{\"heaterHeatActive\":false},\"local\":true,\"interval\":60}]", 
+      "mainTimerInterval": 60000
+    }
   }
 }

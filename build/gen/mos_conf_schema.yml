@@ -390,30 +390,56 @@
   - s
   - '{}'
   - title: JSON with modules
-- - pins
+- - devices
   - o
-  - title: My pins
-- - pins.DHT
-  - i
-  - 0
-  - title: GPIO pin DHT
-- - pins.HEAT_S
+  - title: My app custom settings
+- - devices.mainHeater
+  - o
+  - title: My app custom settings
+- - devices.mainHeater.id
+  - s
+  - asdqwezxc
+  - title: JSON with modules
+- - devices.mainHeater.HEAT_PIN
   - i
   - 13
-  - title: GPIO pin ...
-- - pins.POWER
+  - title: My app custom settings
+- - devices.mainHeater.POWER_PIN
   - i
   - 16
-  - title: GPIO pin ...
-- - pins.DEC_BUTTON
+  - title: My app custom settings
+- - devices.mainHeater.turnedOff
+  - b
+  - true
+  - title: My app custom settings
+- - devices.mainDHT
+  - o
+  - title: My app custom settings
+- - devices.mainDHT.id
+  - s
+  - qweiopasd
+  - title: JSON with modules
+- - devices.mainDHT.DHT_PIN
   - i
-  - 5
-  - title: GPIO pin ...
-- - pins.INC_BUTTON
+  - 0
+  - title: My app custom settings
+- - devices.mainDHT.minTemp
   - i
-  - 4
-  - title: GPIO pin ...
-- - pins.SWITCH_BUTTON
+  - 10
+  - title: My app custom settings
+- - devices.mainDHT.maxTemp
   - i
-  - 2
-  - title: GPIO pin ...
+  - 20
+  - title: My app custom settings
+- - devices.mainDHT.minTempActions
+  - s
+  - '[{"method":"asdqwezxc.SetState","args":{"heaterHeatActive":true},"local":true,"interval":60}]'
+  - title: JSON with modules
+- - devices.mainDHT.maxTempActions
+  - s
+  - '[{"method":"asdqwezxc.SetState","args":{"heaterHeatActive":false},"local":true,"interval":60}]'
+  - title: JSON with modules
+- - devices.mainDHT.mainTimerInterval
+  - i
+  - 60000
+  - title: My app custom settings

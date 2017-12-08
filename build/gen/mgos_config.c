@@ -3,8 +3,8 @@
 #include <stddef.h>
 #include "mgos_config.h"
 
-const struct mgos_conf_entry mgos_config_schema_[143] = {
-  {.type = CONF_TYPE_OBJECT, .key = "", .num_desc = 142},
+const struct mgos_conf_entry mgos_config_schema_[150] = {
+  {.type = CONF_TYPE_OBJECT, .key = "", .num_desc = 149},
   {.type = CONF_TYPE_OBJECT, .key = "sntp", .num_desc = 5},
   {.type = CONF_TYPE_BOOL, .key = "enable", .offset = offsetof(struct mgos_config, sntp.enable)},
   {.type = CONF_TYPE_STRING, .key = "server", .offset = offsetof(struct mgos_config, sntp.server)},
@@ -140,13 +140,20 @@ const struct mgos_conf_entry mgos_config_schema_[143] = {
   {.type = CONF_TYPE_INT, .key = "minTemp", .offset = offsetof(struct mgos_config, app.minTemp)},
   {.type = CONF_TYPE_INT, .key = "maxTemp", .offset = offsetof(struct mgos_config, app.maxTemp)},
   {.type = CONF_TYPE_STRING, .key = "modules", .offset = offsetof(struct mgos_config, app.modules)},
-  {.type = CONF_TYPE_OBJECT, .key = "pins", .num_desc = 6},
-  {.type = CONF_TYPE_INT, .key = "DHT", .offset = offsetof(struct mgos_config, pins.DHT)},
-  {.type = CONF_TYPE_INT, .key = "HEAT_S", .offset = offsetof(struct mgos_config, pins.HEAT_S)},
-  {.type = CONF_TYPE_INT, .key = "POWER", .offset = offsetof(struct mgos_config, pins.POWER)},
-  {.type = CONF_TYPE_INT, .key = "DEC_BUTTON", .offset = offsetof(struct mgos_config, pins.DEC_BUTTON)},
-  {.type = CONF_TYPE_INT, .key = "INC_BUTTON", .offset = offsetof(struct mgos_config, pins.INC_BUTTON)},
-  {.type = CONF_TYPE_INT, .key = "SWITCH_BUTTON", .offset = offsetof(struct mgos_config, pins.SWITCH_BUTTON)},
+  {.type = CONF_TYPE_OBJECT, .key = "devices", .num_desc = 13},
+  {.type = CONF_TYPE_OBJECT, .key = "mainHeater", .num_desc = 4},
+  {.type = CONF_TYPE_STRING, .key = "id", .offset = offsetof(struct mgos_config, devices.mainHeater.id)},
+  {.type = CONF_TYPE_INT, .key = "HEAT_PIN", .offset = offsetof(struct mgos_config, devices.mainHeater.HEAT_PIN)},
+  {.type = CONF_TYPE_INT, .key = "POWER_PIN", .offset = offsetof(struct mgos_config, devices.mainHeater.POWER_PIN)},
+  {.type = CONF_TYPE_BOOL, .key = "turnedOff", .offset = offsetof(struct mgos_config, devices.mainHeater.turnedOff)},
+  {.type = CONF_TYPE_OBJECT, .key = "mainDHT", .num_desc = 7},
+  {.type = CONF_TYPE_STRING, .key = "id", .offset = offsetof(struct mgos_config, devices.mainDHT.id)},
+  {.type = CONF_TYPE_INT, .key = "DHT_PIN", .offset = offsetof(struct mgos_config, devices.mainDHT.DHT_PIN)},
+  {.type = CONF_TYPE_INT, .key = "minTemp", .offset = offsetof(struct mgos_config, devices.mainDHT.minTemp)},
+  {.type = CONF_TYPE_INT, .key = "maxTemp", .offset = offsetof(struct mgos_config, devices.mainDHT.maxTemp)},
+  {.type = CONF_TYPE_STRING, .key = "minTempActions", .offset = offsetof(struct mgos_config, devices.mainDHT.minTempActions)},
+  {.type = CONF_TYPE_STRING, .key = "maxTempActions", .offset = offsetof(struct mgos_config, devices.mainDHT.maxTempActions)},
+  {.type = CONF_TYPE_INT, .key = "mainTimerInterval", .offset = offsetof(struct mgos_config, devices.mainDHT.mainTimerInterval)},
 };
 
 const struct mgos_conf_entry *mgos_config_schema() {
@@ -562,26 +569,47 @@ int         mgos_config_get_app_maxTemp(struct mgos_config *cfg) {
 const char *mgos_config_get_app_modules(struct mgos_config *cfg) {
   return cfg->app.modules;
 }
-const struct mgos_config_pins *mgos_config_get_pins(struct mgos_config *cfg) {
-  return &cfg->pins;
+const struct mgos_config_devices *mgos_config_get_devices(struct mgos_config *cfg) {
+  return &cfg->devices;
 }
-int         mgos_config_get_pins_DHT(struct mgos_config *cfg) {
-  return cfg->pins.DHT;
+const struct mgos_config_devices_mainHeater *mgos_config_get_devices_mainHeater(struct mgos_config *cfg) {
+  return &cfg->devices.mainHeater;
 }
-int         mgos_config_get_pins_HEAT_S(struct mgos_config *cfg) {
-  return cfg->pins.HEAT_S;
+const char *mgos_config_get_devices_mainHeater_id(struct mgos_config *cfg) {
+  return cfg->devices.mainHeater.id;
 }
-int         mgos_config_get_pins_POWER(struct mgos_config *cfg) {
-  return cfg->pins.POWER;
+int         mgos_config_get_devices_mainHeater_HEAT_PIN(struct mgos_config *cfg) {
+  return cfg->devices.mainHeater.HEAT_PIN;
 }
-int         mgos_config_get_pins_DEC_BUTTON(struct mgos_config *cfg) {
-  return cfg->pins.DEC_BUTTON;
+int         mgos_config_get_devices_mainHeater_POWER_PIN(struct mgos_config *cfg) {
+  return cfg->devices.mainHeater.POWER_PIN;
 }
-int         mgos_config_get_pins_INC_BUTTON(struct mgos_config *cfg) {
-  return cfg->pins.INC_BUTTON;
+int         mgos_config_get_devices_mainHeater_turnedOff(struct mgos_config *cfg) {
+  return cfg->devices.mainHeater.turnedOff;
 }
-int         mgos_config_get_pins_SWITCH_BUTTON(struct mgos_config *cfg) {
-  return cfg->pins.SWITCH_BUTTON;
+const struct mgos_config_devices_mainDHT *mgos_config_get_devices_mainDHT(struct mgos_config *cfg) {
+  return &cfg->devices.mainDHT;
+}
+const char *mgos_config_get_devices_mainDHT_id(struct mgos_config *cfg) {
+  return cfg->devices.mainDHT.id;
+}
+int         mgos_config_get_devices_mainDHT_DHT_PIN(struct mgos_config *cfg) {
+  return cfg->devices.mainDHT.DHT_PIN;
+}
+int         mgos_config_get_devices_mainDHT_minTemp(struct mgos_config *cfg) {
+  return cfg->devices.mainDHT.minTemp;
+}
+int         mgos_config_get_devices_mainDHT_maxTemp(struct mgos_config *cfg) {
+  return cfg->devices.mainDHT.maxTemp;
+}
+const char *mgos_config_get_devices_mainDHT_minTempActions(struct mgos_config *cfg) {
+  return cfg->devices.mainDHT.minTempActions;
+}
+const char *mgos_config_get_devices_mainDHT_maxTempActions(struct mgos_config *cfg) {
+  return cfg->devices.mainDHT.maxTempActions;
+}
+int         mgos_config_get_devices_mainDHT_mainTimerInterval(struct mgos_config *cfg) {
+  return cfg->devices.mainDHT.mainTimerInterval;
 }
 /* }}} */
 
@@ -937,22 +965,37 @@ void mgos_config_set_app_maxTemp(struct mgos_config *cfg, int         val) {
 void mgos_config_set_app_modules(struct mgos_config *cfg, const char *val) {
   mgos_conf_set_str(&cfg->app.modules, val);
 }
-void mgos_config_set_pins_DHT(struct mgos_config *cfg, int         val) {
-  cfg->pins.DHT = val;
+void mgos_config_set_devices_mainHeater_id(struct mgos_config *cfg, const char *val) {
+  mgos_conf_set_str(&cfg->devices.mainHeater.id, val);
 }
-void mgos_config_set_pins_HEAT_S(struct mgos_config *cfg, int         val) {
-  cfg->pins.HEAT_S = val;
+void mgos_config_set_devices_mainHeater_HEAT_PIN(struct mgos_config *cfg, int         val) {
+  cfg->devices.mainHeater.HEAT_PIN = val;
 }
-void mgos_config_set_pins_POWER(struct mgos_config *cfg, int         val) {
-  cfg->pins.POWER = val;
+void mgos_config_set_devices_mainHeater_POWER_PIN(struct mgos_config *cfg, int         val) {
+  cfg->devices.mainHeater.POWER_PIN = val;
 }
-void mgos_config_set_pins_DEC_BUTTON(struct mgos_config *cfg, int         val) {
-  cfg->pins.DEC_BUTTON = val;
+void mgos_config_set_devices_mainHeater_turnedOff(struct mgos_config *cfg, int         val) {
+  cfg->devices.mainHeater.turnedOff = val;
 }
-void mgos_config_set_pins_INC_BUTTON(struct mgos_config *cfg, int         val) {
-  cfg->pins.INC_BUTTON = val;
+void mgos_config_set_devices_mainDHT_id(struct mgos_config *cfg, const char *val) {
+  mgos_conf_set_str(&cfg->devices.mainDHT.id, val);
 }
-void mgos_config_set_pins_SWITCH_BUTTON(struct mgos_config *cfg, int         val) {
-  cfg->pins.SWITCH_BUTTON = val;
+void mgos_config_set_devices_mainDHT_DHT_PIN(struct mgos_config *cfg, int         val) {
+  cfg->devices.mainDHT.DHT_PIN = val;
+}
+void mgos_config_set_devices_mainDHT_minTemp(struct mgos_config *cfg, int         val) {
+  cfg->devices.mainDHT.minTemp = val;
+}
+void mgos_config_set_devices_mainDHT_maxTemp(struct mgos_config *cfg, int         val) {
+  cfg->devices.mainDHT.maxTemp = val;
+}
+void mgos_config_set_devices_mainDHT_minTempActions(struct mgos_config *cfg, const char *val) {
+  mgos_conf_set_str(&cfg->devices.mainDHT.minTempActions, val);
+}
+void mgos_config_set_devices_mainDHT_maxTempActions(struct mgos_config *cfg, const char *val) {
+  mgos_conf_set_str(&cfg->devices.mainDHT.maxTempActions, val);
+}
+void mgos_config_set_devices_mainDHT_mainTimerInterval(struct mgos_config *cfg, int         val) {
+  cfg->devices.mainDHT.mainTimerInterval = val;
 }
 /* }}} */

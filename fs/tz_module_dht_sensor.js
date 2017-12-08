@@ -1,7 +1,8 @@
 load('api_config.js');
 load('api_timer.js');
 load('api_dht.js');
-load('actions.js');
+
+load('tz_actions.js');
 
 function SetDHTModuleTemp(obj, temp) {
   obj.state.temp = temp;
@@ -46,7 +47,7 @@ function INIT_DHT_MODULE(options) {
   let maxTempActions = options.maxTempActions;
   let mainTimerInterval = options.mainTimerInterval;
 
-  print('Started INIT_DHT');
+  print('Started INIT_DHT_MODULE');
 
   // Initialize DHT library
   let dht = DHT.create(DHT_PIN, DHT.DHT11);
@@ -74,7 +75,7 @@ function INIT_DHT_MODULE(options) {
     if (args.maxTemp) {
       SetMaxTemp(dhtObj, args.maxTemp);
     }
-    return GetState();
+    return dhtObj.state;
   }, dhtObj);
 
   RPC.addHandler(deviceId + '.GetState', function(args, sm, state) {
@@ -105,6 +106,8 @@ function INIT_DHT_MODULE(options) {
     print('Temperature:', temp, '*C');
     print('Humidity:', state.hum, '%');
   }, dhtObj);
+
+  print('Ended INIT_DHT_MODULE');
 
   return dhtObj;
 }

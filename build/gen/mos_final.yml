@@ -89,10 +89,14 @@ filesystem:
 - /fwbuild-volumes/1.21/apps/Garage/esp8266/build_contexts/build_ctx_487280828/libs/rpc-common/mjs_fs/api_rpc.js
 - /fwbuild-volumes/1.21/apps/Garage/esp8266/build_contexts/build_ctx_487280828/libs/mjs/esp8266/fs/api_arch_uart.js
 - /fwbuild-volumes/1.21/apps/Garage/esp8266/build_contexts/build_ctx_487280828/libs/mjs/esp8266/fs/api_esp8266.js
-- /fwbuild-volumes/1.21/apps/Garage/esp8266/build_contexts/build_ctx_487280828/fs/actions.js
+- /fwbuild-volumes/1.21/apps/Garage/esp8266/build_contexts/build_ctx_487280828/fs/buttons.js
 - /fwbuild-volumes/1.21/apps/Garage/esp8266/build_contexts/build_ctx_487280828/fs/connect.js
 - /fwbuild-volumes/1.21/apps/Garage/esp8266/build_contexts/build_ctx_487280828/fs/init.js
-- /fwbuild-volumes/1.21/apps/Garage/esp8266/build_contexts/build_ctx_487280828/fs/module_dht_sensor.js
+- /fwbuild-volumes/1.21/apps/Garage/esp8266/build_contexts/build_ctx_487280828/fs/oled.js
+- /fwbuild-volumes/1.21/apps/Garage/esp8266/build_contexts/build_ctx_487280828/fs/tz_actions.js
+- /fwbuild-volumes/1.21/apps/Garage/esp8266/build_contexts/build_ctx_487280828/fs/tz_global_state.js
+- /fwbuild-volumes/1.21/apps/Garage/esp8266/build_contexts/build_ctx_487280828/fs/tz_module_dht_sensor.js
+- /fwbuild-volumes/1.21/apps/Garage/esp8266/build_contexts/build_ctx_487280828/fs/tz_module_heater.js
 binary_libs:
 - /fwbuild-volumes/1.21/apps/Garage/esp8266/build_contexts/build_ctx_487280828/libs/ota-http-client/lib/esp8266/libota-http-client.a
 - /fwbuild-volumes/1.21/apps/Garage/esp8266/build_contexts/build_ctx_487280828/libs/ota-http-server/lib/esp8266/libota-http-server.a
@@ -494,33 +498,59 @@ config_schema:
   - s
   - '{}'
   - title: JSON with modules
-- - pins
+- - devices
   - o
-  - title: My pins
-- - pins.DHT
-  - i
-  - 0
-  - title: GPIO pin DHT
-- - pins.HEAT_S
+  - title: My app custom settings
+- - devices.mainHeater
+  - o
+  - title: My app custom settings
+- - devices.mainHeater.id
+  - s
+  - asdqwezxc
+  - title: JSON with modules
+- - devices.mainHeater.HEAT_PIN
   - i
   - 13
-  - title: GPIO pin ...
-- - pins.POWER
+  - title: My app custom settings
+- - devices.mainHeater.POWER_PIN
   - i
   - 16
-  - title: GPIO pin ...
-- - pins.DEC_BUTTON
+  - title: My app custom settings
+- - devices.mainHeater.turnedOff
+  - b
+  - true
+  - title: My app custom settings
+- - devices.mainDHT
+  - o
+  - title: My app custom settings
+- - devices.mainDHT.id
+  - s
+  - qweiopasd
+  - title: JSON with modules
+- - devices.mainDHT.DHT_PIN
   - i
-  - 5
-  - title: GPIO pin ...
-- - pins.INC_BUTTON
+  - 0
+  - title: My app custom settings
+- - devices.mainDHT.minTemp
   - i
-  - 4
-  - title: GPIO pin ...
-- - pins.SWITCH_BUTTON
+  - 10
+  - title: My app custom settings
+- - devices.mainDHT.maxTemp
   - i
-  - 2
-  - title: GPIO pin ...
+  - 20
+  - title: My app custom settings
+- - devices.mainDHT.minTempActions
+  - s
+  - '[{"method":"asdqwezxc.SetState","args":{"heaterHeatActive":true},"local":true,"interval":60}]'
+  - title: JSON with modules
+- - devices.mainDHT.maxTempActions
+  - s
+  - '[{"method":"asdqwezxc.SetState","args":{"heaterHeatActive":false},"local":true,"interval":60}]'
+  - title: JSON with modules
+- - devices.mainDHT.mainTimerInterval
+  - i
+  - 60000
+  - title: My app custom settings
 build_vars:
   MGOS_ENABLE_I2C_GPIO: "1"
   MGOS_ENABLE_UPDATER: "1"
