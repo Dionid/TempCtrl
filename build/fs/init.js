@@ -37,8 +37,9 @@ Timer.set(100, false, function() {
 
   StateChangedRpcAddHandler(heaterDeviceId, function(args) {
     let changedProps = args.changedProps;
-    if (changedProps.turnedOff) {
+    if (changedProps.turnedOff !== undefined) {
       Cfg.set({devices: {mainHeater: {turnedOff: changedProps.turnedOff}}}, true);
+      RenderHeaterTurnedOff(changedProps.turnedOff, false);
     }
   });
 
@@ -88,14 +89,21 @@ Timer.set(100, false, function() {
   });
 }, null);
 
+let oledObj = null;
 
 Timer.set(300 /* milliseconds */, false /* repeat */, function() {
-  let oledObj = INIT_OLED(mainDHTObj.state, mainHeaterObj.state);
+  oledObj = INIT_OLED(mainDHTObj.state, mainHeaterObj.state);
+}, null);
 
-  let buttonsObj = INIT_BUTTONS({
+let buttonsObj = null;
+
+Timer.set(400 /* milliseconds */, false /* repeat */, function() {
+  buttonsObj = INIT_BUTTONS({
     oledState: oledObj.state,
     DEC_BUTTON_PIN: Cfg.get('pins.DEC_BUTTON'),
     INC_BUTTON_PIN: Cfg.get('pins.INC_BUTTON'),
     SWITCH_BUTTON_PIN: Cfg.get('pins.SWITCH_BUTTON'),
+    mainDHTId: mainDHTObj.deviceId,
+    mainHeaterId: mainHeaterObj.deviceId,
   });
 }, null);

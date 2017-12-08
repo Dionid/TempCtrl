@@ -47,6 +47,11 @@ function INIT_HEATER_MODULE(options) {
     state: heaterState,
   };
 
+  RPC.addHandler(deviceId + '.ToggleTurnedOff', function(args, sm, obj) {
+    SetHeaterModuleTurnedOff(obj, !obj.state.turnedOff);
+    return true;
+  }, heaterObj);
+
   RPC.addHandler(deviceId + '.SetState', function(args, sm, obj) {
     if (args.turnedOff !== undefined) {
       SetHeaterModuleTurnedOff(obj, args.turnedOff);

@@ -71,7 +71,7 @@ function INIT_OLED(dhtState, heaterState) {
     heaterState: heaterState,
   };
 
-  Timer.set(500 /* milliseconds */, true /* repeat */, function(oledObj) {
+  Timer.set(750 /* milliseconds */, true /* repeat */, function(oledObj) {
     let state = oledObj.state;
     let selectedConfig = state.selectedConfig;
     let isBlinking = state.isBlinking;

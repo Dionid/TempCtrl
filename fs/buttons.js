@@ -36,7 +36,6 @@ function INIT_BUTTONS(options) {
     if (selectedConfig === deviceConfigs.NONE) {
       return;
     } else if (selectedConfig === deviceConfigs.POWER) {
-      // SetHeaterTurnedOff(!state.heaterTurnedOff);
       RPC.call(RPC.LOCAL, obj.mainHeaterId + '.ToggleTurnedOff', null, null, null);
       return;
     } else if (selectedConfig === deviceConfigs.MIN_TEMP) {
@@ -56,9 +55,6 @@ function INIT_BUTTONS(options) {
     if (selectedConfig === deviceConfigs.NONE) {
       return;
     } else if (selectedConfig === deviceConfigs.POWER) {
-      // SetHeaterTurnedOff(!state.heaterTurnedOff);
-      print("Started");
-      print(Timer.now());
       RPC.call(RPC.LOCAL, obj.mainHeaterId + '.ToggleTurnedOff', null, null, null);
       return;
     } else if (selectedConfig === deviceConfigs.MIN_TEMP) {

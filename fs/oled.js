@@ -3,10 +3,14 @@ load('api_arduino_liquidcrystal_i2c.js');
 // LCD
 let lcd = null;
 
+let RenderHeaterTurnedOffHide = false;
+
 function RenderHeaterTurnedOff(turnedOff, hide) {
   if (hide) {
-    lcd.setCursor(13,0);
-    lcd.print("   ");
+    if (hide !== RenderHeaterTurnedOffHide) {
+      lcd.setCursor(13,0);
+      lcd.print("   ");
+    }
   } else {
     lcd.setCursor(13,0);
     lcd.print(turnedOff ? "Off" : "On ");
@@ -71,32 +75,33 @@ function INIT_OLED(dhtState, heaterState) {
     heaterState: heaterState,
   };
 
-  // Timer.set(500 /* milliseconds */, true /* repeat */, function(oledObj) {
-  //   let state = oledObj.state;
-  //   let selectedConfig = state.selectedConfig;
-  //   let isBlinking = state.isBlinking;
-  //   let dhtState = oledObj.dhtState;
-  //   let heaterState = oledObj.heaterState;
-  //   let maxTemp = dhtState.maxTemp;
-  //   let minTemp = dhtState.minTemp;
-  //   let turnedOff = heaterState.turnedOff;
-  //
-  //   if (selectedConfig === deviceConfigs.NONE) {
-  //     RenderMaxTemp(maxTemp, false);
-  //     return;
-  //   } else if (selectedConfig === deviceConfigs.POWER) {
-  //     RenderHeaterTurnedOff(turnedOff, isBlinking);
-  //   } else if (selectedConfig === deviceConfigs.MIN_TEMP) {
-  //     RenderHeaterTurnedOff(turnedOff, false);
-  //     RenderMinTemp(minTemp, isBlinking);
-  //   } else if (selectedConfig === deviceConfigs.MAX_TEMP) {
-  //     RenderHeaterTurnedOff(turnedOff, false);
-  //     RenderMinTemp(minTemp, false);
-  //     RenderMaxTemp(maxTemp, isBlinking);
-  //   }
-  //
-  //   state.isBlinking = !isBlinking;
-  // }, oledObj);
+  Timer.set(749 /* milliseconds */, true /* repeat */, function(oledObj) {
+    let state = oledObj.state;
+    let selectedConfig = state.selectedConfig;
+    let isBlinking = state.isBlinking;
+    let dhtState = oledObj.dhtState;
+    let heaterState = oledObj.heaterState;
+    let maxTemp = dhtState.maxTemp;
+    let minTemp = dhtState.minTemp;
+    let turnedOff = heaterState.turnedOff;
+
+    if (selectedConfig === deviceConfigs.NONE) {
+      RenderMaxTemp(maxTemp, false);
+      
+      return;
+    } else if (selectedConfig === deviceConfigs.POWER) {
+      RenderHeaterTurnedOff(turnedOff, isBlinking);
+    } else if (selectedConfig === deviceConfigs.MIN_TEMP) {
+      RenderHeaterTurnedOff(turnedOff, false);
+      RenderMinTemp(minTemp, isBlinking);
+    } else if (selectedConfig === deviceConfigs.MAX_TEMP) {
+      RenderHeaterTurnedOff(turnedOff, false);
+      RenderMinTemp(minTemp, false);
+      RenderMaxTemp(maxTemp, isBlinking);
+    }
+
+    state.isBlinking = !isBlinking;
+  }, oledObj);
 
   Timer.set(2000 /* milliseconds */, false /* repeat */, function(oledObj) {
     let dhtState = oledObj.dhtState;
