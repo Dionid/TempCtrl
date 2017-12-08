@@ -7,13 +7,15 @@ let RenderHeaterTurnedOffHide = false;
 
 function RenderHeaterTurnedOff(turnedOff, hide) {
   if (hide) {
-    if (hide !== RenderHeaterTurnedOffHide) {
+    if (!RenderHeaterTurnedOffHide) {
       lcd.setCursor(13,0);
       lcd.print("   ");
+      RenderHeaterTurnedOffHide = true;
     }
   } else {
     lcd.setCursor(13,0);
     lcd.print(turnedOff ? "Off" : "On ");
+    RenderHeaterTurnedOffHide = false;
   }
 }
 //
@@ -26,9 +28,12 @@ function RenderHum(hum) {
   lcd.setCursor(0,1);
   lcd.print(JSON.stringify(hum) + "B");
 }
-//
+
+let RenderMaxTempHide = false;
+
 function RenderMaxTemp(maxTemp, hide) {
   if (hide) {
+    // if ()
     lcd.setCursor(4,0);
     lcd.print("       ");
   } else {
@@ -87,7 +92,6 @@ function INIT_OLED(dhtState, heaterState) {
 
     if (selectedConfig === deviceConfigs.NONE) {
       RenderMaxTemp(maxTemp, false);
-      
       return;
     } else if (selectedConfig === deviceConfigs.POWER) {
       RenderHeaterTurnedOff(turnedOff, isBlinking);

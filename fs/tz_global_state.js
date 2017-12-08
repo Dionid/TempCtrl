@@ -1,3 +1,4 @@
 
+let globalObjs = {};
 
 let globalState = {};

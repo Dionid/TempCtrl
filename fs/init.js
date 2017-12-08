@@ -23,11 +23,11 @@ load('tz_module_dht_sensor.js');
 load('oled.js');
 load('buttons.js');
 
-let mainHeaterObj = null;
+// let mainHeaterObj = null;
 
 Timer.set(100, false, function() {
   let heaterDeviceId = Cfg.get('devices.mainHeater.id');
-  mainHeaterObj = INIT_HEATER_MODULE({
+  globalObjs.mainHeaterObj = INIT_HEATER_MODULE({
     deviceId: heaterDeviceId,
     HEAT_PIN: Cfg.get('devices.mainHeater.HEAT_PIN'),
     POWER_PIN: Cfg.get('devices.mainHeater.POWER_PIN'),
@@ -43,14 +43,14 @@ Timer.set(100, false, function() {
     }
   });
 
-  globalState.mainHeaterState = mainHeaterObj.state;
+  // globalObjs.mainHeaterObj = mainHeaterObj;
 }, null);
 
-let mainDHTObj = null;
+// let mainDHTObj = null;
 
 Timer.set(100, false, function() {
   let mainDHTId = Cfg.get('devices.mainDHT.id');
-  mainDHTObj = INIT_DHT_MODULE({
+  globalObjs.mainDHTObj = INIT_DHT_MODULE({
     deviceId: mainDHTId,
     DHT_PIN: Cfg.get('devices.mainDHT.DHT_PIN'),
     minTemp: Cfg.get('devices.mainDHT.minTemp'),
@@ -62,7 +62,7 @@ Timer.set(100, false, function() {
     mainTimerInterval: Cfg.get('devices.mainDHT.mainTimerInterval')
   });
 
-  globalState.mainDHTState = mainDHTObj.state;
+  // globalObjs.mainDHTObj = mainDHTObj;
 
   StateChangedRpcAddHandler(mainDHTId, function(args) {
     let changedProps = args.changedProps;
@@ -92,7 +92,7 @@ Timer.set(100, false, function() {
 let oledObj = null;
 
 Timer.set(300 /* milliseconds */, false /* repeat */, function() {
-  oledObj = INIT_OLED(mainDHTObj.state, mainHeaterObj.state);
+  oledObj = INIT_OLED(globalObjs.mainDHTObj.state, globalObjs.mainHeaterObj.state);
 }, null);
 
 let buttonsObj = null;
@@ -103,7 +103,7 @@ Timer.set(400 /* milliseconds */, false /* repeat */, function() {
     DEC_BUTTON_PIN: Cfg.get('pins.DEC_BUTTON'),
     INC_BUTTON_PIN: Cfg.get('pins.INC_BUTTON'),
     SWITCH_BUTTON_PIN: Cfg.get('pins.SWITCH_BUTTON'),
-    mainDHTId: mainDHTObj.deviceId,
-    mainHeaterId: mainHeaterObj.deviceId,
+    mainDHTId: globalObjs.mainDHTObj.deviceId,
+    mainHeaterId: globalObjs.mainHeaterObj.deviceId,
   });
 }, null);

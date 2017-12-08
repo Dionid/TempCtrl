@@ -3,13 +3,19 @@ load('api_arduino_liquidcrystal_i2c.js');
 // LCD
 let lcd = null;
 
+let RenderHeaterTurnedOffHide = false;
+
 function RenderHeaterTurnedOff(turnedOff, hide) {
   if (hide) {
-    lcd.setCursor(13,0);
-    lcd.print("   ");
+    if (!RenderHeaterTurnedOffHide) {
+      lcd.setCursor(13,0);
+      lcd.print("   ");
+      RenderHeaterTurnedOffHide = true;
+    }
   } else {
     lcd.setCursor(13,0);
     lcd.print(turnedOff ? "Off" : "On ");
+    RenderHeaterTurnedOffHide = false;
   }
 }
 //
@@ -22,9 +28,12 @@ function RenderHum(hum) {
   lcd.setCursor(0,1);
   lcd.print(JSON.stringify(hum) + "B");
 }
-//
+
+let RenderMaxTempHide = false;
+
 function RenderMaxTemp(maxTemp, hide) {
   if (hide) {
+    // if ()
     lcd.setCursor(4,0);
     lcd.print("       ");
   } else {
@@ -71,7 +80,7 @@ function INIT_OLED(dhtState, heaterState) {
     heaterState: heaterState,
   };
 
-  Timer.set(750 /* milliseconds */, true /* repeat */, function(oledObj) {
+  Timer.set(749 /* milliseconds */, true /* repeat */, function(oledObj) {
     let state = oledObj.state;
     let selectedConfig = state.selectedConfig;
     let isBlinking = state.isBlinking;

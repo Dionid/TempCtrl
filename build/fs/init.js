@@ -43,7 +43,7 @@ Timer.set(100, false, function() {
     }
   });
 
-  globalState.mainHeaterState = mainHeaterObj.state;
+  globalState.mainHeaterObj = mainHeaterObj;
 }, null);
 
 let mainDHTObj = null;
@@ -62,7 +62,7 @@ Timer.set(100, false, function() {
     mainTimerInterval: Cfg.get('devices.mainDHT.mainTimerInterval')
   });
 
-  globalState.mainDHTState = mainDHTObj.state;
+  globalState.mainDHTObj = mainDHTObj;
 
   StateChangedRpcAddHandler(mainDHTId, function(args) {
     let changedProps = args.changedProps;
