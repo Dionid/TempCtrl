@@ -78,19 +78,49 @@ function INIT_DHT_MODULE(options) {
     return dhtObj.state;
   }, dhtObj);
 
+  RPC.addHandler(deviceId + '.SetState', function(args, sm, dhtObj) {
+    if (args.minTemp) {
+      SetMinTemp(dhtObj, args.minTemp);
+    }
+    if (args.maxTemp) {
+      SetMaxTemp(dhtObj, args.maxTemp);
+    }
+    return dhtObj.state;
+  }, dhtObj);
+
+  RPC.addHandler(deviceId + '.IncrementMaxTemp', function(args, sm, dhtObj) {
+    SetMaxTemp(dhtObj, dhtObj.state.maxTemp + 1);
+    return true;
+  }, dhtObj);
+
+  RPC.addHandler(deviceId + '.IncrementMinTemp', function(args, sm, dhtObj) {
+    SetMinTemp(dhtObj, dhtObj.state.minTemp + 1);
+    return true;
+  }, dhtObj);
+
+  RPC.addHandler(deviceId + '.DecrementMaxTemp', function(args, sm, dhtObj) {
+    SetMaxTemp(dhtObj, dhtObj.state.maxTemp - 1);
+    return true;
+  }, dhtObj);
+
+  RPC.addHandler(deviceId + '.DecrementMinTemp', function(args, sm, dhtObj) {
+    SetMinTemp(dhtObj, dhtObj.state.minTemp - 1);
+    return true;
+  }, dhtObj);
+
   RPC.addHandler(deviceId + '.GetState', function(args, sm, state) {
     return state;
   }, dhtObj.state);
 
   Timer.set(mainTimerInterval /* milliseconds */, true /* repeat */, function(obj) {
     DHTModuleRefreshHumAndTemp(obj);
-  
+
     let state = obj.state;
-  
+
     let temp = state.temp;
     let maxTemp = state.maxTemp;
     let minTemp = state.minTemp;
-  
+
     if (temp > maxTemp) {
       print('temp > maxTemp');
       for (let i = 0; i < state.maxTempActions.length; i++) {
@@ -102,7 +132,7 @@ function INIT_DHT_MODULE(options) {
         DoAction(state.minTempActions[i]);
       }
     }
-  
+
     print('Temperature:', temp, '*C');
     print('Humidity:', state.hum, '%');
   }, dhtObj);

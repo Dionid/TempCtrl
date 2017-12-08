@@ -37,8 +37,9 @@ Timer.set(100, false, function() {
 
   StateChangedRpcAddHandler(heaterDeviceId, function(args) {
     let changedProps = args.changedProps;
-    if (changedProps.turnedOff) {
+    if (changedProps.turnedOff !== undefined) {
       Cfg.set({devices: {mainHeater: {turnedOff: changedProps.turnedOff}}}, true);
+      RenderHeaterTurnedOff(changedProps.turnedOff, false);
     }
   });
 
@@ -103,5 +104,6 @@ Timer.set(400 /* milliseconds */, false /* repeat */, function() {
     INC_BUTTON_PIN: Cfg.get('pins.INC_BUTTON'),
     SWITCH_BUTTON_PIN: Cfg.get('pins.SWITCH_BUTTON'),
     mainDHTId: mainDHTObj.deviceId,
+    mainHeaterId: mainHeaterObj.deviceId,
   });
 }, null);
