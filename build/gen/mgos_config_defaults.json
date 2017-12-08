@@ -164,9 +164,12 @@
       "DHT_PIN": 0, 
       "minTemp": 10, 
       "maxTemp": 20, 
-      "minTempActions": "[{\"method\":\"asdqwezxc.SetState\",\"args\":{\"heaterHeatActive\":true},\"local\":true,\"interval\":60}]", 
-      "maxTempActions": "[{\"method\":\"asdqwezxc.SetState\",\"args\":{\"heaterHeatActive\":false},\"local\":true,\"interval\":60}]", 
-      "mainTimerInterval": 60000
+      "mainTimerInterval": 10000
     }
+  }, 
+  "pins": {
+    "DEC_BUTTON": 5, 
+    "INC_BUTTON": 4, 
+    "SWITCH_BUTTON": 2
   }
 }

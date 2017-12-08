@@ -84,13 +84,13 @@ function INIT_DHT_MODULE(options) {
 
   Timer.set(mainTimerInterval /* milliseconds */, true /* repeat */, function(obj) {
     DHTModuleRefreshHumAndTemp(obj);
-
+  
     let state = obj.state;
-
+  
     let temp = state.temp;
     let maxTemp = state.maxTemp;
     let minTemp = state.minTemp;
-
+  
     if (temp > maxTemp) {
       print('temp > maxTemp');
       for (let i = 0; i < state.maxTempActions.length; i++) {
@@ -102,7 +102,7 @@ function INIT_DHT_MODULE(options) {
         DoAction(state.minTempActions[i]);
       }
     }
-
+  
     print('Temperature:', temp, '*C');
     print('Humidity:', state.hum, '%');
   }, dhtObj);

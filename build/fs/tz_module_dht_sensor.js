@@ -82,30 +82,30 @@ function INIT_DHT_MODULE(options) {
     return state;
   }, dhtObj.state);
 
-  Timer.set(mainTimerInterval /* milliseconds */, true /* repeat */, function(obj) {
-    DHTModuleRefreshHumAndTemp(obj);
-
-    let state = obj.state;
-
-    let temp = state.temp;
-    let maxTemp = state.maxTemp;
-    let minTemp = state.minTemp;
-
-    if (temp > maxTemp) {
-      print('temp > maxTemp');
-      for (let i = 0; i < state.maxTempActions.length; i++) {
-        DoAction(state.maxTempActions[i]);
-      }
-    } else if (temp < minTemp) {
-      print('temp < minTemp');
-      for (let i = 0; i < state.minTempActions.length; i++) {
-        DoAction(state.minTempActions[i]);
-      }
-    }
-
-    print('Temperature:', temp, '*C');
-    print('Humidity:', state.hum, '%');
-  }, dhtObj);
+  // Timer.set(mainTimerInterval /* milliseconds */, true /* repeat */, function(obj) {
+  //   DHTModuleRefreshHumAndTemp(obj);
+  //
+  //   let state = obj.state;
+  //
+  //   let temp = state.temp;
+  //   let maxTemp = state.maxTemp;
+  //   let minTemp = state.minTemp;
+  //
+  //   if (temp > maxTemp) {
+  //     print('temp > maxTemp');
+  //     for (let i = 0; i < state.maxTempActions.length; i++) {
+  //       DoAction(state.maxTempActions[i]);
+  //     }
+  //   } else if (temp < minTemp) {
+  //     print('temp < minTemp');
+  //     for (let i = 0; i < state.minTempActions.length; i++) {
+  //       DoAction(state.minTempActions[i]);
+  //     }
+  //   }
+  //
+  //   print('Temperature:', temp, '*C');
+  //   print('Humidity:', state.hum, '%');
+  // }, dhtObj);
 
   Timer.set(1000 /* milliseconds */, false /* repeat */, function(obj) {
     DHTModuleRefreshHumAndTemp(obj);
