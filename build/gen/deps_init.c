@@ -26,6 +26,7 @@ extern bool mgos_rpc_service_fs_init(void);
 extern bool mgos_rpc_service_gpio_init(void);
 extern bool mgos_rpc_service_i2c_init(void);
 extern bool mgos_rpc_service_ota_init(void);
+extern bool mgos_rpc_service_wifi_init(void);
 extern bool mgos_rpc_uart_init(void);
 
 static const struct lib_descr {
@@ -151,6 +152,12 @@ static const struct lib_descr {
   {
     .title = "rpc_service_ota",
     .init = mgos_rpc_service_ota_init,
+  },
+
+  // "rpc_service_wifi". deps: [ "rpc-common" "wifi" ]
+  {
+    .title = "rpc_service_wifi",
+    .init = mgos_rpc_service_wifi_init,
   },
 
   // "rpc_uart". deps: [ "rpc-common" ]

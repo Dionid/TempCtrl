@@ -1,6 +1,6 @@
 /*
  * Generated file - do not edit.
- * Command: /mongoose-os/fw/tools/gen_sys_config.py --c_name=mgos_config --c_global_name=mgos_sys_config --dest_dir=/fwbuild-volumes/1.21/apps/Garage/esp8266/build_contexts/build_ctx_487280828/build/gen/ /mongoose-os/fw/src/mgos_debug_udp_config.yaml /mongoose-os/fw/src/mgos_sntp_config.yaml /mongoose-os/fw/src/mgos_updater_config.yaml /mongoose-os/fw/platforms/esp8266/src/esp_mbedtls_config.yaml /mongoose-os/fw/src/mgos_sys_config.yaml /mongoose-os/fw/platforms/esp8266/src/esp_sys_config.yaml /fwbuild-volumes/1.21/apps/Garage/esp8266/build_contexts/build_ctx_487280828/build/gen/mos_conf_schema.yml
+ * Command: /mongoose-os/fw/tools/gen_sys_config.py --c_name=mgos_config --c_global_name=mgos_sys_config --dest_dir=/fwbuild-volumes/1.21/apps/Garage/esp8266/build_contexts/build_ctx_046181678/build/gen/ /mongoose-os/fw/src/mgos_debug_udp_config.yaml /mongoose-os/fw/src/mgos_sntp_config.yaml /mongoose-os/fw/src/mgos_updater_config.yaml /mongoose-os/fw/platforms/esp8266/src/esp_mbedtls_config.yaml /mongoose-os/fw/src/mgos_sys_config.yaml /mongoose-os/fw/platforms/esp8266/src/esp_sys_config.yaml /fwbuild-volumes/1.21/apps/Garage/esp8266/build_contexts/build_ctx_046181678/build/gen/mos_conf_schema.yml
  */
 
 #ifndef MGOS_CONFIG_H_
@@ -200,6 +200,8 @@ struct mgos_config_devices_mainDHT {
   int DHT_PIN;
   int minTemp;
   int maxTemp;
+  char *minTempActions;
+  char *maxTempActions;
   int mainTimerInterval;
 };
 
@@ -379,6 +381,8 @@ const char *mgos_config_get_devices_mainDHT_id(struct mgos_config *cfg);
 int         mgos_config_get_devices_mainDHT_DHT_PIN(struct mgos_config *cfg);
 int         mgos_config_get_devices_mainDHT_minTemp(struct mgos_config *cfg);
 int         mgos_config_get_devices_mainDHT_maxTemp(struct mgos_config *cfg);
+const char *mgos_config_get_devices_mainDHT_minTempActions(struct mgos_config *cfg);
+const char *mgos_config_get_devices_mainDHT_maxTempActions(struct mgos_config *cfg);
 int         mgos_config_get_devices_mainDHT_mainTimerInterval(struct mgos_config *cfg);
 const struct mgos_config_pins *mgos_config_get_pins(struct mgos_config *cfg);
 int         mgos_config_get_pins_DEC_BUTTON(struct mgos_config *cfg);
@@ -510,6 +514,8 @@ void mgos_config_set_devices_mainDHT_id(struct mgos_config *cfg, const char *val
 void mgos_config_set_devices_mainDHT_DHT_PIN(struct mgos_config *cfg, int         val);
 void mgos_config_set_devices_mainDHT_minTemp(struct mgos_config *cfg, int         val);
 void mgos_config_set_devices_mainDHT_maxTemp(struct mgos_config *cfg, int         val);
+void mgos_config_set_devices_mainDHT_minTempActions(struct mgos_config *cfg, const char *val);
+void mgos_config_set_devices_mainDHT_maxTempActions(struct mgos_config *cfg, const char *val);
 void mgos_config_set_devices_mainDHT_mainTimerInterval(struct mgos_config *cfg, int         val);
 void mgos_config_set_pins_DEC_BUTTON(struct mgos_config *cfg, int         val);
 void mgos_config_set_pins_INC_BUTTON(struct mgos_config *cfg, int         val);
@@ -664,6 +670,8 @@ static inline const char *mgos_sys_config_get_devices_mainDHT_id(void) { return 
 static inline int         mgos_sys_config_get_devices_mainDHT_DHT_PIN(void) { return mgos_config_get_devices_mainDHT_DHT_PIN(&mgos_sys_config); }
 static inline int         mgos_sys_config_get_devices_mainDHT_minTemp(void) { return mgos_config_get_devices_mainDHT_minTemp(&mgos_sys_config); }
 static inline int         mgos_sys_config_get_devices_mainDHT_maxTemp(void) { return mgos_config_get_devices_mainDHT_maxTemp(&mgos_sys_config); }
+static inline const char *mgos_sys_config_get_devices_mainDHT_minTempActions(void) { return mgos_config_get_devices_mainDHT_minTempActions(&mgos_sys_config); }
+static inline const char *mgos_sys_config_get_devices_mainDHT_maxTempActions(void) { return mgos_config_get_devices_mainDHT_maxTempActions(&mgos_sys_config); }
 static inline int         mgos_sys_config_get_devices_mainDHT_mainTimerInterval(void) { return mgos_config_get_devices_mainDHT_mainTimerInterval(&mgos_sys_config); }
 static inline const struct mgos_config_pins *mgos_sys_config_get_pins(void) { return mgos_config_get_pins(&mgos_sys_config); }
 static inline int         mgos_sys_config_get_pins_DEC_BUTTON(void) { return mgos_config_get_pins_DEC_BUTTON(&mgos_sys_config); }
@@ -795,6 +803,8 @@ static inline void mgos_sys_config_set_devices_mainDHT_id(const char *val) { mgo
 static inline void mgos_sys_config_set_devices_mainDHT_DHT_PIN(int         val) { mgos_config_set_devices_mainDHT_DHT_PIN(&mgos_sys_config, val); }
 static inline void mgos_sys_config_set_devices_mainDHT_minTemp(int         val) { mgos_config_set_devices_mainDHT_minTemp(&mgos_sys_config, val); }
 static inline void mgos_sys_config_set_devices_mainDHT_maxTemp(int         val) { mgos_config_set_devices_mainDHT_maxTemp(&mgos_sys_config, val); }
+static inline void mgos_sys_config_set_devices_mainDHT_minTempActions(const char *val) { mgos_config_set_devices_mainDHT_minTempActions(&mgos_sys_config, val); }
+static inline void mgos_sys_config_set_devices_mainDHT_maxTempActions(const char *val) { mgos_config_set_devices_mainDHT_maxTempActions(&mgos_sys_config, val); }
 static inline void mgos_sys_config_set_devices_mainDHT_mainTimerInterval(int         val) { mgos_config_set_devices_mainDHT_mainTimerInterval(&mgos_sys_config, val); }
 static inline void mgos_sys_config_set_pins_DEC_BUTTON(int         val) { mgos_config_set_pins_DEC_BUTTON(&mgos_sys_config, val); }
 static inline void mgos_sys_config_set_pins_INC_BUTTON(int         val) { mgos_config_set_pins_INC_BUTTON(&mgos_sys_config, val); }

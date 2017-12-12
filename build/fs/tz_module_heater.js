@@ -6,13 +6,14 @@ load('api_rpc.js');
 load('tz_actions.js');
 
 function SetHeaterModuleTurnedOff(obj, turnedOff) {
+  print(Timer.now());
   GPIO.write(obj.pins.POWER_PIN, turnedOff);
   obj.state.turnedOff = turnedOff;
   StateChangedRpcCall(obj.deviceId, obj.state, {turnedOff:turnedOff});
 }
 
 function SetHeaterModuleHeatActive(obj, heatActive) {
-  GPIO.write(obj.pins.HEAT_PIN, heatActive);
+  GPIO.write(obj.pins.HEAT_PIN, !heatActive);
   obj.state.heatActive = heatActive;
   StateChangedRpcCall(obj.deviceId, obj.state, {heatActive:heatActive});
 }

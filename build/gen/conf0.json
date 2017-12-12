@@ -99,8 +99,8 @@
     "generate_jsc": true
   }, 
   "mqtt": {
-    "enable": true, 
-    "server": "iot.eclipse.org:1883", 
+    "enable": false, 
+    "server": "192.168.0.104:1883", 
     "client_id": "", 
     "user": "", 
     "pass": "", 
@@ -164,6 +164,8 @@
       "DHT_PIN": 0, 
       "minTemp": 10, 
       "maxTemp": 20, 
+      "minTempActions": "[{\"method\":\"asdqwezxc.SetState\",\"args\":{\"heatActive\":true},\"local\":true,\"interval\":60}]", 
+      "maxTempActions": "[{\"method\":\"asdqwezxc.SetState\",\"args\":{\"heatActive\":false},\"local\":true,\"interval\":60}]", 
       "mainTimerInterval": 10000
     }
   }, 

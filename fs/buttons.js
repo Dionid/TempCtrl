@@ -37,8 +37,8 @@ function INIT_BUTTONS(options) {
       return;
     } else if (selectedConfig === deviceConfigs.POWER) {
       print(Timer.now());
-      // RPC.call(RPC.LOCAL, obj.mainHeaterId + '.ToggleTurnedOff', null, null, null);
-      SetHeaterModuleTurnedOff(globalObjs.mainHeaterObj, !globalObjs.mainHeaterObj.state.turnedOff);
+      // RPC.call(RPC.LOCAL, obj.mainHeaterId + '.ToggleTurnedOn', null, null, null);
+      SetHeaterModuleTurnedOn(globalObjs.mainHeaterObj, !globalObjs.mainHeaterObj.state.turnedOn);
       return;
     } else if (selectedConfig === deviceConfigs.MIN_TEMP) {
       SetMinTemp(globalObjs.mainDHTObj, globalObjs.mainDHTObj.state.minTemp - 1);
@@ -60,8 +60,8 @@ function INIT_BUTTONS(options) {
       return;
     } else if (selectedConfig === deviceConfigs.POWER) {
       print(Timer.now());
-      //RPC.call(RPC.LOCAL, obj.mainHeaterId + '.ToggleTurnedOff', null, null, null);
-      SetHeaterModuleTurnedOff(globalObjs.mainHeaterObj, !globalObjs.mainHeaterObj.state.turnedOff);
+      //RPC.call(RPC.LOCAL, obj.mainHeaterId + '.ToggleTurnedOn', null, null, null);
+      SetHeaterModuleTurnedOn(globalObjs.mainHeaterObj, !globalObjs.mainHeaterObj.state.turnedOn);
       return;
     } else if (selectedConfig === deviceConfigs.MIN_TEMP) {
       SetMinTemp(globalObjs.mainDHTObj, globalObjs.mainDHTObj.state.minTemp + 1);

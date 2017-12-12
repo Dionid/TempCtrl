@@ -10,11 +10,24 @@ sources:
   - src
 filesystem:
   - fs
+
+conds:
+  - when: mos.platform == "esp32"
+    apply:
+      config_schema:
+        - ["devices.mainHeater.HEAT_PIN", "i", 22, {title: "My app custom settings"}]
+        - ["devices.mainHeater.POWER_PIN", "i", 23, {title: "My app custom settings"}]
+        - ["devices.mainDHT.DHT_PIN", "i", 4, {title: "My app custom settings"}]
+        - ["pins.DEC_BUTTON", "i", 18, {title: "GPIO pin ..."}]
+        - ["pins.INC_BUTTON", "i", 19, {title: "GPIO pin ..."}]
+        - ["pins.SWITCH_BUTTON", "i", 21, {title: "GPIO pin ..."}]
+
 config_schema:
   - ["i2c.enable", true]
-  - ["mqtt.server", "iot.eclipse.org:1883"]
-  - ["mqtt.enable", true]
-  - ["rpc.mqtt.enable", true]
+  - ["mqtt.server", "192.168.0.104:1883"]
+  # - ["mqtt.enable", true]
+  # - ["rpc.mqtt.enable", true]
+  # - ["rpc.mqtt.topic", "qweyuiasdhjky/p/smart_heater/asdqwezxc/mc/rpc"]
   # - ["wifi.sta.enable", true]
   - ["app", "o", {title: "My app custom settings"}]
   - ["app.devId", "s", "qweqweqwe", {title: "Device uniq ID"}]
@@ -28,15 +41,15 @@ config_schema:
   - ["devices.mainHeater.id", "s", "asdqwezxc", {title: "JSON with modules"}]
   - ["devices.mainHeater.HEAT_PIN", "i", 13, {title: "My app custom settings"}]
   - ["devices.mainHeater.POWER_PIN", "i", 16, {title: "My app custom settings"}]
-  - ["devices.mainHeater.turnedOff", "b", true, {title: "My app custom settings"}]
+  - ["devices.mainHeater.turnedOn", "b", true, {title: "My app custom settings"}]
 
   - ["devices.mainDHT", "o", {title: "My app custom settings"}]
   - ["devices.mainDHT.id", "s", "qweiopasd", {title: "JSON with modules"}]
   - ["devices.mainDHT.DHT_PIN", "i", 0, {title: "My app custom settings"}]
   - ["devices.mainDHT.minTemp", "i", 10, {title: "My app custom settings"}]
   - ["devices.mainDHT.maxTemp", "i", 20, {title: "My app custom settings"}]
-  # - ["devices.mainDHT.minTempActions", "s", "[{\"method\":\"asdqwezxc.SetState\",\"args\":{\"heaterHeatActive\":true},\"local\":true,\"interval\":60}]", {title: "JSON with modules"}]
-  # - ["devices.mainDHT.maxTempActions", "s", "[{\"method\":\"asdqwezxc.SetState\",\"args\":{\"heaterHeatActive\":false},\"local\":true,\"interval\":60}]", {title: "JSON with modules"}]
+  - ["devices.mainDHT.minTempActions", "s", "[{\"method\":\"asdqwezxc.SetState\",\"args\":{\"heatActive\":true},\"local\":true,\"interval\":60}]", {title: "JSON with modules"}]
+  - ["devices.mainDHT.maxTempActions", "s", "[{\"method\":\"asdqwezxc.SetState\",\"args\":{\"heatActive\":false},\"local\":true,\"interval\":60}]", {title: "JSON with modules"}]
   - ["devices.mainDHT.mainTimerInterval", "i", 10000, {title: "My app custom settings"}]
 
   - ["pins", "o", {title: "My app custom settings"}]
@@ -63,6 +76,7 @@ libs:
   - origin: https://github.com/mongoose-os-libs/rpc-service-gpio
   - origin: https://github.com/mongoose-os-libs/rpc-service-i2c
   - origin: https://github.com/mongoose-os-libs/rpc-service-ota
+  - origin: https://github.com/mongoose-os-libs/rpc-service-wifi
   - origin: https://github.com/mongoose-os-libs/mjs
     # libs necessary for the current app
   - origin: https://github.com/mongoose-os-libs/dht

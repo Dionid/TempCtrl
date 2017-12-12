@@ -108,9 +108,10 @@ function INIT_DHT_MODULE(options) {
     return true;
   }, dhtObj);
 
-  RPC.addHandler(deviceId + '.GetState', function(args, sm, state) {
-    return state;
-  }, dhtObj.state);
+  RPC.addHandler(deviceId + '.GetState', function(args, sm, dhtObj) {
+    DHTModuleRefreshHumAndTemp(dhtObj);
+    return dhtObj.state;
+  }, dhtObj);
 
   Timer.set(mainTimerInterval /* milliseconds */, true /* repeat */, function(obj) {
     DHTModuleRefreshHumAndTemp(obj);

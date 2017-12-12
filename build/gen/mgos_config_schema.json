@@ -145,6 +145,8 @@
   ["devices.mainDHT.DHT_PIN", "i", {"title": "My app custom settings"}],
   ["devices.mainDHT.minTemp", "i", {"title": "My app custom settings"}],
   ["devices.mainDHT.maxTemp", "i", {"title": "My app custom settings"}],
+  ["devices.mainDHT.minTempActions", "s", {"title": "JSON with modules"}],
+  ["devices.mainDHT.maxTempActions", "s", {"title": "JSON with modules"}],
   ["devices.mainDHT.mainTimerInterval", "i", {"title": "My app custom settings"}],
   ["pins", "o", {"title": "My app custom settings"}],
   ["pins.DEC_BUTTON", "i", {"title": "GPIO pin ..."}],

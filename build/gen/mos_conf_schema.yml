@@ -366,11 +366,7 @@
 - - i2c.enable
   - true
 - - mqtt.server
-  - iot.eclipse.org:1883
-- - mqtt.enable
-  - true
-- - rpc.mqtt.enable
-  - true
+  - 192.168.0.104:1883
 - - app
   - o
   - title: My app custom settings
@@ -431,6 +427,14 @@
   - i
   - 20
   - title: My app custom settings
+- - devices.mainDHT.minTempActions
+  - s
+  - '[{"method":"asdqwezxc.SetState","args":{"heatActive":true},"local":true,"interval":60}]'
+  - title: JSON with modules
+- - devices.mainDHT.maxTempActions
+  - s
+  - '[{"method":"asdqwezxc.SetState","args":{"heatActive":false},"local":true,"interval":60}]'
+  - title: JSON with modules
 - - devices.mainDHT.mainTimerInterval
   - i
   - 10000

@@ -3,19 +3,19 @@ load('api_arduino_liquidcrystal_i2c.js');
 // LCD
 let lcd = null;
 
-let RenderHeaterTurnedOffHide = false;
+let RenderHeaterTurnedOnHide = false;
 
-function RenderHeaterTurnedOff(turnedOff, hide) {
+function RenderHeaterTurnedOn(turnedOn, hide) {
   if (hide) {
-    if (!RenderHeaterTurnedOffHide) {
+    if (!RenderHeaterTurnedOnHide) {
       lcd.setCursor(13,0);
       lcd.print("   ");
-      RenderHeaterTurnedOffHide = true;
+      RenderHeaterTurnedOnHide = true;
     }
   } else {
     lcd.setCursor(13,0);
-    lcd.print(turnedOff ? "Off" : "On ");
-    RenderHeaterTurnedOffHide = false;
+    lcd.print(turnedOn ? "Off" : "On ");
+    RenderHeaterTurnedOnHide = false;
   }
 }
 //
@@ -88,18 +88,18 @@ function INIT_OLED(dhtState, heaterState) {
     let heaterState = oledObj.heaterState;
     let maxTemp = dhtState.maxTemp;
     let minTemp = dhtState.minTemp;
-    let turnedOff = heaterState.turnedOff;
+    let turnedOn = heaterState.turnedOn;
 
     if (selectedConfig === deviceConfigs.NONE) {
       RenderMaxTemp(maxTemp, false);
       return;
     } else if (selectedConfig === deviceConfigs.POWER) {
-      RenderHeaterTurnedOff(turnedOff, isBlinking);
+      RenderHeaterTurnedOn(turnedOn, isBlinking);
     } else if (selectedConfig === deviceConfigs.MIN_TEMP) {
-      RenderHeaterTurnedOff(turnedOff, false);
+      RenderHeaterTurnedOn(turnedOn, false);
       RenderMinTemp(minTemp, isBlinking);
     } else if (selectedConfig === deviceConfigs.MAX_TEMP) {
-      RenderHeaterTurnedOff(turnedOff, false);
+      RenderHeaterTurnedOn(turnedOn, false);
       RenderMinTemp(minTemp, false);
       RenderMaxTemp(maxTemp, isBlinking);
     }
@@ -115,7 +115,7 @@ function INIT_OLED(dhtState, heaterState) {
     RenderTemp(dhtState.temp);
     RenderMaxTemp(dhtState.maxTemp, false);
     RenderMinTemp(dhtState.minTemp, false);
-    RenderHeaterTurnedOff(heaterState.turnedOff, false);
+    RenderHeaterTurnedOn(heaterState.turnedOn, false);
   }, oledObj);
 
   print("Ended INIT_OLED");
