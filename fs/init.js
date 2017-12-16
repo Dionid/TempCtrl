@@ -42,6 +42,7 @@ Timer.set(100, false, function() {
       Cfg.set({devices: {mainHeater: {turnedOn: changedProps.turnedOn}}}, true);
       RenderHeaterTurnedOn(changedProps.turnedOn, false);
     }
+    return true;
   });
 
   // globalObjs.mainHeaterObj = mainHeaterObj;
@@ -56,6 +57,7 @@ Timer.set(100, false, function() {
     DHT_PIN: Cfg.get('devices.mainDHT.DHT_PIN'),
     minTemp: Cfg.get('devices.mainDHT.minTemp'),
     maxTemp: Cfg.get('devices.mainDHT.maxTemp'),
+    autoCtrl: Cgf.get('devices.mainDHT.autoCtrl'),
     // minTempActions: [],
     // maxTempActions: [],
     minTempActions: JSON.parse(Cfg.get('devices.mainDHT.minTempActions')),

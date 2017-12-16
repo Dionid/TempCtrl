@@ -32,16 +32,17 @@ Timer.set(100, false, function() {
     deviceId: heaterDeviceId,
     HEAT_PIN: Cfg.get('devices.mainHeater.HEAT_PIN'),
     POWER_PIN: Cfg.get('devices.mainHeater.POWER_PIN'),
-    turnedOff: Cfg.get('devices.mainHeater.turnedOff'),
+    turnedOn: Cfg.get('devices.mainHeater.turnedOn'),
     heatActive: false,
   });
 
   StateChangedRpcAddHandler(heaterDeviceId, function(args) {
     let changedProps = args.changedProps;
-    if (changedProps.turnedOff !== undefined) {
-      Cfg.set({devices: {mainHeater: {turnedOff: changedProps.turnedOff}}}, true);
-      RenderHeaterTurnedOff(changedProps.turnedOff, false);
+    if (changedProps.turnedOn !== undefined) {
+      Cfg.set({devices: {mainHeater: {turnedOn: changedProps.turnedOn}}}, true);
+      RenderHeaterTurnedOn(changedProps.turnedOn, false);
     }
+    return true;
   });
 
   // globalObjs.mainHeaterObj = mainHeaterObj;
@@ -56,6 +57,7 @@ Timer.set(100, false, function() {
     DHT_PIN: Cfg.get('devices.mainDHT.DHT_PIN'),
     minTemp: Cfg.get('devices.mainDHT.minTemp'),
     maxTemp: Cfg.get('devices.mainDHT.maxTemp'),
+    autoCtrl: Cgf.get('devices.mainDHT.autoCtrl'),
     // minTempActions: [],
     // maxTempActions: [],
     minTempActions: JSON.parse(Cfg.get('devices.mainDHT.minTempActions')),

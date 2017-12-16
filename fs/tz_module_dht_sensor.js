@@ -37,12 +37,17 @@ function SetMaxTemp(obj, maxTemp) {
   StateChangedRpcCall(obj.deviceId, obj.state, {maxTemp:maxTemp});
 }
 
+function CreateDHT(DHT_PIN) {
+  return DHT.create(DHT_PIN, DHT.DHT11);
+}
+
 function INIT_DHT_MODULE(options) {
 
   let deviceId = options.deviceId;
   let DHT_PIN = options.DHT_PIN;
   let minTemp = options.minTemp;
   let maxTemp = options.maxTemp;
+  let autoCtrl = options.autoCtrl;
   let minTempActions = options.minTempActions;
   let maxTempActions = options.maxTempActions;
   let mainTimerInterval = options.mainTimerInterval;
@@ -50,13 +55,14 @@ function INIT_DHT_MODULE(options) {
   print('Started INIT_DHT_MODULE');
 
   // Initialize DHT library
-  let dht = DHT.create(DHT_PIN, DHT.DHT11);
+  let dht = CreateDHT(DHT_PIN);
 
   let dhtState = {
     temp: 0,
     hum: 0,
     minTemp: minTemp,
     maxTemp: maxTemp,
+    autoCtrl: autoCtrl,
     minTempActions: minTempActions,
     maxTempActions: maxTempActions,
     mainTimerInterval: mainTimerInterval,
@@ -66,16 +72,14 @@ function INIT_DHT_MODULE(options) {
     dht: dht,
     deviceId: deviceId,
     state: dhtState,
+    pins: {
+      DHT_PIN: DHT_PIN,
+    }
   };
 
-  RPC.addHandler(deviceId + '.SetState', function(args, sm, dhtObj) {
-    if (args.minTemp) {
-      SetMinTemp(dhtObj, args.minTemp);
-    }
-    if (args.maxTemp) {
-      SetMaxTemp(dhtObj, args.maxTemp);
-    }
-    return dhtObj.state;
+  RPC.addHandler(deviceId + '.InitDHT', function(args, sm, dhtObj) {
+    dhtObj.dht = CreateDHT(dhtObj.pins.DHT_PIN);
+    return true;
   }, dhtObj);
 
   RPC.addHandler(deviceId + '.SetState', function(args, sm, dhtObj) {
@@ -119,19 +123,22 @@ function INIT_DHT_MODULE(options) {
     let state = obj.state;
 
     let temp = state.temp;
-    let maxTemp = state.maxTemp;
-    let minTemp = state.minTemp;
-
-    if (temp > maxTemp) {
-      print('temp > maxTemp');
-      for (let i = 0; i < state.maxTempActions.length; i++) {
-        DoAction(state.maxTempActions[i]);
-      }
-    } else if (temp < minTemp) {
-      print('temp < minTemp');
-      for (let i = 0; i < state.minTempActions.length; i++) {
-        DoAction(state.minTempActions[i]);
-      }
+    
+    if (state.autoCtrl) {
+      let maxTemp = state.maxTemp;
+      let minTemp = state.minTemp;
+  
+      if (temp > maxTemp) {
+        print('temp > maxTemp');
+        for (let i = 0; i < state.maxTempActions.length; i++) {
+          DoAction(state.maxTempActions[i]);
+        }
+      } else if (temp < minTemp) {
+        print('temp < minTemp');
+        for (let i = 0; i < state.minTempActions.length; i++) {
+          DoAction(state.minTempActions[i]);
+        }
+      } 
     }
 
     print('Temperature:', temp, '*C');

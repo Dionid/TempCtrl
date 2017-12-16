@@ -14,9 +14,10 @@ function RenderHeaterTurnedOn(turnedOn, hide) {
     }
   } else {
     lcd.setCursor(13,0);
-    lcd.print(turnedOn ? "Off" : "On ");
+    lcd.print(turnedOn ? "On" : "Off ");
     RenderHeaterTurnedOnHide = false;
   }
+  return true;
 }
 //
 function RenderTemp(temp) {

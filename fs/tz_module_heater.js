@@ -6,14 +6,13 @@ load('api_rpc.js');
 load('tz_actions.js');
 
 function SetHeaterModuleTurnedOn(obj, turnedOn) {
-  print(Timer.now());
-  GPIO.write(obj.pins.POWER_PIN, !turnedOn);
+  GPIO.write(obj.pins.POWER_PIN, turnedOn);
   obj.state.turnedOn = turnedOn;
   StateChangedRpcCall(obj.deviceId, obj.state, {turnedOn:turnedOn});
 }
 
 function SetHeaterModuleHeatActive(obj, heatActive) {
-  GPIO.write(obj.pins.HEAT_PIN, !heatActive);
+  GPIO.write(obj.pins.HEAT_PIN, heatActive);
   obj.state.heatActive = heatActive;
   StateChangedRpcCall(obj.deviceId, obj.state, {heatActive:heatActive});
 }
@@ -36,8 +35,8 @@ function INIT_HEATER_MODULE(options) {
   // HEATER
   GPIO.set_mode(HEAT_PIN, GPIO.MODE_OUTPUT);
   GPIO.set_mode(POWER_PIN, GPIO.MODE_OUTPUT);
-  GPIO.write(HEAT_PIN, 0);
-  GPIO.write(POWER_PIN, 1);
+  // GPIO.write(HEAT_PIN, 1);
+  // GPIO.write(POWER_PIN, 0);
 
   let heaterObj = {
     deviceId: deviceId,
@@ -47,6 +46,9 @@ function INIT_HEATER_MODULE(options) {
     },
     state: heaterState,
   };
+  
+  SetHeaterModuleTurnedOn(heaterObj, options.turnedOn);
+  SetHeaterModuleHeatActive(heaterObj, options.heatActive);
 
   RPC.addHandler(deviceId + '.ToggleTurnedOn', function(args, sm, obj) {
     SetHeaterModuleTurnedOn(obj, !obj.state.turnedOn);

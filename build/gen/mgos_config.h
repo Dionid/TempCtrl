@@ -1,6 +1,6 @@
 /*
  * Generated file - do not edit.
- * Command: /mongoose-os/fw/tools/gen_sys_config.py --c_name=mgos_config --c_global_name=mgos_sys_config --dest_dir=/fwbuild-volumes/1.21/apps/Garage/esp8266/build_contexts/build_ctx_046181678/build/gen/ /mongoose-os/fw/src/mgos_debug_udp_config.yaml /mongoose-os/fw/src/mgos_sntp_config.yaml /mongoose-os/fw/src/mgos_updater_config.yaml /mongoose-os/fw/platforms/esp8266/src/esp_mbedtls_config.yaml /mongoose-os/fw/src/mgos_sys_config.yaml /mongoose-os/fw/platforms/esp8266/src/esp_sys_config.yaml /fwbuild-volumes/1.21/apps/Garage/esp8266/build_contexts/build_ctx_046181678/build/gen/mos_conf_schema.yml
+ * Command: /mongoose-os/fw/tools/gen_sys_config.py --c_name=mgos_config --c_global_name=mgos_sys_config --dest_dir=/fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_818861159/build/gen/ /mongoose-os/fw/src/mgos_debug_udp_config.yaml /mongoose-os/fw/src/mgos_sntp_config.yaml /mongoose-os/fw/src/mgos_updater_config.yaml /mongoose-os/fw/platforms/esp8266/src/esp_mbedtls_config.yaml /mongoose-os/fw/src/mgos_sys_config.yaml /mongoose-os/fw/platforms/esp8266/src/esp_sys_config.yaml /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_818861159/build/gen/mos_conf_schema.yml
  */
 
 #ifndef MGOS_CONFIG_H_
@@ -34,6 +34,7 @@ struct mgos_config_update {
 struct mgos_config_device {
   char *id;
   char *password;
+  char *shadow_impl;
 };
 
 struct mgos_config_debug {
@@ -100,6 +101,7 @@ struct mgos_config_wifi_ap {
   char *dhcp_end;
   int trigger_on_gpio;
   int disable_after;
+  char *hostname;
   int keep_enabled;
 };
 
@@ -119,31 +121,6 @@ struct mgos_config_http {
   char *hidden_files;
   char *auth_domain;
   char *auth_file;
-};
-
-struct mgos_config_mjs {
-  int generate_jsc;
-};
-
-struct mgos_config_mqtt {
-  int enable;
-  char *server;
-  char *client_id;
-  char *user;
-  char *pass;
-  double reconnect_timeout_min;
-  double reconnect_timeout_max;
-  char *ssl_cert;
-  char *ssl_key;
-  char *ssl_ca_cert;
-  char *ssl_cipher_suites;
-  char *ssl_psk_identity;
-  char *ssl_psk_key;
-  int clean_session;
-  int keep_alive;
-  char *will_topic;
-  char *will_message;
-  int max_qos;
 };
 
 struct mgos_config_rpc_ws {
@@ -181,6 +158,41 @@ struct mgos_config_rpc {
   struct mgos_config_rpc_uart uart;
 };
 
+struct mgos_config_dash {
+  int enable;
+  char *token;
+  char *server;
+  char *ca_file;
+  int heartbeat_interval;
+  int send_logs;
+};
+
+struct mgos_config_mjs {
+  int generate_jsc;
+};
+
+struct mgos_config_mqtt {
+  int enable;
+  char *server;
+  char *client_id;
+  char *user;
+  char *pass;
+  double reconnect_timeout_min;
+  double reconnect_timeout_max;
+  char *ssl_cert;
+  char *ssl_key;
+  char *ssl_ca_cert;
+  char *ssl_cipher_suites;
+  char *ssl_psk_identity;
+  char *ssl_psk_key;
+  int clean_session;
+  int keep_alive;
+  char *will_topic;
+  char *will_message;
+  int max_qos;
+  int recv_mbuf_limit;
+};
+
 struct mgos_config_app {
   char *devId;
   int minTemp;
@@ -192,7 +204,7 @@ struct mgos_config_devices_mainHeater {
   char *id;
   int HEAT_PIN;
   int POWER_PIN;
-  int turnedOff;
+  int turnedOn;
 };
 
 struct mgos_config_devices_mainDHT {
@@ -200,6 +212,7 @@ struct mgos_config_devices_mainDHT {
   int DHT_PIN;
   int minTemp;
   int maxTemp;
+  int autoCtrl;
   char *minTempActions;
   char *maxTempActions;
   int mainTimerInterval;
@@ -226,9 +239,10 @@ struct mgos_config {
   struct mgos_config_i2c i2c;
   struct mgos_config_wifi wifi;
   struct mgos_config_http http;
+  struct mgos_config_rpc rpc;
+  struct mgos_config_dash dash;
   struct mgos_config_mjs mjs;
   struct mgos_config_mqtt mqtt;
-  struct mgos_config_rpc rpc;
   struct mgos_config_app app;
   struct mgos_config_devices devices;
   struct mgos_config_pins pins;
@@ -253,6 +267,7 @@ int         mgos_config_get_update_enable_post(struct mgos_config *cfg);
 const struct mgos_config_device *mgos_config_get_device(struct mgos_config *cfg);
 const char *mgos_config_get_device_id(struct mgos_config *cfg);
 const char *mgos_config_get_device_password(struct mgos_config *cfg);
+const char *mgos_config_get_device_shadow_impl(struct mgos_config *cfg);
 const struct mgos_config_debug *mgos_config_get_debug(struct mgos_config *cfg);
 const char *mgos_config_get_debug_udp_log_addr(struct mgos_config *cfg);
 int         mgos_config_get_debug_mbedtls_level(struct mgos_config *cfg);
@@ -308,6 +323,7 @@ const char *mgos_config_get_wifi_ap_dhcp_start(struct mgos_config *cfg);
 const char *mgos_config_get_wifi_ap_dhcp_end(struct mgos_config *cfg);
 int         mgos_config_get_wifi_ap_trigger_on_gpio(struct mgos_config *cfg);
 int         mgos_config_get_wifi_ap_disable_after(struct mgos_config *cfg);
+const char *mgos_config_get_wifi_ap_hostname(struct mgos_config *cfg);
 int         mgos_config_get_wifi_ap_keep_enabled(struct mgos_config *cfg);
 const struct mgos_config_http *mgos_config_get_http(struct mgos_config *cfg);
 int         mgos_config_get_http_enable(struct mgos_config *cfg);
@@ -320,27 +336,6 @@ const char *mgos_config_get_http_upload_acl(struct mgos_config *cfg);
 const char *mgos_config_get_http_hidden_files(struct mgos_config *cfg);
 const char *mgos_config_get_http_auth_domain(struct mgos_config *cfg);
 const char *mgos_config_get_http_auth_file(struct mgos_config *cfg);
-const struct mgos_config_mjs *mgos_config_get_mjs(struct mgos_config *cfg);
-int         mgos_config_get_mjs_generate_jsc(struct mgos_config *cfg);
-const struct mgos_config_mqtt *mgos_config_get_mqtt(struct mgos_config *cfg);
-int         mgos_config_get_mqtt_enable(struct mgos_config *cfg);
-const char *mgos_config_get_mqtt_server(struct mgos_config *cfg);
-const char *mgos_config_get_mqtt_client_id(struct mgos_config *cfg);
-const char *mgos_config_get_mqtt_user(struct mgos_config *cfg);
-const char *mgos_config_get_mqtt_pass(struct mgos_config *cfg);
-double      mgos_config_get_mqtt_reconnect_timeout_min(struct mgos_config *cfg);
-double      mgos_config_get_mqtt_reconnect_timeout_max(struct mgos_config *cfg);
-const char *mgos_config_get_mqtt_ssl_cert(struct mgos_config *cfg);
-const char *mgos_config_get_mqtt_ssl_key(struct mgos_config *cfg);
-const char *mgos_config_get_mqtt_ssl_ca_cert(struct mgos_config *cfg);
-const char *mgos_config_get_mqtt_ssl_cipher_suites(struct mgos_config *cfg);
-const char *mgos_config_get_mqtt_ssl_psk_identity(struct mgos_config *cfg);
-const char *mgos_config_get_mqtt_ssl_psk_key(struct mgos_config *cfg);
-int         mgos_config_get_mqtt_clean_session(struct mgos_config *cfg);
-int         mgos_config_get_mqtt_keep_alive(struct mgos_config *cfg);
-const char *mgos_config_get_mqtt_will_topic(struct mgos_config *cfg);
-const char *mgos_config_get_mqtt_will_message(struct mgos_config *cfg);
-int         mgos_config_get_mqtt_max_qos(struct mgos_config *cfg);
 const struct mgos_config_rpc *mgos_config_get_rpc(struct mgos_config *cfg);
 int         mgos_config_get_rpc_enable(struct mgos_config *cfg);
 int         mgos_config_get_rpc_max_frame_size(struct mgos_config *cfg);
@@ -365,6 +360,35 @@ int         mgos_config_get_rpc_uart_uart_no(struct mgos_config *cfg);
 int         mgos_config_get_rpc_uart_baud_rate(struct mgos_config *cfg);
 int         mgos_config_get_rpc_uart_fc_type(struct mgos_config *cfg);
 int         mgos_config_get_rpc_uart_wait_for_start_frame(struct mgos_config *cfg);
+const struct mgos_config_dash *mgos_config_get_dash(struct mgos_config *cfg);
+int         mgos_config_get_dash_enable(struct mgos_config *cfg);
+const char *mgos_config_get_dash_token(struct mgos_config *cfg);
+const char *mgos_config_get_dash_server(struct mgos_config *cfg);
+const char *mgos_config_get_dash_ca_file(struct mgos_config *cfg);
+int         mgos_config_get_dash_heartbeat_interval(struct mgos_config *cfg);
+int         mgos_config_get_dash_send_logs(struct mgos_config *cfg);
+const struct mgos_config_mjs *mgos_config_get_mjs(struct mgos_config *cfg);
+int         mgos_config_get_mjs_generate_jsc(struct mgos_config *cfg);
+const struct mgos_config_mqtt *mgos_config_get_mqtt(struct mgos_config *cfg);
+int         mgos_config_get_mqtt_enable(struct mgos_config *cfg);
+const char *mgos_config_get_mqtt_server(struct mgos_config *cfg);
+const char *mgos_config_get_mqtt_client_id(struct mgos_config *cfg);
+const char *mgos_config_get_mqtt_user(struct mgos_config *cfg);
+const char *mgos_config_get_mqtt_pass(struct mgos_config *cfg);
+double      mgos_config_get_mqtt_reconnect_timeout_min(struct mgos_config *cfg);
+double      mgos_config_get_mqtt_reconnect_timeout_max(struct mgos_config *cfg);
+const char *mgos_config_get_mqtt_ssl_cert(struct mgos_config *cfg);
+const char *mgos_config_get_mqtt_ssl_key(struct mgos_config *cfg);
+const char *mgos_config_get_mqtt_ssl_ca_cert(struct mgos_config *cfg);
+const char *mgos_config_get_mqtt_ssl_cipher_suites(struct mgos_config *cfg);
+const char *mgos_config_get_mqtt_ssl_psk_identity(struct mgos_config *cfg);
+const char *mgos_config_get_mqtt_ssl_psk_key(struct mgos_config *cfg);
+int         mgos_config_get_mqtt_clean_session(struct mgos_config *cfg);
+int         mgos_config_get_mqtt_keep_alive(struct mgos_config *cfg);
+const char *mgos_config_get_mqtt_will_topic(struct mgos_config *cfg);
+const char *mgos_config_get_mqtt_will_message(struct mgos_config *cfg);
+int         mgos_config_get_mqtt_max_qos(struct mgos_config *cfg);
+int         mgos_config_get_mqtt_recv_mbuf_limit(struct mgos_config *cfg);
 const struct mgos_config_app *mgos_config_get_app(struct mgos_config *cfg);
 const char *mgos_config_get_app_devId(struct mgos_config *cfg);
 int         mgos_config_get_app_minTemp(struct mgos_config *cfg);
@@ -375,12 +399,13 @@ const struct mgos_config_devices_mainHeater *mgos_config_get_devices_mainHeater(
 const char *mgos_config_get_devices_mainHeater_id(struct mgos_config *cfg);
 int         mgos_config_get_devices_mainHeater_HEAT_PIN(struct mgos_config *cfg);
 int         mgos_config_get_devices_mainHeater_POWER_PIN(struct mgos_config *cfg);
-int         mgos_config_get_devices_mainHeater_turnedOff(struct mgos_config *cfg);
+int         mgos_config_get_devices_mainHeater_turnedOn(struct mgos_config *cfg);
 const struct mgos_config_devices_mainDHT *mgos_config_get_devices_mainDHT(struct mgos_config *cfg);
 const char *mgos_config_get_devices_mainDHT_id(struct mgos_config *cfg);
 int         mgos_config_get_devices_mainDHT_DHT_PIN(struct mgos_config *cfg);
 int         mgos_config_get_devices_mainDHT_minTemp(struct mgos_config *cfg);
 int         mgos_config_get_devices_mainDHT_maxTemp(struct mgos_config *cfg);
+int         mgos_config_get_devices_mainDHT_autoCtrl(struct mgos_config *cfg);
 const char *mgos_config_get_devices_mainDHT_minTempActions(struct mgos_config *cfg);
 const char *mgos_config_get_devices_mainDHT_maxTempActions(struct mgos_config *cfg);
 int         mgos_config_get_devices_mainDHT_mainTimerInterval(struct mgos_config *cfg);
@@ -404,6 +429,7 @@ void mgos_config_set_update_ssl_server_name(struct mgos_config *cfg, const char 
 void mgos_config_set_update_enable_post(struct mgos_config *cfg, int         val);
 void mgos_config_set_device_id(struct mgos_config *cfg, const char *val);
 void mgos_config_set_device_password(struct mgos_config *cfg, const char *val);
+void mgos_config_set_device_shadow_impl(struct mgos_config *cfg, const char *val);
 void mgos_config_set_debug_udp_log_addr(struct mgos_config *cfg, const char *val);
 void mgos_config_set_debug_mbedtls_level(struct mgos_config *cfg, int         val);
 void mgos_config_set_debug_level(struct mgos_config *cfg, int         val);
@@ -452,6 +478,7 @@ void mgos_config_set_wifi_ap_dhcp_start(struct mgos_config *cfg, const char *val
 void mgos_config_set_wifi_ap_dhcp_end(struct mgos_config *cfg, const char *val);
 void mgos_config_set_wifi_ap_trigger_on_gpio(struct mgos_config *cfg, int         val);
 void mgos_config_set_wifi_ap_disable_after(struct mgos_config *cfg, int         val);
+void mgos_config_set_wifi_ap_hostname(struct mgos_config *cfg, const char *val);
 void mgos_config_set_wifi_ap_keep_enabled(struct mgos_config *cfg, int         val);
 void mgos_config_set_http_enable(struct mgos_config *cfg, int         val);
 void mgos_config_set_http_listen_addr(struct mgos_config *cfg, const char *val);
@@ -463,25 +490,6 @@ void mgos_config_set_http_upload_acl(struct mgos_config *cfg, const char *val);
 void mgos_config_set_http_hidden_files(struct mgos_config *cfg, const char *val);
 void mgos_config_set_http_auth_domain(struct mgos_config *cfg, const char *val);
 void mgos_config_set_http_auth_file(struct mgos_config *cfg, const char *val);
-void mgos_config_set_mjs_generate_jsc(struct mgos_config *cfg, int         val);
-void mgos_config_set_mqtt_enable(struct mgos_config *cfg, int         val);
-void mgos_config_set_mqtt_server(struct mgos_config *cfg, const char *val);
-void mgos_config_set_mqtt_client_id(struct mgos_config *cfg, const char *val);
-void mgos_config_set_mqtt_user(struct mgos_config *cfg, const char *val);
-void mgos_config_set_mqtt_pass(struct mgos_config *cfg, const char *val);
-void mgos_config_set_mqtt_reconnect_timeout_min(struct mgos_config *cfg, double      val);
-void mgos_config_set_mqtt_reconnect_timeout_max(struct mgos_config *cfg, double      val);
-void mgos_config_set_mqtt_ssl_cert(struct mgos_config *cfg, const char *val);
-void mgos_config_set_mqtt_ssl_key(struct mgos_config *cfg, const char *val);
-void mgos_config_set_mqtt_ssl_ca_cert(struct mgos_config *cfg, const char *val);
-void mgos_config_set_mqtt_ssl_cipher_suites(struct mgos_config *cfg, const char *val);
-void mgos_config_set_mqtt_ssl_psk_identity(struct mgos_config *cfg, const char *val);
-void mgos_config_set_mqtt_ssl_psk_key(struct mgos_config *cfg, const char *val);
-void mgos_config_set_mqtt_clean_session(struct mgos_config *cfg, int         val);
-void mgos_config_set_mqtt_keep_alive(struct mgos_config *cfg, int         val);
-void mgos_config_set_mqtt_will_topic(struct mgos_config *cfg, const char *val);
-void mgos_config_set_mqtt_will_message(struct mgos_config *cfg, const char *val);
-void mgos_config_set_mqtt_max_qos(struct mgos_config *cfg, int         val);
 void mgos_config_set_rpc_enable(struct mgos_config *cfg, int         val);
 void mgos_config_set_rpc_max_frame_size(struct mgos_config *cfg, int         val);
 void mgos_config_set_rpc_max_queue_length(struct mgos_config *cfg, int         val);
@@ -502,6 +510,32 @@ void mgos_config_set_rpc_uart_uart_no(struct mgos_config *cfg, int         val);
 void mgos_config_set_rpc_uart_baud_rate(struct mgos_config *cfg, int         val);
 void mgos_config_set_rpc_uart_fc_type(struct mgos_config *cfg, int         val);
 void mgos_config_set_rpc_uart_wait_for_start_frame(struct mgos_config *cfg, int         val);
+void mgos_config_set_dash_enable(struct mgos_config *cfg, int         val);
+void mgos_config_set_dash_token(struct mgos_config *cfg, const char *val);
+void mgos_config_set_dash_server(struct mgos_config *cfg, const char *val);
+void mgos_config_set_dash_ca_file(struct mgos_config *cfg, const char *val);
+void mgos_config_set_dash_heartbeat_interval(struct mgos_config *cfg, int         val);
+void mgos_config_set_dash_send_logs(struct mgos_config *cfg, int         val);
+void mgos_config_set_mjs_generate_jsc(struct mgos_config *cfg, int         val);
+void mgos_config_set_mqtt_enable(struct mgos_config *cfg, int         val);
+void mgos_config_set_mqtt_server(struct mgos_config *cfg, const char *val);
+void mgos_config_set_mqtt_client_id(struct mgos_config *cfg, const char *val);
+void mgos_config_set_mqtt_user(struct mgos_config *cfg, const char *val);
+void mgos_config_set_mqtt_pass(struct mgos_config *cfg, const char *val);
+void mgos_config_set_mqtt_reconnect_timeout_min(struct mgos_config *cfg, double      val);
+void mgos_config_set_mqtt_reconnect_timeout_max(struct mgos_config *cfg, double      val);
+void mgos_config_set_mqtt_ssl_cert(struct mgos_config *cfg, const char *val);
+void mgos_config_set_mqtt_ssl_key(struct mgos_config *cfg, const char *val);
+void mgos_config_set_mqtt_ssl_ca_cert(struct mgos_config *cfg, const char *val);
+void mgos_config_set_mqtt_ssl_cipher_suites(struct mgos_config *cfg, const char *val);
+void mgos_config_set_mqtt_ssl_psk_identity(struct mgos_config *cfg, const char *val);
+void mgos_config_set_mqtt_ssl_psk_key(struct mgos_config *cfg, const char *val);
+void mgos_config_set_mqtt_clean_session(struct mgos_config *cfg, int         val);
+void mgos_config_set_mqtt_keep_alive(struct mgos_config *cfg, int         val);
+void mgos_config_set_mqtt_will_topic(struct mgos_config *cfg, const char *val);
+void mgos_config_set_mqtt_will_message(struct mgos_config *cfg, const char *val);
+void mgos_config_set_mqtt_max_qos(struct mgos_config *cfg, int         val);
+void mgos_config_set_mqtt_recv_mbuf_limit(struct mgos_config *cfg, int         val);
 void mgos_config_set_app_devId(struct mgos_config *cfg, const char *val);
 void mgos_config_set_app_minTemp(struct mgos_config *cfg, int         val);
 void mgos_config_set_app_maxTemp(struct mgos_config *cfg, int         val);
@@ -509,11 +543,12 @@ void mgos_config_set_app_modules(struct mgos_config *cfg, const char *val);
 void mgos_config_set_devices_mainHeater_id(struct mgos_config *cfg, const char *val);
 void mgos_config_set_devices_mainHeater_HEAT_PIN(struct mgos_config *cfg, int         val);
 void mgos_config_set_devices_mainHeater_POWER_PIN(struct mgos_config *cfg, int         val);
-void mgos_config_set_devices_mainHeater_turnedOff(struct mgos_config *cfg, int         val);
+void mgos_config_set_devices_mainHeater_turnedOn(struct mgos_config *cfg, int         val);
 void mgos_config_set_devices_mainDHT_id(struct mgos_config *cfg, const char *val);
 void mgos_config_set_devices_mainDHT_DHT_PIN(struct mgos_config *cfg, int         val);
 void mgos_config_set_devices_mainDHT_minTemp(struct mgos_config *cfg, int         val);
 void mgos_config_set_devices_mainDHT_maxTemp(struct mgos_config *cfg, int         val);
+void mgos_config_set_devices_mainDHT_autoCtrl(struct mgos_config *cfg, int         val);
 void mgos_config_set_devices_mainDHT_minTempActions(struct mgos_config *cfg, const char *val);
 void mgos_config_set_devices_mainDHT_maxTempActions(struct mgos_config *cfg, const char *val);
 void mgos_config_set_devices_mainDHT_mainTimerInterval(struct mgos_config *cfg, int         val);
@@ -542,6 +577,7 @@ static inline int         mgos_sys_config_get_update_enable_post(void) { return 
 static inline const struct mgos_config_device *mgos_sys_config_get_device(void) { return mgos_config_get_device(&mgos_sys_config); }
 static inline const char *mgos_sys_config_get_device_id(void) { return mgos_config_get_device_id(&mgos_sys_config); }
 static inline const char *mgos_sys_config_get_device_password(void) { return mgos_config_get_device_password(&mgos_sys_config); }
+static inline const char *mgos_sys_config_get_device_shadow_impl(void) { return mgos_config_get_device_shadow_impl(&mgos_sys_config); }
 static inline const struct mgos_config_debug *mgos_sys_config_get_debug(void) { return mgos_config_get_debug(&mgos_sys_config); }
 static inline const char *mgos_sys_config_get_debug_udp_log_addr(void) { return mgos_config_get_debug_udp_log_addr(&mgos_sys_config); }
 static inline int         mgos_sys_config_get_debug_mbedtls_level(void) { return mgos_config_get_debug_mbedtls_level(&mgos_sys_config); }
@@ -597,6 +633,7 @@ static inline const char *mgos_sys_config_get_wifi_ap_dhcp_start(void) { return 
 static inline const char *mgos_sys_config_get_wifi_ap_dhcp_end(void) { return mgos_config_get_wifi_ap_dhcp_end(&mgos_sys_config); }
 static inline int         mgos_sys_config_get_wifi_ap_trigger_on_gpio(void) { return mgos_config_get_wifi_ap_trigger_on_gpio(&mgos_sys_config); }
 static inline int         mgos_sys_config_get_wifi_ap_disable_after(void) { return mgos_config_get_wifi_ap_disable_after(&mgos_sys_config); }
+static inline const char *mgos_sys_config_get_wifi_ap_hostname(void) { return mgos_config_get_wifi_ap_hostname(&mgos_sys_config); }
 static inline int         mgos_sys_config_get_wifi_ap_keep_enabled(void) { return mgos_config_get_wifi_ap_keep_enabled(&mgos_sys_config); }
 static inline const struct mgos_config_http *mgos_sys_config_get_http(void) { return mgos_config_get_http(&mgos_sys_config); }
 static inline int         mgos_sys_config_get_http_enable(void) { return mgos_config_get_http_enable(&mgos_sys_config); }
@@ -609,27 +646,6 @@ static inline const char *mgos_sys_config_get_http_upload_acl(void) { return mgo
 static inline const char *mgos_sys_config_get_http_hidden_files(void) { return mgos_config_get_http_hidden_files(&mgos_sys_config); }
 static inline const char *mgos_sys_config_get_http_auth_domain(void) { return mgos_config_get_http_auth_domain(&mgos_sys_config); }
 static inline const char *mgos_sys_config_get_http_auth_file(void) { return mgos_config_get_http_auth_file(&mgos_sys_config); }
-static inline const struct mgos_config_mjs *mgos_sys_config_get_mjs(void) { return mgos_config_get_mjs(&mgos_sys_config); }
-static inline int         mgos_sys_config_get_mjs_generate_jsc(void) { return mgos_config_get_mjs_generate_jsc(&mgos_sys_config); }
-static inline const struct mgos_config_mqtt *mgos_sys_config_get_mqtt(void) { return mgos_config_get_mqtt(&mgos_sys_config); }
-static inline int         mgos_sys_config_get_mqtt_enable(void) { return mgos_config_get_mqtt_enable(&mgos_sys_config); }
-static inline const char *mgos_sys_config_get_mqtt_server(void) { return mgos_config_get_mqtt_server(&mgos_sys_config); }
-static inline const char *mgos_sys_config_get_mqtt_client_id(void) { return mgos_config_get_mqtt_client_id(&mgos_sys_config); }
-static inline const char *mgos_sys_config_get_mqtt_user(void) { return mgos_config_get_mqtt_user(&mgos_sys_config); }
-static inline const char *mgos_sys_config_get_mqtt_pass(void) { return mgos_config_get_mqtt_pass(&mgos_sys_config); }
-static inline double      mgos_sys_config_get_mqtt_reconnect_timeout_min(void) { return mgos_config_get_mqtt_reconnect_timeout_min(&mgos_sys_config); }
-static inline double      mgos_sys_config_get_mqtt_reconnect_timeout_max(void) { return mgos_config_get_mqtt_reconnect_timeout_max(&mgos_sys_config); }
-static inline const char *mgos_sys_config_get_mqtt_ssl_cert(void) { return mgos_config_get_mqtt_ssl_cert(&mgos_sys_config); }
-static inline const char *mgos_sys_config_get_mqtt_ssl_key(void) { return mgos_config_get_mqtt_ssl_key(&mgos_sys_config); }
-static inline const char *mgos_sys_config_get_mqtt_ssl_ca_cert(void) { return mgos_config_get_mqtt_ssl_ca_cert(&mgos_sys_config); }
-static inline const char *mgos_sys_config_get_mqtt_ssl_cipher_suites(void) { return mgos_config_get_mqtt_ssl_cipher_suites(&mgos_sys_config); }
-static inline const char *mgos_sys_config_get_mqtt_ssl_psk_identity(void) { return mgos_config_get_mqtt_ssl_psk_identity(&mgos_sys_config); }
-static inline const char *mgos_sys_config_get_mqtt_ssl_psk_key(void) { return mgos_config_get_mqtt_ssl_psk_key(&mgos_sys_config); }
-static inline int         mgos_sys_config_get_mqtt_clean_session(void) { return mgos_config_get_mqtt_clean_session(&mgos_sys_config); }
-static inline int         mgos_sys_config_get_mqtt_keep_alive(void) { return mgos_config_get_mqtt_keep_alive(&mgos_sys_config); }
-static inline const char *mgos_sys_config_get_mqtt_will_topic(void) { return mgos_config_get_mqtt_will_topic(&mgos_sys_config); }
-static inline const char *mgos_sys_config_get_mqtt_will_message(void) { return mgos_config_get_mqtt_will_message(&mgos_sys_config); }
-static inline int         mgos_sys_config_get_mqtt_max_qos(void) { return mgos_config_get_mqtt_max_qos(&mgos_sys_config); }
 static inline const struct mgos_config_rpc *mgos_sys_config_get_rpc(void) { return mgos_config_get_rpc(&mgos_sys_config); }
 static inline int         mgos_sys_config_get_rpc_enable(void) { return mgos_config_get_rpc_enable(&mgos_sys_config); }
 static inline int         mgos_sys_config_get_rpc_max_frame_size(void) { return mgos_config_get_rpc_max_frame_size(&mgos_sys_config); }
@@ -654,6 +670,35 @@ static inline int         mgos_sys_config_get_rpc_uart_uart_no(void) { return mg
 static inline int         mgos_sys_config_get_rpc_uart_baud_rate(void) { return mgos_config_get_rpc_uart_baud_rate(&mgos_sys_config); }
 static inline int         mgos_sys_config_get_rpc_uart_fc_type(void) { return mgos_config_get_rpc_uart_fc_type(&mgos_sys_config); }
 static inline int         mgos_sys_config_get_rpc_uart_wait_for_start_frame(void) { return mgos_config_get_rpc_uart_wait_for_start_frame(&mgos_sys_config); }
+static inline const struct mgos_config_dash *mgos_sys_config_get_dash(void) { return mgos_config_get_dash(&mgos_sys_config); }
+static inline int         mgos_sys_config_get_dash_enable(void) { return mgos_config_get_dash_enable(&mgos_sys_config); }
+static inline const char *mgos_sys_config_get_dash_token(void) { return mgos_config_get_dash_token(&mgos_sys_config); }
+static inline const char *mgos_sys_config_get_dash_server(void) { return mgos_config_get_dash_server(&mgos_sys_config); }
+static inline const char *mgos_sys_config_get_dash_ca_file(void) { return mgos_config_get_dash_ca_file(&mgos_sys_config); }
+static inline int         mgos_sys_config_get_dash_heartbeat_interval(void) { return mgos_config_get_dash_heartbeat_interval(&mgos_sys_config); }
+static inline int         mgos_sys_config_get_dash_send_logs(void) { return mgos_config_get_dash_send_logs(&mgos_sys_config); }
+static inline const struct mgos_config_mjs *mgos_sys_config_get_mjs(void) { return mgos_config_get_mjs(&mgos_sys_config); }
+static inline int         mgos_sys_config_get_mjs_generate_jsc(void) { return mgos_config_get_mjs_generate_jsc(&mgos_sys_config); }
+static inline const struct mgos_config_mqtt *mgos_sys_config_get_mqtt(void) { return mgos_config_get_mqtt(&mgos_sys_config); }
+static inline int         mgos_sys_config_get_mqtt_enable(void) { return mgos_config_get_mqtt_enable(&mgos_sys_config); }
+static inline const char *mgos_sys_config_get_mqtt_server(void) { return mgos_config_get_mqtt_server(&mgos_sys_config); }
+static inline const char *mgos_sys_config_get_mqtt_client_id(void) { return mgos_config_get_mqtt_client_id(&mgos_sys_config); }
+static inline const char *mgos_sys_config_get_mqtt_user(void) { return mgos_config_get_mqtt_user(&mgos_sys_config); }
+static inline const char *mgos_sys_config_get_mqtt_pass(void) { return mgos_config_get_mqtt_pass(&mgos_sys_config); }
+static inline double      mgos_sys_config_get_mqtt_reconnect_timeout_min(void) { return mgos_config_get_mqtt_reconnect_timeout_min(&mgos_sys_config); }
+static inline double      mgos_sys_config_get_mqtt_reconnect_timeout_max(void) { return mgos_config_get_mqtt_reconnect_timeout_max(&mgos_sys_config); }
+static inline const char *mgos_sys_config_get_mqtt_ssl_cert(void) { return mgos_config_get_mqtt_ssl_cert(&mgos_sys_config); }
+static inline const char *mgos_sys_config_get_mqtt_ssl_key(void) { return mgos_config_get_mqtt_ssl_key(&mgos_sys_config); }
+static inline const char *mgos_sys_config_get_mqtt_ssl_ca_cert(void) { return mgos_config_get_mqtt_ssl_ca_cert(&mgos_sys_config); }
+static inline const char *mgos_sys_config_get_mqtt_ssl_cipher_suites(void) { return mgos_config_get_mqtt_ssl_cipher_suites(&mgos_sys_config); }
+static inline const char *mgos_sys_config_get_mqtt_ssl_psk_identity(void) { return mgos_config_get_mqtt_ssl_psk_identity(&mgos_sys_config); }
+static inline const char *mgos_sys_config_get_mqtt_ssl_psk_key(void) { return mgos_config_get_mqtt_ssl_psk_key(&mgos_sys_config); }
+static inline int         mgos_sys_config_get_mqtt_clean_session(void) { return mgos_config_get_mqtt_clean_session(&mgos_sys_config); }
+static inline int         mgos_sys_config_get_mqtt_keep_alive(void) { return mgos_config_get_mqtt_keep_alive(&mgos_sys_config); }
+static inline const char *mgos_sys_config_get_mqtt_will_topic(void) { return mgos_config_get_mqtt_will_topic(&mgos_sys_config); }
+static inline const char *mgos_sys_config_get_mqtt_will_message(void) { return mgos_config_get_mqtt_will_message(&mgos_sys_config); }
+static inline int         mgos_sys_config_get_mqtt_max_qos(void) { return mgos_config_get_mqtt_max_qos(&mgos_sys_config); }
+static inline int         mgos_sys_config_get_mqtt_recv_mbuf_limit(void) { return mgos_config_get_mqtt_recv_mbuf_limit(&mgos_sys_config); }
 static inline const struct mgos_config_app *mgos_sys_config_get_app(void) { return mgos_config_get_app(&mgos_sys_config); }
 static inline const char *mgos_sys_config_get_app_devId(void) { return mgos_config_get_app_devId(&mgos_sys_config); }
 static inline int         mgos_sys_config_get_app_minTemp(void) { return mgos_config_get_app_minTemp(&mgos_sys_config); }
@@ -664,12 +709,13 @@ static inline const struct mgos_config_devices_mainHeater *mgos_sys_config_get_d
 static inline const char *mgos_sys_config_get_devices_mainHeater_id(void) { return mgos_config_get_devices_mainHeater_id(&mgos_sys_config); }
 static inline int         mgos_sys_config_get_devices_mainHeater_HEAT_PIN(void) { return mgos_config_get_devices_mainHeater_HEAT_PIN(&mgos_sys_config); }
 static inline int         mgos_sys_config_get_devices_mainHeater_POWER_PIN(void) { return mgos_config_get_devices_mainHeater_POWER_PIN(&mgos_sys_config); }
-static inline int         mgos_sys_config_get_devices_mainHeater_turnedOff(void) { return mgos_config_get_devices_mainHeater_turnedOff(&mgos_sys_config); }
+static inline int         mgos_sys_config_get_devices_mainHeater_turnedOn(void) { return mgos_config_get_devices_mainHeater_turnedOn(&mgos_sys_config); }
 static inline const struct mgos_config_devices_mainDHT *mgos_sys_config_get_devices_mainDHT(void) { return mgos_config_get_devices_mainDHT(&mgos_sys_config); }
 static inline const char *mgos_sys_config_get_devices_mainDHT_id(void) { return mgos_config_get_devices_mainDHT_id(&mgos_sys_config); }
 static inline int         mgos_sys_config_get_devices_mainDHT_DHT_PIN(void) { return mgos_config_get_devices_mainDHT_DHT_PIN(&mgos_sys_config); }
 static inline int         mgos_sys_config_get_devices_mainDHT_minTemp(void) { return mgos_config_get_devices_mainDHT_minTemp(&mgos_sys_config); }
 static inline int         mgos_sys_config_get_devices_mainDHT_maxTemp(void) { return mgos_config_get_devices_mainDHT_maxTemp(&mgos_sys_config); }
+static inline int         mgos_sys_config_get_devices_mainDHT_autoCtrl(void) { return mgos_config_get_devices_mainDHT_autoCtrl(&mgos_sys_config); }
 static inline const char *mgos_sys_config_get_devices_mainDHT_minTempActions(void) { return mgos_config_get_devices_mainDHT_minTempActions(&mgos_sys_config); }
 static inline const char *mgos_sys_config_get_devices_mainDHT_maxTempActions(void) { return mgos_config_get_devices_mainDHT_maxTempActions(&mgos_sys_config); }
 static inline int         mgos_sys_config_get_devices_mainDHT_mainTimerInterval(void) { return mgos_config_get_devices_mainDHT_mainTimerInterval(&mgos_sys_config); }
@@ -693,6 +739,7 @@ static inline void mgos_sys_config_set_update_ssl_server_name(const char *val) {
 static inline void mgos_sys_config_set_update_enable_post(int         val) { mgos_config_set_update_enable_post(&mgos_sys_config, val); }
 static inline void mgos_sys_config_set_device_id(const char *val) { mgos_config_set_device_id(&mgos_sys_config, val); }
 static inline void mgos_sys_config_set_device_password(const char *val) { mgos_config_set_device_password(&mgos_sys_config, val); }
+static inline void mgos_sys_config_set_device_shadow_impl(const char *val) { mgos_config_set_device_shadow_impl(&mgos_sys_config, val); }
 static inline void mgos_sys_config_set_debug_udp_log_addr(const char *val) { mgos_config_set_debug_udp_log_addr(&mgos_sys_config, val); }
 static inline void mgos_sys_config_set_debug_mbedtls_level(int         val) { mgos_config_set_debug_mbedtls_level(&mgos_sys_config, val); }
 static inline void mgos_sys_config_set_debug_level(int         val) { mgos_config_set_debug_level(&mgos_sys_config, val); }
@@ -741,6 +788,7 @@ static inline void mgos_sys_config_set_wifi_ap_dhcp_start(const char *val) { mgo
 static inline void mgos_sys_config_set_wifi_ap_dhcp_end(const char *val) { mgos_config_set_wifi_ap_dhcp_end(&mgos_sys_config, val); }
 static inline void mgos_sys_config_set_wifi_ap_trigger_on_gpio(int         val) { mgos_config_set_wifi_ap_trigger_on_gpio(&mgos_sys_config, val); }
 static inline void mgos_sys_config_set_wifi_ap_disable_after(int         val) { mgos_config_set_wifi_ap_disable_after(&mgos_sys_config, val); }
+static inline void mgos_sys_config_set_wifi_ap_hostname(const char *val) { mgos_config_set_wifi_ap_hostname(&mgos_sys_config, val); }
 static inline void mgos_sys_config_set_wifi_ap_keep_enabled(int         val) { mgos_config_set_wifi_ap_keep_enabled(&mgos_sys_config, val); }
 static inline void mgos_sys_config_set_http_enable(int         val) { mgos_config_set_http_enable(&mgos_sys_config, val); }
 static inline void mgos_sys_config_set_http_listen_addr(const char *val) { mgos_config_set_http_listen_addr(&mgos_sys_config, val); }
@@ -752,25 +800,6 @@ static inline void mgos_sys_config_set_http_upload_acl(const char *val) { mgos_c
 static inline void mgos_sys_config_set_http_hidden_files(const char *val) { mgos_config_set_http_hidden_files(&mgos_sys_config, val); }
 static inline void mgos_sys_config_set_http_auth_domain(const char *val) { mgos_config_set_http_auth_domain(&mgos_sys_config, val); }
 static inline void mgos_sys_config_set_http_auth_file(const char *val) { mgos_config_set_http_auth_file(&mgos_sys_config, val); }
-static inline void mgos_sys_config_set_mjs_generate_jsc(int         val) { mgos_config_set_mjs_generate_jsc(&mgos_sys_config, val); }
-static inline void mgos_sys_config_set_mqtt_enable(int         val) { mgos_config_set_mqtt_enable(&mgos_sys_config, val); }
-static inline void mgos_sys_config_set_mqtt_server(const char *val) { mgos_config_set_mqtt_server(&mgos_sys_config, val); }
-static inline void mgos_sys_config_set_mqtt_client_id(const char *val) { mgos_config_set_mqtt_client_id(&mgos_sys_config, val); }
-static inline void mgos_sys_config_set_mqtt_user(const char *val) { mgos_config_set_mqtt_user(&mgos_sys_config, val); }
-static inline void mgos_sys_config_set_mqtt_pass(const char *val) { mgos_config_set_mqtt_pass(&mgos_sys_config, val); }
-static inline void mgos_sys_config_set_mqtt_reconnect_timeout_min(double      val) { mgos_config_set_mqtt_reconnect_timeout_min(&mgos_sys_config, val); }
-static inline void mgos_sys_config_set_mqtt_reconnect_timeout_max(double      val) { mgos_config_set_mqtt_reconnect_timeout_max(&mgos_sys_config, val); }
-static inline void mgos_sys_config_set_mqtt_ssl_cert(const char *val) { mgos_config_set_mqtt_ssl_cert(&mgos_sys_config, val); }
-static inline void mgos_sys_config_set_mqtt_ssl_key(const char *val) { mgos_config_set_mqtt_ssl_key(&mgos_sys_config, val); }
-static inline void mgos_sys_config_set_mqtt_ssl_ca_cert(const char *val) { mgos_config_set_mqtt_ssl_ca_cert(&mgos_sys_config, val); }
-static inline void mgos_sys_config_set_mqtt_ssl_cipher_suites(const char *val) { mgos_config_set_mqtt_ssl_cipher_suites(&mgos_sys_config, val); }
-static inline void mgos_sys_config_set_mqtt_ssl_psk_identity(const char *val) { mgos_config_set_mqtt_ssl_psk_identity(&mgos_sys_config, val); }
-static inline void mgos_sys_config_set_mqtt_ssl_psk_key(const char *val) { mgos_config_set_mqtt_ssl_psk_key(&mgos_sys_config, val); }
-static inline void mgos_sys_config_set_mqtt_clean_session(int         val) { mgos_config_set_mqtt_clean_session(&mgos_sys_config, val); }
-static inline void mgos_sys_config_set_mqtt_keep_alive(int         val) { mgos_config_set_mqtt_keep_alive(&mgos_sys_config, val); }
-static inline void mgos_sys_config_set_mqtt_will_topic(const char *val) { mgos_config_set_mqtt_will_topic(&mgos_sys_config, val); }
-static inline void mgos_sys_config_set_mqtt_will_message(const char *val) { mgos_config_set_mqtt_will_message(&mgos_sys_config, val); }
-static inline void mgos_sys_config_set_mqtt_max_qos(int         val) { mgos_config_set_mqtt_max_qos(&mgos_sys_config, val); }
 static inline void mgos_sys_config_set_rpc_enable(int         val) { mgos_config_set_rpc_enable(&mgos_sys_config, val); }
 static inline void mgos_sys_config_set_rpc_max_frame_size(int         val) { mgos_config_set_rpc_max_frame_size(&mgos_sys_config, val); }
 static inline void mgos_sys_config_set_rpc_max_queue_length(int         val) { mgos_config_set_rpc_max_queue_length(&mgos_sys_config, val); }
@@ -791,6 +820,32 @@ static inline void mgos_sys_config_set_rpc_uart_uart_no(int         val) { mgos_
 static inline void mgos_sys_config_set_rpc_uart_baud_rate(int         val) { mgos_config_set_rpc_uart_baud_rate(&mgos_sys_config, val); }
 static inline void mgos_sys_config_set_rpc_uart_fc_type(int         val) { mgos_config_set_rpc_uart_fc_type(&mgos_sys_config, val); }
 static inline void mgos_sys_config_set_rpc_uart_wait_for_start_frame(int         val) { mgos_config_set_rpc_uart_wait_for_start_frame(&mgos_sys_config, val); }
+static inline void mgos_sys_config_set_dash_enable(int         val) { mgos_config_set_dash_enable(&mgos_sys_config, val); }
+static inline void mgos_sys_config_set_dash_token(const char *val) { mgos_config_set_dash_token(&mgos_sys_config, val); }
+static inline void mgos_sys_config_set_dash_server(const char *val) { mgos_config_set_dash_server(&mgos_sys_config, val); }
+static inline void mgos_sys_config_set_dash_ca_file(const char *val) { mgos_config_set_dash_ca_file(&mgos_sys_config, val); }
+static inline void mgos_sys_config_set_dash_heartbeat_interval(int         val) { mgos_config_set_dash_heartbeat_interval(&mgos_sys_config, val); }
+static inline void mgos_sys_config_set_dash_send_logs(int         val) { mgos_config_set_dash_send_logs(&mgos_sys_config, val); }
+static inline void mgos_sys_config_set_mjs_generate_jsc(int         val) { mgos_config_set_mjs_generate_jsc(&mgos_sys_config, val); }
+static inline void mgos_sys_config_set_mqtt_enable(int         val) { mgos_config_set_mqtt_enable(&mgos_sys_config, val); }
+static inline void mgos_sys_config_set_mqtt_server(const char *val) { mgos_config_set_mqtt_server(&mgos_sys_config, val); }
+static inline void mgos_sys_config_set_mqtt_client_id(const char *val) { mgos_config_set_mqtt_client_id(&mgos_sys_config, val); }
+static inline void mgos_sys_config_set_mqtt_user(const char *val) { mgos_config_set_mqtt_user(&mgos_sys_config, val); }
+static inline void mgos_sys_config_set_mqtt_pass(const char *val) { mgos_config_set_mqtt_pass(&mgos_sys_config, val); }
+static inline void mgos_sys_config_set_mqtt_reconnect_timeout_min(double      val) { mgos_config_set_mqtt_reconnect_timeout_min(&mgos_sys_config, val); }
+static inline void mgos_sys_config_set_mqtt_reconnect_timeout_max(double      val) { mgos_config_set_mqtt_reconnect_timeout_max(&mgos_sys_config, val); }
+static inline void mgos_sys_config_set_mqtt_ssl_cert(const char *val) { mgos_config_set_mqtt_ssl_cert(&mgos_sys_config, val); }
+static inline void mgos_sys_config_set_mqtt_ssl_key(const char *val) { mgos_config_set_mqtt_ssl_key(&mgos_sys_config, val); }
+static inline void mgos_sys_config_set_mqtt_ssl_ca_cert(const char *val) { mgos_config_set_mqtt_ssl_ca_cert(&mgos_sys_config, val); }
+static inline void mgos_sys_config_set_mqtt_ssl_cipher_suites(const char *val) { mgos_config_set_mqtt_ssl_cipher_suites(&mgos_sys_config, val); }
+static inline void mgos_sys_config_set_mqtt_ssl_psk_identity(const char *val) { mgos_config_set_mqtt_ssl_psk_identity(&mgos_sys_config, val); }
+static inline void mgos_sys_config_set_mqtt_ssl_psk_key(const char *val) { mgos_config_set_mqtt_ssl_psk_key(&mgos_sys_config, val); }
+static inline void mgos_sys_config_set_mqtt_clean_session(int         val) { mgos_config_set_mqtt_clean_session(&mgos_sys_config, val); }
+static inline void mgos_sys_config_set_mqtt_keep_alive(int         val) { mgos_config_set_mqtt_keep_alive(&mgos_sys_config, val); }
+static inline void mgos_sys_config_set_mqtt_will_topic(const char *val) { mgos_config_set_mqtt_will_topic(&mgos_sys_config, val); }
+static inline void mgos_sys_config_set_mqtt_will_message(const char *val) { mgos_config_set_mqtt_will_message(&mgos_sys_config, val); }
+static inline void mgos_sys_config_set_mqtt_max_qos(int         val) { mgos_config_set_mqtt_max_qos(&mgos_sys_config, val); }
+static inline void mgos_sys_config_set_mqtt_recv_mbuf_limit(int         val) { mgos_config_set_mqtt_recv_mbuf_limit(&mgos_sys_config, val); }
 static inline void mgos_sys_config_set_app_devId(const char *val) { mgos_config_set_app_devId(&mgos_sys_config, val); }
 static inline void mgos_sys_config_set_app_minTemp(int         val) { mgos_config_set_app_minTemp(&mgos_sys_config, val); }
 static inline void mgos_sys_config_set_app_maxTemp(int         val) { mgos_config_set_app_maxTemp(&mgos_sys_config, val); }
@@ -798,11 +853,12 @@ static inline void mgos_sys_config_set_app_modules(const char *val) { mgos_confi
 static inline void mgos_sys_config_set_devices_mainHeater_id(const char *val) { mgos_config_set_devices_mainHeater_id(&mgos_sys_config, val); }
 static inline void mgos_sys_config_set_devices_mainHeater_HEAT_PIN(int         val) { mgos_config_set_devices_mainHeater_HEAT_PIN(&mgos_sys_config, val); }
 static inline void mgos_sys_config_set_devices_mainHeater_POWER_PIN(int         val) { mgos_config_set_devices_mainHeater_POWER_PIN(&mgos_sys_config, val); }
-static inline void mgos_sys_config_set_devices_mainHeater_turnedOff(int         val) { mgos_config_set_devices_mainHeater_turnedOff(&mgos_sys_config, val); }
+static inline void mgos_sys_config_set_devices_mainHeater_turnedOn(int         val) { mgos_config_set_devices_mainHeater_turnedOn(&mgos_sys_config, val); }
 static inline void mgos_sys_config_set_devices_mainDHT_id(const char *val) { mgos_config_set_devices_mainDHT_id(&mgos_sys_config, val); }
 static inline void mgos_sys_config_set_devices_mainDHT_DHT_PIN(int         val) { mgos_config_set_devices_mainDHT_DHT_PIN(&mgos_sys_config, val); }
 static inline void mgos_sys_config_set_devices_mainDHT_minTemp(int         val) { mgos_config_set_devices_mainDHT_minTemp(&mgos_sys_config, val); }
 static inline void mgos_sys_config_set_devices_mainDHT_maxTemp(int         val) { mgos_config_set_devices_mainDHT_maxTemp(&mgos_sys_config, val); }
+static inline void mgos_sys_config_set_devices_mainDHT_autoCtrl(int         val) { mgos_config_set_devices_mainDHT_autoCtrl(&mgos_sys_config, val); }
 static inline void mgos_sys_config_set_devices_mainDHT_minTempActions(const char *val) { mgos_config_set_devices_mainDHT_minTempActions(&mgos_sys_config, val); }
 static inline void mgos_sys_config_set_devices_mainDHT_maxTempActions(const char *val) { mgos_config_set_devices_mainDHT_maxTempActions(&mgos_sys_config, val); }
 static inline void mgos_sys_config_set_devices_mainDHT_mainTimerInterval(int         val) { mgos_config_set_devices_mainDHT_mainTimerInterval(&mgos_sys_config, val); }

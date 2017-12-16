@@ -3,8 +3,8 @@
 #include <stddef.h>
 #include "mgos_config.h"
 
-const struct mgos_conf_entry mgos_config_schema_[154] = {
-  {.type = CONF_TYPE_OBJECT, .key = "", .num_desc = 153},
+const struct mgos_conf_entry mgos_config_schema_[165] = {
+  {.type = CONF_TYPE_OBJECT, .key = "", .num_desc = 164},
   {.type = CONF_TYPE_OBJECT, .key = "sntp", .num_desc = 5},
   {.type = CONF_TYPE_BOOL, .key = "enable", .offset = offsetof(struct mgos_config, sntp.enable)},
   {.type = CONF_TYPE_STRING, .key = "server", .offset = offsetof(struct mgos_config, sntp.server)},
@@ -20,9 +20,10 @@ const struct mgos_conf_entry mgos_config_schema_[154] = {
   {.type = CONF_TYPE_STRING, .key = "ssl_client_cert_file", .offset = offsetof(struct mgos_config, update.ssl_client_cert_file)},
   {.type = CONF_TYPE_STRING, .key = "ssl_server_name", .offset = offsetof(struct mgos_config, update.ssl_server_name)},
   {.type = CONF_TYPE_BOOL, .key = "enable_post", .offset = offsetof(struct mgos_config, update.enable_post)},
-  {.type = CONF_TYPE_OBJECT, .key = "device", .num_desc = 2},
+  {.type = CONF_TYPE_OBJECT, .key = "device", .num_desc = 3},
   {.type = CONF_TYPE_STRING, .key = "id", .offset = offsetof(struct mgos_config, device.id)},
   {.type = CONF_TYPE_STRING, .key = "password", .offset = offsetof(struct mgos_config, device.password)},
+  {.type = CONF_TYPE_STRING, .key = "shadow_impl", .offset = offsetof(struct mgos_config, device.shadow_impl)},
   {.type = CONF_TYPE_OBJECT, .key = "debug", .num_desc = 10},
   {.type = CONF_TYPE_STRING, .key = "udp_log_addr", .offset = offsetof(struct mgos_config, debug.udp_log_addr)},
   {.type = CONF_TYPE_INT, .key = "mbedtls_level", .offset = offsetof(struct mgos_config, debug.mbedtls_level)},
@@ -49,7 +50,7 @@ const struct mgos_conf_entry mgos_config_schema_[154] = {
   {.type = CONF_TYPE_BOOL, .key = "debug", .offset = offsetof(struct mgos_config, i2c.debug)},
   {.type = CONF_TYPE_INT, .key = "sda_gpio", .offset = offsetof(struct mgos_config, i2c.sda_gpio)},
   {.type = CONF_TYPE_INT, .key = "scl_gpio", .offset = offsetof(struct mgos_config, i2c.scl_gpio)},
-  {.type = CONF_TYPE_OBJECT, .key = "wifi", .num_desc = 29},
+  {.type = CONF_TYPE_OBJECT, .key = "wifi", .num_desc = 30},
   {.type = CONF_TYPE_OBJECT, .key = "sta", .num_desc = 13},
   {.type = CONF_TYPE_BOOL, .key = "enable", .offset = offsetof(struct mgos_config, wifi.sta.enable)},
   {.type = CONF_TYPE_STRING, .key = "ssid", .offset = offsetof(struct mgos_config, wifi.sta.ssid)},
@@ -64,7 +65,7 @@ const struct mgos_conf_entry mgos_config_schema_[154] = {
   {.type = CONF_TYPE_STRING, .key = "gw", .offset = offsetof(struct mgos_config, wifi.sta.gw)},
   {.type = CONF_TYPE_STRING, .key = "nameserver", .offset = offsetof(struct mgos_config, wifi.sta.nameserver)},
   {.type = CONF_TYPE_STRING, .key = "dhcp_hostname", .offset = offsetof(struct mgos_config, wifi.sta.dhcp_hostname)},
-  {.type = CONF_TYPE_OBJECT, .key = "ap", .num_desc = 14},
+  {.type = CONF_TYPE_OBJECT, .key = "ap", .num_desc = 15},
   {.type = CONF_TYPE_BOOL, .key = "enable", .offset = offsetof(struct mgos_config, wifi.ap.enable)},
   {.type = CONF_TYPE_STRING, .key = "ssid", .offset = offsetof(struct mgos_config, wifi.ap.ssid)},
   {.type = CONF_TYPE_STRING, .key = "pass", .offset = offsetof(struct mgos_config, wifi.ap.pass)},
@@ -78,6 +79,7 @@ const struct mgos_conf_entry mgos_config_schema_[154] = {
   {.type = CONF_TYPE_STRING, .key = "dhcp_end", .offset = offsetof(struct mgos_config, wifi.ap.dhcp_end)},
   {.type = CONF_TYPE_INT, .key = "trigger_on_gpio", .offset = offsetof(struct mgos_config, wifi.ap.trigger_on_gpio)},
   {.type = CONF_TYPE_INT, .key = "disable_after", .offset = offsetof(struct mgos_config, wifi.ap.disable_after)},
+  {.type = CONF_TYPE_STRING, .key = "hostname", .offset = offsetof(struct mgos_config, wifi.ap.hostname)},
   {.type = CONF_TYPE_BOOL, .key = "keep_enabled", .offset = offsetof(struct mgos_config, wifi.ap.keep_enabled)},
   {.type = CONF_TYPE_OBJECT, .key = "http", .num_desc = 10},
   {.type = CONF_TYPE_BOOL, .key = "enable", .offset = offsetof(struct mgos_config, http.enable)},
@@ -90,27 +92,6 @@ const struct mgos_conf_entry mgos_config_schema_[154] = {
   {.type = CONF_TYPE_STRING, .key = "hidden_files", .offset = offsetof(struct mgos_config, http.hidden_files)},
   {.type = CONF_TYPE_STRING, .key = "auth_domain", .offset = offsetof(struct mgos_config, http.auth_domain)},
   {.type = CONF_TYPE_STRING, .key = "auth_file", .offset = offsetof(struct mgos_config, http.auth_file)},
-  {.type = CONF_TYPE_OBJECT, .key = "mjs", .num_desc = 1},
-  {.type = CONF_TYPE_BOOL, .key = "generate_jsc", .offset = offsetof(struct mgos_config, mjs.generate_jsc)},
-  {.type = CONF_TYPE_OBJECT, .key = "mqtt", .num_desc = 18},
-  {.type = CONF_TYPE_BOOL, .key = "enable", .offset = offsetof(struct mgos_config, mqtt.enable)},
-  {.type = CONF_TYPE_STRING, .key = "server", .offset = offsetof(struct mgos_config, mqtt.server)},
-  {.type = CONF_TYPE_STRING, .key = "client_id", .offset = offsetof(struct mgos_config, mqtt.client_id)},
-  {.type = CONF_TYPE_STRING, .key = "user", .offset = offsetof(struct mgos_config, mqtt.user)},
-  {.type = CONF_TYPE_STRING, .key = "pass", .offset = offsetof(struct mgos_config, mqtt.pass)},
-  {.type = CONF_TYPE_DOUBLE, .key = "reconnect_timeout_min", .offset = offsetof(struct mgos_config, mqtt.reconnect_timeout_min)},
-  {.type = CONF_TYPE_DOUBLE, .key = "reconnect_timeout_max", .offset = offsetof(struct mgos_config, mqtt.reconnect_timeout_max)},
-  {.type = CONF_TYPE_STRING, .key = "ssl_cert", .offset = offsetof(struct mgos_config, mqtt.ssl_cert)},
-  {.type = CONF_TYPE_STRING, .key = "ssl_key", .offset = offsetof(struct mgos_config, mqtt.ssl_key)},
-  {.type = CONF_TYPE_STRING, .key = "ssl_ca_cert", .offset = offsetof(struct mgos_config, mqtt.ssl_ca_cert)},
-  {.type = CONF_TYPE_STRING, .key = "ssl_cipher_suites", .offset = offsetof(struct mgos_config, mqtt.ssl_cipher_suites)},
-  {.type = CONF_TYPE_STRING, .key = "ssl_psk_identity", .offset = offsetof(struct mgos_config, mqtt.ssl_psk_identity)},
-  {.type = CONF_TYPE_STRING, .key = "ssl_psk_key", .offset = offsetof(struct mgos_config, mqtt.ssl_psk_key)},
-  {.type = CONF_TYPE_BOOL, .key = "clean_session", .offset = offsetof(struct mgos_config, mqtt.clean_session)},
-  {.type = CONF_TYPE_INT, .key = "keep_alive", .offset = offsetof(struct mgos_config, mqtt.keep_alive)},
-  {.type = CONF_TYPE_STRING, .key = "will_topic", .offset = offsetof(struct mgos_config, mqtt.will_topic)},
-  {.type = CONF_TYPE_STRING, .key = "will_message", .offset = offsetof(struct mgos_config, mqtt.will_message)},
-  {.type = CONF_TYPE_INT, .key = "max_qos", .offset = offsetof(struct mgos_config, mqtt.max_qos)},
   {.type = CONF_TYPE_OBJECT, .key = "rpc", .num_desc = 23},
   {.type = CONF_TYPE_BOOL, .key = "enable", .offset = offsetof(struct mgos_config, rpc.enable)},
   {.type = CONF_TYPE_INT, .key = "max_frame_size", .offset = offsetof(struct mgos_config, rpc.max_frame_size)},
@@ -135,22 +116,52 @@ const struct mgos_conf_entry mgos_config_schema_[154] = {
   {.type = CONF_TYPE_INT, .key = "baud_rate", .offset = offsetof(struct mgos_config, rpc.uart.baud_rate)},
   {.type = CONF_TYPE_INT, .key = "fc_type", .offset = offsetof(struct mgos_config, rpc.uart.fc_type)},
   {.type = CONF_TYPE_BOOL, .key = "wait_for_start_frame", .offset = offsetof(struct mgos_config, rpc.uart.wait_for_start_frame)},
+  {.type = CONF_TYPE_OBJECT, .key = "dash", .num_desc = 6},
+  {.type = CONF_TYPE_BOOL, .key = "enable", .offset = offsetof(struct mgos_config, dash.enable)},
+  {.type = CONF_TYPE_STRING, .key = "token", .offset = offsetof(struct mgos_config, dash.token)},
+  {.type = CONF_TYPE_STRING, .key = "server", .offset = offsetof(struct mgos_config, dash.server)},
+  {.type = CONF_TYPE_STRING, .key = "ca_file", .offset = offsetof(struct mgos_config, dash.ca_file)},
+  {.type = CONF_TYPE_INT, .key = "heartbeat_interval", .offset = offsetof(struct mgos_config, dash.heartbeat_interval)},
+  {.type = CONF_TYPE_BOOL, .key = "send_logs", .offset = offsetof(struct mgos_config, dash.send_logs)},
+  {.type = CONF_TYPE_OBJECT, .key = "mjs", .num_desc = 1},
+  {.type = CONF_TYPE_BOOL, .key = "generate_jsc", .offset = offsetof(struct mgos_config, mjs.generate_jsc)},
+  {.type = CONF_TYPE_OBJECT, .key = "mqtt", .num_desc = 19},
+  {.type = CONF_TYPE_BOOL, .key = "enable", .offset = offsetof(struct mgos_config, mqtt.enable)},
+  {.type = CONF_TYPE_STRING, .key = "server", .offset = offsetof(struct mgos_config, mqtt.server)},
+  {.type = CONF_TYPE_STRING, .key = "client_id", .offset = offsetof(struct mgos_config, mqtt.client_id)},
+  {.type = CONF_TYPE_STRING, .key = "user", .offset = offsetof(struct mgos_config, mqtt.user)},
+  {.type = CONF_TYPE_STRING, .key = "pass", .offset = offsetof(struct mgos_config, mqtt.pass)},
+  {.type = CONF_TYPE_DOUBLE, .key = "reconnect_timeout_min", .offset = offsetof(struct mgos_config, mqtt.reconnect_timeout_min)},
+  {.type = CONF_TYPE_DOUBLE, .key = "reconnect_timeout_max", .offset = offsetof(struct mgos_config, mqtt.reconnect_timeout_max)},
+  {.type = CONF_TYPE_STRING, .key = "ssl_cert", .offset = offsetof(struct mgos_config, mqtt.ssl_cert)},
+  {.type = CONF_TYPE_STRING, .key = "ssl_key", .offset = offsetof(struct mgos_config, mqtt.ssl_key)},
+  {.type = CONF_TYPE_STRING, .key = "ssl_ca_cert", .offset = offsetof(struct mgos_config, mqtt.ssl_ca_cert)},
+  {.type = CONF_TYPE_STRING, .key = "ssl_cipher_suites", .offset = offsetof(struct mgos_config, mqtt.ssl_cipher_suites)},
+  {.type = CONF_TYPE_STRING, .key = "ssl_psk_identity", .offset = offsetof(struct mgos_config, mqtt.ssl_psk_identity)},
+  {.type = CONF_TYPE_STRING, .key = "ssl_psk_key", .offset = offsetof(struct mgos_config, mqtt.ssl_psk_key)},
+  {.type = CONF_TYPE_BOOL, .key = "clean_session", .offset = offsetof(struct mgos_config, mqtt.clean_session)},
+  {.type = CONF_TYPE_INT, .key = "keep_alive", .offset = offsetof(struct mgos_config, mqtt.keep_alive)},
+  {.type = CONF_TYPE_STRING, .key = "will_topic", .offset = offsetof(struct mgos_config, mqtt.will_topic)},
+  {.type = CONF_TYPE_STRING, .key = "will_message", .offset = offsetof(struct mgos_config, mqtt.will_message)},
+  {.type = CONF_TYPE_INT, .key = "max_qos", .offset = offsetof(struct mgos_config, mqtt.max_qos)},
+  {.type = CONF_TYPE_INT, .key = "recv_mbuf_limit", .offset = offsetof(struct mgos_config, mqtt.recv_mbuf_limit)},
   {.type = CONF_TYPE_OBJECT, .key = "app", .num_desc = 4},
   {.type = CONF_TYPE_STRING, .key = "devId", .offset = offsetof(struct mgos_config, app.devId)},
   {.type = CONF_TYPE_INT, .key = "minTemp", .offset = offsetof(struct mgos_config, app.minTemp)},
   {.type = CONF_TYPE_INT, .key = "maxTemp", .offset = offsetof(struct mgos_config, app.maxTemp)},
   {.type = CONF_TYPE_STRING, .key = "modules", .offset = offsetof(struct mgos_config, app.modules)},
-  {.type = CONF_TYPE_OBJECT, .key = "devices", .num_desc = 13},
+  {.type = CONF_TYPE_OBJECT, .key = "devices", .num_desc = 14},
   {.type = CONF_TYPE_OBJECT, .key = "mainHeater", .num_desc = 4},
   {.type = CONF_TYPE_STRING, .key = "id", .offset = offsetof(struct mgos_config, devices.mainHeater.id)},
   {.type = CONF_TYPE_INT, .key = "HEAT_PIN", .offset = offsetof(struct mgos_config, devices.mainHeater.HEAT_PIN)},
   {.type = CONF_TYPE_INT, .key = "POWER_PIN", .offset = offsetof(struct mgos_config, devices.mainHeater.POWER_PIN)},
-  {.type = CONF_TYPE_BOOL, .key = "turnedOff", .offset = offsetof(struct mgos_config, devices.mainHeater.turnedOff)},
-  {.type = CONF_TYPE_OBJECT, .key = "mainDHT", .num_desc = 7},
+  {.type = CONF_TYPE_BOOL, .key = "turnedOn", .offset = offsetof(struct mgos_config, devices.mainHeater.turnedOn)},
+  {.type = CONF_TYPE_OBJECT, .key = "mainDHT", .num_desc = 8},
   {.type = CONF_TYPE_STRING, .key = "id", .offset = offsetof(struct mgos_config, devices.mainDHT.id)},
   {.type = CONF_TYPE_INT, .key = "DHT_PIN", .offset = offsetof(struct mgos_config, devices.mainDHT.DHT_PIN)},
   {.type = CONF_TYPE_INT, .key = "minTemp", .offset = offsetof(struct mgos_config, devices.mainDHT.minTemp)},
   {.type = CONF_TYPE_INT, .key = "maxTemp", .offset = offsetof(struct mgos_config, devices.mainDHT.maxTemp)},
+  {.type = CONF_TYPE_BOOL, .key = "autoCtrl", .offset = offsetof(struct mgos_config, devices.mainDHT.autoCtrl)},
   {.type = CONF_TYPE_STRING, .key = "minTempActions", .offset = offsetof(struct mgos_config, devices.mainDHT.minTempActions)},
   {.type = CONF_TYPE_STRING, .key = "maxTempActions", .offset = offsetof(struct mgos_config, devices.mainDHT.maxTempActions)},
   {.type = CONF_TYPE_INT, .key = "mainTimerInterval", .offset = offsetof(struct mgos_config, devices.mainDHT.mainTimerInterval)},
@@ -221,6 +232,9 @@ const char *mgos_config_get_device_id(struct mgos_config *cfg) {
 }
 const char *mgos_config_get_device_password(struct mgos_config *cfg) {
   return cfg->device.password;
+}
+const char *mgos_config_get_device_shadow_impl(struct mgos_config *cfg) {
+  return cfg->device.shadow_impl;
 }
 const struct mgos_config_debug *mgos_config_get_debug(struct mgos_config *cfg) {
   return &cfg->debug;
@@ -387,6 +401,9 @@ int         mgos_config_get_wifi_ap_trigger_on_gpio(struct mgos_config *cfg) {
 int         mgos_config_get_wifi_ap_disable_after(struct mgos_config *cfg) {
   return cfg->wifi.ap.disable_after;
 }
+const char *mgos_config_get_wifi_ap_hostname(struct mgos_config *cfg) {
+  return cfg->wifi.ap.hostname;
+}
 int         mgos_config_get_wifi_ap_keep_enabled(struct mgos_config *cfg) {
   return cfg->wifi.ap.keep_enabled;
 }
@@ -422,69 +439,6 @@ const char *mgos_config_get_http_auth_domain(struct mgos_config *cfg) {
 }
 const char *mgos_config_get_http_auth_file(struct mgos_config *cfg) {
   return cfg->http.auth_file;
-}
-const struct mgos_config_mjs *mgos_config_get_mjs(struct mgos_config *cfg) {
-  return &cfg->mjs;
-}
-int         mgos_config_get_mjs_generate_jsc(struct mgos_config *cfg) {
-  return cfg->mjs.generate_jsc;
-}
-const struct mgos_config_mqtt *mgos_config_get_mqtt(struct mgos_config *cfg) {
-  return &cfg->mqtt;
-}
-int         mgos_config_get_mqtt_enable(struct mgos_config *cfg) {
-  return cfg->mqtt.enable;
-}
-const char *mgos_config_get_mqtt_server(struct mgos_config *cfg) {
-  return cfg->mqtt.server;
-}
-const char *mgos_config_get_mqtt_client_id(struct mgos_config *cfg) {
-  return cfg->mqtt.client_id;
-}
-const char *mgos_config_get_mqtt_user(struct mgos_config *cfg) {
-  return cfg->mqtt.user;
-}
-const char *mgos_config_get_mqtt_pass(struct mgos_config *cfg) {
-  return cfg->mqtt.pass;
-}
-double      mgos_config_get_mqtt_reconnect_timeout_min(struct mgos_config *cfg) {
-  return cfg->mqtt.reconnect_timeout_min;
-}
-double      mgos_config_get_mqtt_reconnect_timeout_max(struct mgos_config *cfg) {
-  return cfg->mqtt.reconnect_timeout_max;
-}
-const char *mgos_config_get_mqtt_ssl_cert(struct mgos_config *cfg) {
-  return cfg->mqtt.ssl_cert;
-}
-const char *mgos_config_get_mqtt_ssl_key(struct mgos_config *cfg) {
-  return cfg->mqtt.ssl_key;
-}
-const char *mgos_config_get_mqtt_ssl_ca_cert(struct mgos_config *cfg) {
-  return cfg->mqtt.ssl_ca_cert;
-}
-const char *mgos_config_get_mqtt_ssl_cipher_suites(struct mgos_config *cfg) {
-  return cfg->mqtt.ssl_cipher_suites;
-}
-const char *mgos_config_get_mqtt_ssl_psk_identity(struct mgos_config *cfg) {
-  return cfg->mqtt.ssl_psk_identity;
-}
-const char *mgos_config_get_mqtt_ssl_psk_key(struct mgos_config *cfg) {
-  return cfg->mqtt.ssl_psk_key;
-}
-int         mgos_config_get_mqtt_clean_session(struct mgos_config *cfg) {
-  return cfg->mqtt.clean_session;
-}
-int         mgos_config_get_mqtt_keep_alive(struct mgos_config *cfg) {
-  return cfg->mqtt.keep_alive;
-}
-const char *mgos_config_get_mqtt_will_topic(struct mgos_config *cfg) {
-  return cfg->mqtt.will_topic;
-}
-const char *mgos_config_get_mqtt_will_message(struct mgos_config *cfg) {
-  return cfg->mqtt.will_message;
-}
-int         mgos_config_get_mqtt_max_qos(struct mgos_config *cfg) {
-  return cfg->mqtt.max_qos;
 }
 const struct mgos_config_rpc *mgos_config_get_rpc(struct mgos_config *cfg) {
   return &cfg->rpc;
@@ -558,6 +512,93 @@ int         mgos_config_get_rpc_uart_fc_type(struct mgos_config *cfg) {
 int         mgos_config_get_rpc_uart_wait_for_start_frame(struct mgos_config *cfg) {
   return cfg->rpc.uart.wait_for_start_frame;
 }
+const struct mgos_config_dash *mgos_config_get_dash(struct mgos_config *cfg) {
+  return &cfg->dash;
+}
+int         mgos_config_get_dash_enable(struct mgos_config *cfg) {
+  return cfg->dash.enable;
+}
+const char *mgos_config_get_dash_token(struct mgos_config *cfg) {
+  return cfg->dash.token;
+}
+const char *mgos_config_get_dash_server(struct mgos_config *cfg) {
+  return cfg->dash.server;
+}
+const char *mgos_config_get_dash_ca_file(struct mgos_config *cfg) {
+  return cfg->dash.ca_file;
+}
+int         mgos_config_get_dash_heartbeat_interval(struct mgos_config *cfg) {
+  return cfg->dash.heartbeat_interval;
+}
+int         mgos_config_get_dash_send_logs(struct mgos_config *cfg) {
+  return cfg->dash.send_logs;
+}
+const struct mgos_config_mjs *mgos_config_get_mjs(struct mgos_config *cfg) {
+  return &cfg->mjs;
+}
+int         mgos_config_get_mjs_generate_jsc(struct mgos_config *cfg) {
+  return cfg->mjs.generate_jsc;
+}
+const struct mgos_config_mqtt *mgos_config_get_mqtt(struct mgos_config *cfg) {
+  return &cfg->mqtt;
+}
+int         mgos_config_get_mqtt_enable(struct mgos_config *cfg) {
+  return cfg->mqtt.enable;
+}
+const char *mgos_config_get_mqtt_server(struct mgos_config *cfg) {
+  return cfg->mqtt.server;
+}
+const char *mgos_config_get_mqtt_client_id(struct mgos_config *cfg) {
+  return cfg->mqtt.client_id;
+}
+const char *mgos_config_get_mqtt_user(struct mgos_config *cfg) {
+  return cfg->mqtt.user;
+}
+const char *mgos_config_get_mqtt_pass(struct mgos_config *cfg) {
+  return cfg->mqtt.pass;
+}
+double      mgos_config_get_mqtt_reconnect_timeout_min(struct mgos_config *cfg) {
+  return cfg->mqtt.reconnect_timeout_min;
+}
+double      mgos_config_get_mqtt_reconnect_timeout_max(struct mgos_config *cfg) {
+  return cfg->mqtt.reconnect_timeout_max;
+}
+const char *mgos_config_get_mqtt_ssl_cert(struct mgos_config *cfg) {
+  return cfg->mqtt.ssl_cert;
+}
+const char *mgos_config_get_mqtt_ssl_key(struct mgos_config *cfg) {
+  return cfg->mqtt.ssl_key;
+}
+const char *mgos_config_get_mqtt_ssl_ca_cert(struct mgos_config *cfg) {
+  return cfg->mqtt.ssl_ca_cert;
+}
+const char *mgos_config_get_mqtt_ssl_cipher_suites(struct mgos_config *cfg) {
+  return cfg->mqtt.ssl_cipher_suites;
+}
+const char *mgos_config_get_mqtt_ssl_psk_identity(struct mgos_config *cfg) {
+  return cfg->mqtt.ssl_psk_identity;
+}
+const char *mgos_config_get_mqtt_ssl_psk_key(struct mgos_config *cfg) {
+  return cfg->mqtt.ssl_psk_key;
+}
+int         mgos_config_get_mqtt_clean_session(struct mgos_config *cfg) {
+  return cfg->mqtt.clean_session;
+}
+int         mgos_config_get_mqtt_keep_alive(struct mgos_config *cfg) {
+  return cfg->mqtt.keep_alive;
+}
+const char *mgos_config_get_mqtt_will_topic(struct mgos_config *cfg) {
+  return cfg->mqtt.will_topic;
+}
+const char *mgos_config_get_mqtt_will_message(struct mgos_config *cfg) {
+  return cfg->mqtt.will_message;
+}
+int         mgos_config_get_mqtt_max_qos(struct mgos_config *cfg) {
+  return cfg->mqtt.max_qos;
+}
+int         mgos_config_get_mqtt_recv_mbuf_limit(struct mgos_config *cfg) {
+  return cfg->mqtt.recv_mbuf_limit;
+}
 const struct mgos_config_app *mgos_config_get_app(struct mgos_config *cfg) {
   return &cfg->app;
 }
@@ -588,8 +629,8 @@ int         mgos_config_get_devices_mainHeater_HEAT_PIN(struct mgos_config *cfg)
 int         mgos_config_get_devices_mainHeater_POWER_PIN(struct mgos_config *cfg) {
   return cfg->devices.mainHeater.POWER_PIN;
 }
-int         mgos_config_get_devices_mainHeater_turnedOff(struct mgos_config *cfg) {
-  return cfg->devices.mainHeater.turnedOff;
+int         mgos_config_get_devices_mainHeater_turnedOn(struct mgos_config *cfg) {
+  return cfg->devices.mainHeater.turnedOn;
 }
 const struct mgos_config_devices_mainDHT *mgos_config_get_devices_mainDHT(struct mgos_config *cfg) {
   return &cfg->devices.mainDHT;
@@ -605,6 +646,9 @@ int         mgos_config_get_devices_mainDHT_minTemp(struct mgos_config *cfg) {
 }
 int         mgos_config_get_devices_mainDHT_maxTemp(struct mgos_config *cfg) {
   return cfg->devices.mainDHT.maxTemp;
+}
+int         mgos_config_get_devices_mainDHT_autoCtrl(struct mgos_config *cfg) {
+  return cfg->devices.mainDHT.autoCtrl;
 }
 const char *mgos_config_get_devices_mainDHT_minTempActions(struct mgos_config *cfg) {
   return cfg->devices.mainDHT.minTempActions;
@@ -674,6 +718,9 @@ void mgos_config_set_device_id(struct mgos_config *cfg, const char *val) {
 }
 void mgos_config_set_device_password(struct mgos_config *cfg, const char *val) {
   mgos_conf_set_str(&cfg->device.password, val);
+}
+void mgos_config_set_device_shadow_impl(struct mgos_config *cfg, const char *val) {
+  mgos_conf_set_str(&cfg->device.shadow_impl, val);
 }
 void mgos_config_set_debug_udp_log_addr(struct mgos_config *cfg, const char *val) {
   mgos_conf_set_str(&cfg->debug.udp_log_addr, val);
@@ -819,6 +866,9 @@ void mgos_config_set_wifi_ap_trigger_on_gpio(struct mgos_config *cfg, int       
 void mgos_config_set_wifi_ap_disable_after(struct mgos_config *cfg, int         val) {
   cfg->wifi.ap.disable_after = val;
 }
+void mgos_config_set_wifi_ap_hostname(struct mgos_config *cfg, const char *val) {
+  mgos_conf_set_str(&cfg->wifi.ap.hostname, val);
+}
 void mgos_config_set_wifi_ap_keep_enabled(struct mgos_config *cfg, int         val) {
   cfg->wifi.ap.keep_enabled = val;
 }
@@ -851,63 +901,6 @@ void mgos_config_set_http_auth_domain(struct mgos_config *cfg, const char *val) 
 }
 void mgos_config_set_http_auth_file(struct mgos_config *cfg, const char *val) {
   mgos_conf_set_str(&cfg->http.auth_file, val);
-}
-void mgos_config_set_mjs_generate_jsc(struct mgos_config *cfg, int         val) {
-  cfg->mjs.generate_jsc = val;
-}
-void mgos_config_set_mqtt_enable(struct mgos_config *cfg, int         val) {
-  cfg->mqtt.enable = val;
-}
-void mgos_config_set_mqtt_server(struct mgos_config *cfg, const char *val) {
-  mgos_conf_set_str(&cfg->mqtt.server, val);
-}
-void mgos_config_set_mqtt_client_id(struct mgos_config *cfg, const char *val) {
-  mgos_conf_set_str(&cfg->mqtt.client_id, val);
-}
-void mgos_config_set_mqtt_user(struct mgos_config *cfg, const char *val) {
-  mgos_conf_set_str(&cfg->mqtt.user, val);
-}
-void mgos_config_set_mqtt_pass(struct mgos_config *cfg, const char *val) {
-  mgos_conf_set_str(&cfg->mqtt.pass, val);
-}
-void mgos_config_set_mqtt_reconnect_timeout_min(struct mgos_config *cfg, double      val) {
-  cfg->mqtt.reconnect_timeout_min = val;
-}
-void mgos_config_set_mqtt_reconnect_timeout_max(struct mgos_config *cfg, double      val) {
-  cfg->mqtt.reconnect_timeout_max = val;
-}
-void mgos_config_set_mqtt_ssl_cert(struct mgos_config *cfg, const char *val) {
-  mgos_conf_set_str(&cfg->mqtt.ssl_cert, val);
-}
-void mgos_config_set_mqtt_ssl_key(struct mgos_config *cfg, const char *val) {
-  mgos_conf_set_str(&cfg->mqtt.ssl_key, val);
-}
-void mgos_config_set_mqtt_ssl_ca_cert(struct mgos_config *cfg, const char *val) {
-  mgos_conf_set_str(&cfg->mqtt.ssl_ca_cert, val);
-}
-void mgos_config_set_mqtt_ssl_cipher_suites(struct mgos_config *cfg, const char *val) {
-  mgos_conf_set_str(&cfg->mqtt.ssl_cipher_suites, val);
-}
-void mgos_config_set_mqtt_ssl_psk_identity(struct mgos_config *cfg, const char *val) {
-  mgos_conf_set_str(&cfg->mqtt.ssl_psk_identity, val);
-}
-void mgos_config_set_mqtt_ssl_psk_key(struct mgos_config *cfg, const char *val) {
-  mgos_conf_set_str(&cfg->mqtt.ssl_psk_key, val);
-}
-void mgos_config_set_mqtt_clean_session(struct mgos_config *cfg, int         val) {
-  cfg->mqtt.clean_session = val;
-}
-void mgos_config_set_mqtt_keep_alive(struct mgos_config *cfg, int         val) {
-  cfg->mqtt.keep_alive = val;
-}
-void mgos_config_set_mqtt_will_topic(struct mgos_config *cfg, const char *val) {
-  mgos_conf_set_str(&cfg->mqtt.will_topic, val);
-}
-void mgos_config_set_mqtt_will_message(struct mgos_config *cfg, const char *val) {
-  mgos_conf_set_str(&cfg->mqtt.will_message, val);
-}
-void mgos_config_set_mqtt_max_qos(struct mgos_config *cfg, int         val) {
-  cfg->mqtt.max_qos = val;
 }
 void mgos_config_set_rpc_enable(struct mgos_config *cfg, int         val) {
   cfg->rpc.enable = val;
@@ -969,6 +962,84 @@ void mgos_config_set_rpc_uart_fc_type(struct mgos_config *cfg, int         val) 
 void mgos_config_set_rpc_uart_wait_for_start_frame(struct mgos_config *cfg, int         val) {
   cfg->rpc.uart.wait_for_start_frame = val;
 }
+void mgos_config_set_dash_enable(struct mgos_config *cfg, int         val) {
+  cfg->dash.enable = val;
+}
+void mgos_config_set_dash_token(struct mgos_config *cfg, const char *val) {
+  mgos_conf_set_str(&cfg->dash.token, val);
+}
+void mgos_config_set_dash_server(struct mgos_config *cfg, const char *val) {
+  mgos_conf_set_str(&cfg->dash.server, val);
+}
+void mgos_config_set_dash_ca_file(struct mgos_config *cfg, const char *val) {
+  mgos_conf_set_str(&cfg->dash.ca_file, val);
+}
+void mgos_config_set_dash_heartbeat_interval(struct mgos_config *cfg, int         val) {
+  cfg->dash.heartbeat_interval = val;
+}
+void mgos_config_set_dash_send_logs(struct mgos_config *cfg, int         val) {
+  cfg->dash.send_logs = val;
+}
+void mgos_config_set_mjs_generate_jsc(struct mgos_config *cfg, int         val) {
+  cfg->mjs.generate_jsc = val;
+}
+void mgos_config_set_mqtt_enable(struct mgos_config *cfg, int         val) {
+  cfg->mqtt.enable = val;
+}
+void mgos_config_set_mqtt_server(struct mgos_config *cfg, const char *val) {
+  mgos_conf_set_str(&cfg->mqtt.server, val);
+}
+void mgos_config_set_mqtt_client_id(struct mgos_config *cfg, const char *val) {
+  mgos_conf_set_str(&cfg->mqtt.client_id, val);
+}
+void mgos_config_set_mqtt_user(struct mgos_config *cfg, const char *val) {
+  mgos_conf_set_str(&cfg->mqtt.user, val);
+}
+void mgos_config_set_mqtt_pass(struct mgos_config *cfg, const char *val) {
+  mgos_conf_set_str(&cfg->mqtt.pass, val);
+}
+void mgos_config_set_mqtt_reconnect_timeout_min(struct mgos_config *cfg, double      val) {
+  cfg->mqtt.reconnect_timeout_min = val;
+}
+void mgos_config_set_mqtt_reconnect_timeout_max(struct mgos_config *cfg, double      val) {
+  cfg->mqtt.reconnect_timeout_max = val;
+}
+void mgos_config_set_mqtt_ssl_cert(struct mgos_config *cfg, const char *val) {
+  mgos_conf_set_str(&cfg->mqtt.ssl_cert, val);
+}
+void mgos_config_set_mqtt_ssl_key(struct mgos_config *cfg, const char *val) {
+  mgos_conf_set_str(&cfg->mqtt.ssl_key, val);
+}
+void mgos_config_set_mqtt_ssl_ca_cert(struct mgos_config *cfg, const char *val) {
+  mgos_conf_set_str(&cfg->mqtt.ssl_ca_cert, val);
+}
+void mgos_config_set_mqtt_ssl_cipher_suites(struct mgos_config *cfg, const char *val) {
+  mgos_conf_set_str(&cfg->mqtt.ssl_cipher_suites, val);
+}
+void mgos_config_set_mqtt_ssl_psk_identity(struct mgos_config *cfg, const char *val) {
+  mgos_conf_set_str(&cfg->mqtt.ssl_psk_identity, val);
+}
+void mgos_config_set_mqtt_ssl_psk_key(struct mgos_config *cfg, const char *val) {
+  mgos_conf_set_str(&cfg->mqtt.ssl_psk_key, val);
+}
+void mgos_config_set_mqtt_clean_session(struct mgos_config *cfg, int         val) {
+  cfg->mqtt.clean_session = val;
+}
+void mgos_config_set_mqtt_keep_alive(struct mgos_config *cfg, int         val) {
+  cfg->mqtt.keep_alive = val;
+}
+void mgos_config_set_mqtt_will_topic(struct mgos_config *cfg, const char *val) {
+  mgos_conf_set_str(&cfg->mqtt.will_topic, val);
+}
+void mgos_config_set_mqtt_will_message(struct mgos_config *cfg, const char *val) {
+  mgos_conf_set_str(&cfg->mqtt.will_message, val);
+}
+void mgos_config_set_mqtt_max_qos(struct mgos_config *cfg, int         val) {
+  cfg->mqtt.max_qos = val;
+}
+void mgos_config_set_mqtt_recv_mbuf_limit(struct mgos_config *cfg, int         val) {
+  cfg->mqtt.recv_mbuf_limit = val;
+}
 void mgos_config_set_app_devId(struct mgos_config *cfg, const char *val) {
   mgos_conf_set_str(&cfg->app.devId, val);
 }
@@ -990,8 +1061,8 @@ void mgos_config_set_devices_mainHeater_HEAT_PIN(struct mgos_config *cfg, int   
 void mgos_config_set_devices_mainHeater_POWER_PIN(struct mgos_config *cfg, int         val) {
   cfg->devices.mainHeater.POWER_PIN = val;
 }
-void mgos_config_set_devices_mainHeater_turnedOff(struct mgos_config *cfg, int         val) {
-  cfg->devices.mainHeater.turnedOff = val;
+void mgos_config_set_devices_mainHeater_turnedOn(struct mgos_config *cfg, int         val) {
+  cfg->devices.mainHeater.turnedOn = val;
 }
 void mgos_config_set_devices_mainDHT_id(struct mgos_config *cfg, const char *val) {
   mgos_conf_set_str(&cfg->devices.mainDHT.id, val);
@@ -1004,6 +1075,9 @@ void mgos_config_set_devices_mainDHT_minTemp(struct mgos_config *cfg, int       
 }
 void mgos_config_set_devices_mainDHT_maxTemp(struct mgos_config *cfg, int         val) {
   cfg->devices.mainDHT.maxTemp = val;
+}
+void mgos_config_set_devices_mainDHT_autoCtrl(struct mgos_config *cfg, int         val) {
+  cfg->devices.mainDHT.autoCtrl = val;
 }
 void mgos_config_set_devices_mainDHT_minTempActions(struct mgos_config *cfg, const char *val) {
   mgos_conf_set_str(&cfg->devices.mainDHT.minTempActions, val);

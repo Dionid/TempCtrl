@@ -37,15 +37,15 @@ function INIT_BUTTONS(options) {
       return;
     } else if (selectedConfig === deviceConfigs.POWER) {
       print(Timer.now());
-      // RPC.call(RPC.LOCAL, obj.mainHeaterId + '.ToggleTurnedOff', null, null, null);
-      SetHeaterModuleTurnedOff(globalObjs.mainHeaterObj, !globalObjs.mainHeaterObj.state.turnedOff);
+      // RPC.call(RPC.LOCAL, obj.mainHeaterId + '.ToggleTurnedOn', null, null, null);
+      SetHeaterModuleTurnedOn(globalObjs.mainHeaterObj, !globalObjs.mainHeaterObj.state.turnedOn);
       return;
     } else if (selectedConfig === deviceConfigs.MIN_TEMP) {
       SetMinTemp(globalObjs.mainDHTObj, globalObjs.mainDHTObj.state.minTemp - 1);
       // RPC.call(RPC.LOCAL, obj.mainDHTId + '.DecrementMinTemp', null, null, null);
       return;
     } else if (selectedConfig === deviceConfigs.MAX_TEMP) {
-      SetMinTemp(globalObjs.mainDHTObj, globalObjs.mainDHTObj.state.maxTemp - 1);
+      SetMaxTemp(globalObjs.mainDHTObj, globalObjs.mainDHTObj.state.maxTemp - 1);
       // RPC.call(RPC.LOCAL, obj.mainDHTId + '.DecrementMaxTemp', null, null, null);
       return;
     }
@@ -60,15 +60,15 @@ function INIT_BUTTONS(options) {
       return;
     } else if (selectedConfig === deviceConfigs.POWER) {
       print(Timer.now());
-      //RPC.call(RPC.LOCAL, obj.mainHeaterId + '.ToggleTurnedOff', null, null, null);
-      SetHeaterModuleTurnedOff(globalObjs.mainHeaterObj, !globalObjs.mainHeaterObj.state.turnedOff);
+      //RPC.call(RPC.LOCAL, obj.mainHeaterId + '.ToggleTurnedOn', null, null, null);
+      SetHeaterModuleTurnedOn(globalObjs.mainHeaterObj, !globalObjs.mainHeaterObj.state.turnedOn);
       return;
     } else if (selectedConfig === deviceConfigs.MIN_TEMP) {
       SetMinTemp(globalObjs.mainDHTObj, globalObjs.mainDHTObj.state.minTemp + 1);
       // RPC.call(RPC.LOCAL, obj.mainDHTId + '.IncrementMinTemp', null, null, null);
       return;
     } else if (selectedConfig === deviceConfigs.MAX_TEMP) {
-      SetMinTemp(globalObjs.mainDHTObj, globalObjs.mainDHTObj.state.maxTemp + 1);
+      SetMaxTemp(globalObjs.mainDHTObj, globalObjs.mainDHTObj.state.maxTemp + 1);
       // RPC.call(RPC.LOCAL, obj.mainDHTId + '.IncrementMaxTemp', null, null, null);
       return;
     }

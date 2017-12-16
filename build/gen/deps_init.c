@@ -3,7 +3,7 @@
 
 #include "common/cs_dbg.h"
 
-#include "fw/src/mgos_app.h"
+#include "mgos_app.h"
 
 
 extern bool mgos_arduino_compat_init(void);
@@ -11,14 +11,15 @@ extern bool mgos_i2c_init(void);
 extern bool mgos_arduino_wire_init(void);
 extern bool mgos_arduino_LiquidCrystal_I2C_init(void);
 extern bool mgos_ca_bundle_init(void);
-extern bool mgos_dht_init(void);
+extern bool mgos_ota_http_client_init(void);
 extern bool mgos_wifi_init(void);
 extern bool mgos_http_server_init(void);
+extern bool mgos_rpc_common_init(void);
+extern bool mgos_dash_init(void);
+extern bool mgos_dht_init(void);
 extern bool mgos_mjs_init(void);
 extern bool mgos_mqtt_init(void);
-extern bool mgos_ota_http_client_init(void);
 extern bool mgos_ota_http_server_init(void);
-extern bool mgos_rpc_common_init(void);
 extern bool mgos_rpc_loopback_init(void);
 extern bool mgos_rpc_mqtt_init(void);
 extern bool mgos_rpc_service_config_init(void);
@@ -64,10 +65,10 @@ static const struct lib_descr {
     .init = mgos_ca_bundle_init,
   },
 
-  // "dht". deps: [ ]
+  // "ota_http_client". deps: [ ]
   {
-    .title = "dht",
-    .init = mgos_dht_init,
+    .title = "ota_http_client",
+    .init = mgos_ota_http_client_init,
   },
 
   // "wifi". deps: [ ]
@@ -82,6 +83,24 @@ static const struct lib_descr {
     .init = mgos_http_server_init,
   },
 
+  // "rpc_common". deps: [ "http-server" ]
+  {
+    .title = "rpc_common",
+    .init = mgos_rpc_common_init,
+  },
+
+  // "dash". deps: [ "ota-http-client" "rpc-common" ]
+  {
+    .title = "dash",
+    .init = mgos_dash_init,
+  },
+
+  // "dht". deps: [ ]
+  {
+    .title = "dht",
+    .init = mgos_dht_init,
+  },
+
   // "mjs". deps: [ ]
   {
     .title = "mjs",
@@ -94,22 +113,10 @@ static const struct lib_descr {
     .init = mgos_mqtt_init,
   },
 
-  // "ota_http_client". deps: [ ]
-  {
-    .title = "ota_http_client",
-    .init = mgos_ota_http_client_init,
-  },
-
   // "ota_http_server". deps: [ "http-server" "ota-http-client" ]
   {
     .title = "ota_http_server",
     .init = mgos_ota_http_server_init,
-  },
-
-  // "rpc_common". deps: [ "http-server" ]
-  {
-    .title = "rpc_common",
-    .init = mgos_rpc_common_init,
   },
 
   // "rpc_loopback". deps: [ "rpc-common" ]

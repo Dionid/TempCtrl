@@ -45,6 +45,7 @@ void * mgos_connect(char *, void (*)(void *, int, void *, void *), void *);
 void * mgos_connect_http(char *, void (*)(void *, int, void *, void *), void *);
 void * mgos_connect_http_ssl(char *, void (*)(void *, int, void *, void *), void *, char *, char *, char *);
 void * mgos_connect_ssl(char *, void (*)(void *, int, void *, void *), void *, char *, char *, char *);
+void  mgos_dash_send_data(char *, double);
 void  mgos_dht_close(void *);
 void * mgos_dht_create(int, int);
 float  mgos_dht_get_humidity(void *);
@@ -188,6 +189,7 @@ const struct mgos_ffi_export ffi_exports[] = {
   {"mgos_connect_http", mgos_connect_http},
   {"mgos_connect_http_ssl", mgos_connect_http_ssl},
   {"mgos_connect_ssl", mgos_connect_ssl},
+  {"mgos_dash_send_data", mgos_dash_send_data},
   {"mgos_dht_close", mgos_dht_close},
   {"mgos_dht_create", mgos_dht_create},
   {"mgos_dht_get_humidity", mgos_dht_get_humidity},
@@ -294,4 +296,4 @@ const struct mgos_ffi_export ffi_exports[] = {
   {"sqrt", sqrt},
   {"strdup", strdup},
 };
-const int ffi_exports_cnt = 141;
+const int ffi_exports_cnt = 142;

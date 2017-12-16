@@ -24,7 +24,9 @@ conds:
 
 config_schema:
   - ["i2c.enable", true]
-  - ["mqtt.server", "192.168.0.104:1883"]
+  - ["mqtt.server", "iot.eclipse.org:1883"]
+  - ["dash.enable", true]
+  - ["dash.token", "62e00e6e2915c9b80f80f6e212e748a8"]
   # - ["mqtt.enable", true]
   # - ["rpc.mqtt.enable", true]
   # - ["rpc.mqtt.topic", "qweyuiasdhjky/p/smart_heater/asdqwezxc/mc/rpc"]
@@ -48,6 +50,7 @@ config_schema:
   - ["devices.mainDHT.DHT_PIN", "i", 0, {title: "My app custom settings"}]
   - ["devices.mainDHT.minTemp", "i", 10, {title: "My app custom settings"}]
   - ["devices.mainDHT.maxTemp", "i", 20, {title: "My app custom settings"}]
+  - ["devices.mainDHT.autoCtrl", "b", true, {title: "My app custom settings"}]
   - ["devices.mainDHT.minTempActions", "s", "[{\"method\":\"asdqwezxc.SetState\",\"args\":{\"heatActive\":true},\"local\":true,\"interval\":60}]", {title: "JSON with modules"}]
   - ["devices.mainDHT.maxTempActions", "s", "[{\"method\":\"asdqwezxc.SetState\",\"args\":{\"heatActive\":false},\"local\":true,\"interval\":60}]", {title: "JSON with modules"}]
   - ["devices.mainDHT.mainTimerInterval", "i", 10000, {title: "My app custom settings"}]
@@ -78,6 +81,7 @@ libs:
   - origin: https://github.com/mongoose-os-libs/rpc-service-ota
   - origin: https://github.com/mongoose-os-libs/rpc-service-wifi
   - origin: https://github.com/mongoose-os-libs/mjs
+  - origin: https://github.com/mongoose-os-libs/dash
     # libs necessary for the current app
   - origin: https://github.com/mongoose-os-libs/dht
   - origin: https://github.com/Dionid/arduino-LiquidCrystal_I2C

@@ -45,7 +45,7 @@ function INIT_BUTTONS(options) {
       // RPC.call(RPC.LOCAL, obj.mainDHTId + '.DecrementMinTemp', null, null, null);
       return;
     } else if (selectedConfig === deviceConfigs.MAX_TEMP) {
-      SetMinTemp(globalObjs.mainDHTObj, globalObjs.mainDHTObj.state.maxTemp - 1);
+      SetMaxTemp(globalObjs.mainDHTObj, globalObjs.mainDHTObj.state.maxTemp - 1);
       // RPC.call(RPC.LOCAL, obj.mainDHTId + '.DecrementMaxTemp', null, null, null);
       return;
     }
@@ -68,7 +68,7 @@ function INIT_BUTTONS(options) {
       // RPC.call(RPC.LOCAL, obj.mainDHTId + '.IncrementMinTemp', null, null, null);
       return;
     } else if (selectedConfig === deviceConfigs.MAX_TEMP) {
-      SetMinTemp(globalObjs.mainDHTObj, globalObjs.mainDHTObj.state.maxTemp + 1);
+      SetMaxTemp(globalObjs.mainDHTObj, globalObjs.mainDHTObj.state.maxTemp + 1);
       // RPC.call(RPC.LOCAL, obj.mainDHTId + '.IncrementMaxTemp', null, null, null);
       return;
     }
