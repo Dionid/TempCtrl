@@ -17,12 +17,18 @@ load('api_sys.js');
 
 load('tz_global_state.js');
 load('tz_actions.js');
+load('tz_logging.js');
+load('tz_rpc.js');
 
 // load('connect_http_ap.js');
 load('tz_module_heater.js');
 load('tz_module_dht_sensor.js');
 load('oled.js');
 load('buttons.js');
+
+// function tz_get_main_rpc_call_dst() {
+//   return 'mqtt://iot.eclipse.org:1883/esp8266_238084';
+// }
 
 // let mainHeaterObj = null;
 
@@ -57,7 +63,7 @@ Timer.set(100, false, function() {
     DHT_PIN: Cfg.get('devices.mainDHT.DHT_PIN'),
     minTemp: Cfg.get('devices.mainDHT.minTemp'),
     maxTemp: Cfg.get('devices.mainDHT.maxTemp'),
-    autoCtrl: Cgf.get('devices.mainDHT.autoCtrl'),
+    autoCtrl: Cfg.get('devices.mainDHT.autoCtrl'),
     // minTempActions: [],
     // maxTempActions: [],
     minTempActions: JSON.parse(Cfg.get('devices.mainDHT.minTempActions')),

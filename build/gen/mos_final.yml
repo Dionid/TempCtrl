@@ -99,8 +99,10 @@ filesystem:
 - /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_818861159/fs/oled.js
 - /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_818861159/fs/tz_actions.js
 - /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_818861159/fs/tz_global_state.js
+- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_818861159/fs/tz_logging.js
 - /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_818861159/fs/tz_module_dht_sensor.js
 - /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_818861159/fs/tz_module_heater.js
+- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_818861159/fs/tz_rpc.js
 binary_libs:
 - /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_818861159/libs/ota-http-client/lib/esp8266/libota-http-client.a
 - /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_818861159/libs/ota-http-server/lib/esp8266/libota-http-server.a

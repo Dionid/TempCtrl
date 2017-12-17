@@ -18,10 +18,10 @@ function SetHeaterModuleHeatActive(obj, heatActive) {
 }
 
 function INIT_HEATER_MODULE(options) {
-
-  print('Started INIT_HEATER_MODULE');
-
   let deviceId = options.deviceId;
+
+  TZLog.infoDev(deviceId, 'Started INIT_HEATER_MODULE');
+
   let HEAT_PIN = options.HEAT_PIN;
   let POWER_PIN = options.POWER_PIN;
   let turnedOn = options.turnedOn;
@@ -46,7 +46,7 @@ function INIT_HEATER_MODULE(options) {
     },
     state: heaterState,
   };
-  
+
   SetHeaterModuleTurnedOn(heaterObj, options.turnedOn);
   SetHeaterModuleHeatActive(heaterObj, options.heatActive);
 
@@ -69,7 +69,7 @@ function INIT_HEATER_MODULE(options) {
     return obj.state;
   }, heaterObj);
 
-  print('Ended INIT_HEATER_MODULE');
+  TZLog.infoDev(deviceId, 'Ended INIT_HEATER_MODULE');
 
   return heaterObj;
 }
