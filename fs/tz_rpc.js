@@ -20,12 +20,13 @@ let TZ_RPC = {
     }
   },
 
-  main_server_rpc_call: function (method, args, id) {
+  main_server_rpc_call: function (method, args, options) {
+    if (!options) options = {};
     let rpcData = {
       method: method,
       args: args,
       src: this.device_main_mqtt_rpc_topic_name,
-      id: id || this.main_server_rpc_call_next_id++,
+      id: options.id || this.main_server_rpc_call_next_id++,
     };
     return this.main_server_mqtt_rpc_call(rpcData);
   },
