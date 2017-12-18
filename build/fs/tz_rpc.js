@@ -1,16 +1,65 @@
 
-function tz_get_server_mqtt_rpc_call_topic_name() {
-  return 'qweyuiasdhjky/p/smart_heater/asdqwezxc/s/rpc';
-}
+// let tz_device_main_mqtt_rpc_topic_name = Cfg.get('rpc.mqtt.topic') || Cfg.get('device.id');
 
-function tz_get_main_rpc_call_dst() {
-  // mqtt://iot.eclipse.org:1883/esp8266_238084
-  return 'qweyuiasdhjky/p/smart_heater/asdqwezxc/s/rpc';
-}
+let TZ_RPC = {
+  inited: false,
+  send_msg_qeue: [],
+  main_server_rpc_call_next_id: 872663,
+  main_rpc_call_dst: 'qweyuiasdhjky/p/smart_heater/asdqwezxc/s/rpc',
+  device_main_mqtt_rpc_topic_name: Cfg.get('rpc.mqtt.topic') || Cfg.get('device.id'),
 
-function tz_main_server_rpc_call(method, args) {
-  return MQTT.pub(tz_get_server_mqtt_rpc_call_topic_name(), JSON.stringify({
-    method: method,
-    args: args
-  }), 1);
-}
+  send_msgs_from_qeue: function() {
+    if (this.send_msg_qeue.length > 0) {
+      let old_send_msg_qeue = this.send_msg_qeue;
+      // Empty main send_msg_qeue, because it can be filled with new unsended msgs
+      this.send_msg_qeue = [];
+      for (let i = 0; i < old_send_msg_qeue.length; i++) {
+        this.main_server_mqtt_rpc_call(old_send_msg_qeue[i]);
+      }
+      Timer.set(300, false, function() {
+        TZ_RPC.send_msgs_from_qeue();
+      }, null);
+    }
+  },
+
+  main_server_rpc_call: function (method, args, options) {
+    if (!options) options = {};
+    let rpcData = {
+      method: method,
+      args: args,
+      src: this.device_main_mqtt_rpc_topic_name,
+      id: options.id || this.main_server_rpc_call_next_id++,
+    };
+    return this.main_server_mqtt_rpc_call(rpcData);
+  },
+
+  main_server_mqtt_rpc_call: function (rpcData) {
+    let sended = MQTT.pub(this.main_rpc_call_dst, JSON.stringify(rpcData), 0);
+    // if (!sended) {
+    //   if (this.send_msg_qeue.length > 30) {
+    //     this.send_msg_qeue = [];
+    //   }
+    //   this.send_msg_qeue[this.send_msg_qeue.length] = rpcData;
+    // }
+    return sended;
+  },
+
+  init: function() {
+    if (this.inited) return;
+    MQTT.setEventHandler(function(conn, ev, edata) {
+      if (ev === MQTT.EV_CONNACK) {
+        print('MQTT CONNECTED');
+        if (this.send_msg_qeue.length > 0) {
+          let old_send_msg_qeue = this.send_msg_qeue;
+          for (let i = 0; i < old_send_msg_qeue.length; i++) {
+            this.main_server_mqtt_rpc_call(old_send_msg_qeue[i]);
+          }
+          this.send_msg_qeue = [];
+        }
+      }
+    }, null);
+    this.inited = true;
+  }
+};
+
+TZ_RPC.init();

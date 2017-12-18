@@ -16,7 +16,9 @@ let TZ_RPC = {
       for (let i = 0; i < old_send_msg_qeue.length; i++) {
         this.main_server_mqtt_rpc_call(old_send_msg_qeue[i]);
       }
-      this.send_msgs_from_qeue();
+      Timer.set(300, false, function() {
+        TZ_RPC.send_msgs_from_qeue();
+      }, null);
     }
   },
 
@@ -33,9 +35,12 @@ let TZ_RPC = {
 
   main_server_mqtt_rpc_call: function (rpcData) {
     let sended = MQTT.pub(this.main_rpc_call_dst, JSON.stringify(rpcData), 0);
-    if (!sended) {
-      this.send_msg_qeue[this.send_msg_qeue.length] = rpcData;
-    }
+    // if (!sended) {
+    //   if (this.send_msg_qeue.length > 30) {
+    //     this.send_msg_qeue = [];
+    //   }
+    //   this.send_msg_qeue[this.send_msg_qeue.length] = rpcData;
+    // }
     return sended;
   },
 
@@ -58,36 +63,3 @@ let TZ_RPC = {
 };
 
 TZ_RPC.init();
-
-// let tz_send_msg_qeue = [];
-//
-// function tz_send_msgs_from_qeue() {
-//   if (tz_send_msg_qeue.length > 0) {
-//     let old_tz_send_msg_qeue = tz_send_msg_qeue;
-//     tz_send_msg_qeue = [];
-//     for (let i = 0; i < old_tz_send_msg_qeue.length; i++) {
-//       tz_main_server_mqtt_rpc_call(old_tz_send_msg_qeue[i]);
-//     }
-//     tz_send_msgs_from_qeue();
-//   }
-// }
-
-// let tz_main_server_rpc_call_next_id = 872663;
-//
-// function tz_main_server_rpc_call(method, args, id) {
-//   let rpcData = {
-//     method: method,
-//     args: args,
-//     src: tz_device_main_mqtt_rpc_topic_name,
-//     id: id || tz_main_server_rpc_call_next_id++,
-//   };
-//   return tz_main_server_mqtt_rpc_call(rpcData);
-// }
-//
-// function tz_main_server_mqtt_rpc_call(rpcData) {
-//   let sended = MQTT.pub(tz_get_server_mqtt_rpc_call_topic_name(), JSON.stringify(rpcData), 0);
-//   if (!sended) {
-//     tz_send_msg_qeue[tz_send_msg_qeue.length] = rpcData;
-//   }
-//   return sended;
-// }

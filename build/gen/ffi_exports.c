@@ -151,6 +151,7 @@ double  round(double);
 double  sin(double);
 double  sqrt(double);
 void * strdup(char *);
+bool  tz_register_debug_event_add_handler(void (*)(int, void *, void *), void *);
 
 const struct mgos_ffi_export ffi_exports[] = {
   {"ceil", ceil},
@@ -295,5 +296,6 @@ const struct mgos_ffi_export ffi_exports[] = {
   {"sin", sin},
   {"sqrt", sqrt},
   {"strdup", strdup},
+  {"tz_register_debug_event_add_handler", tz_register_debug_event_add_handler},
 };
-const int ffi_exports_cnt = 142;
+const int ffi_exports_cnt = 143;

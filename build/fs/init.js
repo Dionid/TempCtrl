@@ -1,11 +1,3 @@
-/*
- * Copyright (c) 2014-2017 Cesanta Software Limited
- * All rights reserved
- *
- * This example demonstrates how to use mJS DHT library API
- * to get data from DHTxx temperature and humidity sensors.
- */
-
 // Load Mongoose OS API
 load('api_config.js');
 load('api_rpc.js');
@@ -14,23 +6,19 @@ load('api_timer.js');
 load('api_dht.js');
 load('api_mqtt.js');
 load('api_sys.js');
+load('api_dash.js');
+
+load('tz_rpc.js');
+load('tz_logging.js');
 
 load('tz_global_state.js');
 load('tz_actions.js');
-load('tz_logging.js');
-load('tz_rpc.js');
 
 // load('connect_http_ap.js');
 load('tz_module_heater.js');
 load('tz_module_dht_sensor.js');
 load('oled.js');
 load('buttons.js');
-
-// function tz_get_main_rpc_call_dst() {
-//   return 'mqtt://iot.eclipse.org:1883/esp8266_238084';
-// }
-
-// let mainHeaterObj = null;
 
 Timer.set(100, false, function() {
   let heaterDeviceId = Cfg.get('devices.mainHeater.id');
@@ -50,13 +38,9 @@ Timer.set(100, false, function() {
     }
     return true;
   });
-
-  // globalObjs.mainHeaterObj = mainHeaterObj;
 }, null);
 
-// let mainDHTObj = null;
-
-Timer.set(100, false, function() {
+Timer.set(200, false, function() {
   let mainDHTId = Cfg.get('devices.mainDHT.id');
   globalObjs.mainDHTObj = INIT_DHT_MODULE({
     deviceId: mainDHTId,
@@ -64,14 +48,10 @@ Timer.set(100, false, function() {
     minTemp: Cfg.get('devices.mainDHT.minTemp'),
     maxTemp: Cfg.get('devices.mainDHT.maxTemp'),
     autoCtrl: Cfg.get('devices.mainDHT.autoCtrl'),
-    // minTempActions: [],
-    // maxTempActions: [],
     minTempActions: JSON.parse(Cfg.get('devices.mainDHT.minTempActions')),
     maxTempActions: JSON.parse(Cfg.get('devices.mainDHT.maxTempActions')),
     mainTimerInterval: Cfg.get('devices.mainDHT.mainTimerInterval')
   });
-
-  // globalObjs.mainDHTObj = mainDHTObj;
 
   StateChangedRpcAddHandler(mainDHTId, function(args) {
     let changedProps = args.changedProps;
@@ -98,17 +78,13 @@ Timer.set(100, false, function() {
   });
 }, null);
 
-let oledObj = null;
-
-Timer.set(300 /* milliseconds */, false /* repeat */, function() {
-  oledObj = INIT_OLED(globalObjs.mainDHTObj.state, globalObjs.mainHeaterObj.state);
+Timer.set(300 , false , function() {
+  globalObjs.oledObj = INIT_OLED(globalObjs.mainDHTObj.state, globalObjs.mainHeaterObj.state);
 }, null);
 
-let buttonsObj = null;
-
-Timer.set(400 /* milliseconds */, false /* repeat */, function() {
-  buttonsObj = INIT_BUTTONS({
-    oledState: oledObj.state,
+Timer.set(400 , false , function() {
+  globalObjs.buttonsObj = INIT_BUTTONS({
+    oledState: globalObjs.oledObj.state,
     DEC_BUTTON_PIN: Cfg.get('pins.DEC_BUTTON'),
     INC_BUTTON_PIN: Cfg.get('pins.INC_BUTTON'),
     SWITCH_BUTTON_PIN: Cfg.get('pins.SWITCH_BUTTON'),

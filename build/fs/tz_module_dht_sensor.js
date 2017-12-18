@@ -121,28 +121,28 @@ function INIT_DHT_MODULE(options) {
     DHTModuleRefreshHumAndTemp(obj);
 
     let state = obj.state;
-
     let temp = state.temp;
-    
+    let hum = state.hum;
+
     if (state.autoCtrl) {
       let maxTemp = state.maxTemp;
       let minTemp = state.minTemp;
-  
+
       if (temp > maxTemp) {
         print('temp > maxTemp');
-        for (let i = 0; i < state.maxTempActions.length; i++) {
-          DoAction(state.maxTempActions[i]);
-        }
+        TZ_Actions.DoActions(state.maxTempActions, obj.deviceId);
       } else if (temp < minTemp) {
         print('temp < minTemp');
-        for (let i = 0; i < state.minTempActions.length; i++) {
-          DoAction(state.minTempActions[i]);
-        }
-      } 
+        TZ_Actions.DoActions(state.minTempActions, obj.deviceId);
+      }
     }
 
-    print('Temperature:', temp, '*C');
-    print('Humidity:', state.hum, '%');
+    TZ_RPC.main_server_rpc_call(obj.deviceId + '.SaveData', {temp: temp, hum: hum});
+    Dash.send("temperature", temp);
+    Dash.send("humidity", hum);
+
+    // print('Temperature:', temp, '*C');
+    // print('Humidity:', hum, '%');
   }, dhtObj);
 
   Timer.set(1000 /* milliseconds */, false /* repeat */, function(obj) {

@@ -1,5 +1,3 @@
-load('tz_logging.js');
-
 // Load Mongoose OS API
 load('api_config.js');
 load('api_rpc.js');
@@ -8,10 +6,13 @@ load('api_timer.js');
 load('api_dht.js');
 load('api_mqtt.js');
 load('api_sys.js');
+load('api_dash.js');
+
+load('tz_rpc.js');
+load('tz_logging.js');
 
 load('tz_global_state.js');
 load('tz_actions.js');
-load('tz_rpc.js');
 
 // load('connect_http_ap.js');
 load('tz_module_heater.js');
@@ -83,7 +84,7 @@ Timer.set(300 , false , function() {
 
 Timer.set(400 , false , function() {
   globalObjs.buttonsObj = INIT_BUTTONS({
-    oledState: oledObj.state,
+    oledState: globalObjs.oledObj.state,
     DEC_BUTTON_PIN: Cfg.get('pins.DEC_BUTTON'),
     INC_BUTTON_PIN: Cfg.get('pins.INC_BUTTON'),
     SWITCH_BUTTON_PIN: Cfg.get('pins.SWITCH_BUTTON'),

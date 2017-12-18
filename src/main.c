@@ -2,8 +2,12 @@
 
 #include "common/platform.h"
 #include "common/cs_file.h"
+#include "mgos.h"
+#include "mgos_rpc.h"
+#include "mgos_event.h"
 #include "mgos_app.h"
 #include "mgos_gpio.h"
+#include "mgos_mqtt.h"
 #include "mgos_sys_config.h"
 #include "mgos_timers.h"
 #include "mgos_hal.h"
@@ -26,6 +30,18 @@
 
 // mgos_hook_register(MGOS_HOOK_DEBUG_WRITE, s_debug_write_hook, NULL);
 
+bool tz_register_debug_event_add_handler(mgos_event_handler_t hook_cb, void *userdata) {
+  return mgos_event_add_handler(MGOS_EVENT_LOG, hook_cb, userdata);
+}
+
+static void tz_s_debug_write_cb(int ev, void *ev_data, void *userdata) {
+  mgos_mqtt_pub("qweyuiasdhjky/p/smart_heater/asdqwezxc/s/rpc", "test", 4, 1, false);
+  (void) ev;
+  (void) ev_data;
+  (void) userdata;
+}
+
 enum mgos_app_init_result mgos_app_init(void) {
+  mgos_event_add_handler(MGOS_EVENT_LOG, tz_s_debug_write_cb, NULL);
   return MGOS_APP_INIT_SUCCESS;
 }

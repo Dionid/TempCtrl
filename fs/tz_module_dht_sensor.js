@@ -128,27 +128,21 @@ function INIT_DHT_MODULE(options) {
       let maxTemp = state.maxTemp;
       let minTemp = state.minTemp;
 
-      if (temp > maxTemp) {
+      if (temp >= maxTemp) {
         print('temp > maxTemp');
-        // for (let i = 0; i < state.maxTempActions.length; i++) {
-        //   DoAction(state.maxTempActions[i]);
-        // }
         TZ_Actions.DoActions(state.maxTempActions, obj.deviceId);
-      } else if (temp < minTemp) {
+      } else if (temp <= minTemp) {
         print('temp < minTemp');
-        // for (let i = 0; i < state.minTempActions.length; i++) {
-        //   DoAction(state.minTempActions[i]);
-        // }
         TZ_Actions.DoActions(state.minTempActions, obj.deviceId);
       }
     }
 
-    TZ_RPC.main_server_rpc_call(obj.deviceId + '.SaveData', {temp: temp, hum: hum});
+    TZ_RPC.main_server_rpc_call(obj.deviceId + '.SaveData', {temp: temp, hum: hum, t: Timer.now()});
     Dash.send("temperature", temp);
     Dash.send("humidity", hum);
 
-    print('Temperature:', temp, '*C');
-    print('Humidity:', hum, '%');
+    // print('Temperature:', temp, '*C');
+    // print('Humidity:', hum, '%');
   }, dhtObj);
 
   Timer.set(1000 /* milliseconds */, false /* repeat */, function(obj) {
