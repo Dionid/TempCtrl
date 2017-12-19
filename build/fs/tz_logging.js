@@ -3,53 +3,48 @@ load('api_rpc.js');
 
 let TZLog = {
 
-  error: function(msg) {
-    Log.print(Log.ERROR, msg);
-  },
-
-  warn: function(msg) {
-    Log.print(Log.WARN, msg);
-  },
-
-  info: function(msg) {
-    Log.print(Log.INFO, msg);
-  },
-
-  debug: function(msg) {
-    Log.print(Log.DEBUG, msg);
-  },
-
-  verboseDebug: function(msg) {
-    Log.print(Log.VERBOSE_DEBUG, msg);
-  },
+  // error: function(msg) {
+  //   Log.print(Log.ERROR, msg);
+  // },
+  //
+  // warn: function(msg) {
+  //   Log.print(Log.WARN, msg);
+  // },
+  //
+  // info: function(msg) {
+  //   Log.print(Log.INFO, msg);
+  // },
+  //
+  // debug: function(msg) {
+  //   Log.print(Log.DEBUG, msg);
+  // },
+  //
+  // verboseDebug: function(msg) {
+  //   Log.print(Log.VERBOSE_DEBUG, msg);
+  // },
 
   errorDev: function(deviceId, msg) {
-    let newMsg = "[" + deviceId + "]["+Timer.now()+"][error]" + msg;
-    // Log.print(Log.ERROR, newMsg);
+    let newMsg = "[" + deviceId + "]["+JSON.stringify(Timer.now())+"][error]: " + msg;
     print(newMsg);
   },
 
   warnDev: function(deviceId, msg) {
-    let newMsg = "[" + deviceId + "]["+Timer.now()+"][warn]" + msg;
-    // Log.print(Log.WARN, newMsg);
+    let newMsg = "[" + deviceId + "]["+JSON.stringify(Timer.now())+"][warn]: " + msg;
     print(newMsg);
   },
 
   infoDev: function(deviceId, msg) {
-    let newMsg = "[" + deviceId + "]["+Timer.now()+"][info]" + msg;
-    // Log.print(Log.INFO, newMsg);
+    let newMsg = "[" + deviceId + "]["+JSON.stringify(Timer.now())+"][info]: " + msg;
     print(newMsg);
   },
 
   debugDev: function(deviceId, msg) {
-    let newMsg = "[" + deviceId + "]["+Timer.now()+"][debug]" + msg;
-    // Log.print(Log.DEBUG, newMsg);
+    let newMsg = "[" + deviceId + "]["+JSON.stringify(Timer.now())+"][debug]: " + msg;
     print(newMsg);
   },
 
   verboseDebugDev: function(deviceId, msg) {
-    let newMsg = "[" + deviceId + "]["+Timer.now()+"][verboseDebug]" + msg;
-    // Log.print(Log.VERBOSE_DEBUG, newMsg);
+    let newMsg = "[" + deviceId + "]["+JSON.stringify(Timer.now())+"][verboseDebug]: " + msg;
     print(newMsg);
   }
 };

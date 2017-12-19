@@ -35,8 +35,6 @@ function INIT_HEATER_MODULE(options) {
   // HEATER
   GPIO.set_mode(HEAT_PIN, GPIO.MODE_OUTPUT);
   GPIO.set_mode(POWER_PIN, GPIO.MODE_OUTPUT);
-  // GPIO.write(HEAT_PIN, 1);
-  // GPIO.write(POWER_PIN, 0);
 
   let heaterObj = {
     deviceId: deviceId,

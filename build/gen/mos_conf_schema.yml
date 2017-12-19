@@ -302,6 +302,10 @@
   - b
   - true
   - title: Generate .jsc file when executing any .js file
+- - update.enable_post
+  - b
+  - true
+  - title: Enable POST updates
 - - mqtt
   - o
   - title: MQTT settings
@@ -389,10 +393,6 @@
   - s
   - ""
   - title: MQTT topic to publish STDERR to
-- - update.enable_post
-  - b
-  - true
-  - title: Enable POST updates
 - - rpc.mqtt
   - o
   - title: RPC over MQTT settings
@@ -430,6 +430,8 @@
   - true
 - - file_logger.enable
   - true
+- - file_logger.max_num_files
+  - 4
 - - dash.token
   - 62e00e6e2915c9b80f80f6e212e748a8
 - - app

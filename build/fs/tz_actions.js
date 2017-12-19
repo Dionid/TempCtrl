@@ -1,31 +1,7 @@
 load('api_rpc.js');
 
-function DoAction(rpc) {
-  // let dst = rpc.local ? RPC.LOCAL : '';
-  let now = Timer.now();
-  let doCall = true;
-  if (rpc.interval) {
-    if (rpc.lastCallTime) {
-      if ((rpc.lastCallTime + rpc.interval) > now) {
-        doCall = false;
-      }
-    }
-  }
-  if (doCall) {
-    rpc.lastCallTime = now;
-    if (rpc.local) {
-        RPC.call(RPC.LOCAL, rpc.method, rpc.args, function(res, ud) {
-          print('Call DONE FROM NEW FILE');
-        }, null);
-    } else {
-
-    }
-  }
-}
-
 let TZ_Actions = {
   DoAction: function(rpc, deviceId) {
-    // let dst = rpc.local ? RPC.LOCAL : '';
     let now = Timer.now();
     let doCall = true;
     if (rpc.interval) {

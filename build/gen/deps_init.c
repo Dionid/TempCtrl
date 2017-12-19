@@ -19,9 +19,9 @@ extern bool mgos_dash_init(void);
 extern bool mgos_dht_init(void);
 extern bool mgos_file_logger_init(void);
 extern bool mgos_mjs_init(void);
-extern bool mgos_mqtt_init(void);
 extern bool mgos_ota_http_server_init(void);
 extern bool mgos_rpc_loopback_init(void);
+extern bool mgos_mqtt_init(void);
 extern bool mgos_rpc_mqtt_init(void);
 extern bool mgos_rpc_service_config_init(void);
 extern bool mgos_rpc_service_fs_init(void);
@@ -113,12 +113,6 @@ static const struct lib_descr {
     .init = mgos_mjs_init,
   },
 
-  // "mqtt". deps: [ ]
-  {
-    .title = "mqtt",
-    .init = mgos_mqtt_init,
-  },
-
   // "ota_http_server". deps: [ "http-server" "ota-http-client" ]
   {
     .title = "ota_http_server",
@@ -129,6 +123,12 @@ static const struct lib_descr {
   {
     .title = "rpc_loopback",
     .init = mgos_rpc_loopback_init,
+  },
+
+  // "mqtt". deps: [ ]
+  {
+    .title = "mqtt",
+    .init = mgos_mqtt_init,
   },
 
   // "rpc_mqtt". deps: [ "mqtt" "rpc-common" ]

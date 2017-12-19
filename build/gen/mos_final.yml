@@ -36,8 +36,8 @@ sources:
 - /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/mjs/src/mos_mjs.c
 - /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/modules/mjs-1.22/mjs.c
 - /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/mjs/esp8266/src/esp8266_mjs.c
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/mqtt/src/mgos_mqtt.c
 - /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/rpc-loopback/src/mg_rpc_channel_loopback.c
+- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/mqtt/src/mgos_mqtt.c
 - /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/rpc-mqtt/src/mgos_rpc_channel_mqtt.c
 - /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/rpc-service-config/src/mgos_service_config.c
 - /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/rpc-service-fs/src/mgos_service_filesystem.c
@@ -57,9 +57,9 @@ includes:
 - /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/dash/include
 - /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/dht/include
 - /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/mjs/include
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/mqtt/include
 - /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/ota-http-server/include
 - /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/rpc-loopback/include
+- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/mqtt/include
 - /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/rpc-mqtt/include
 - /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/rpc-service-config/include
 - /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/rpc-service-fs/include
@@ -92,16 +92,15 @@ filesystem:
 - /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/mqtt/mjs_fs/api_mqtt.js
 - /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/mjs/esp8266/fs/api_arch_uart.js
 - /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/mjs/esp8266/fs/api_esp8266.js
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/fs/buttons.js
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/fs/connect_http_ap.js
 - /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/fs/init.js
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/fs/oled.js
 - /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/fs/tz_actions.js
 - /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/fs/tz_global_state.js
 - /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/fs/tz_logging.js
 - /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/fs/tz_module_dht_sensor.js
 - /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/fs/tz_module_heater.js
 - /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/fs/tz_rpc.js
+- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/fs/tz_smart_heater_buttons.js
+- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/fs/tz_smart_heater_oled.js
 binary_libs:
 - /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/ota-http-client/lib/esp8266/libota-http-client.a
 - /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/ota-http-server/lib/esp8266/libota-http-server.a
@@ -415,6 +414,10 @@ config_schema:
   - b
   - true
   - title: Generate .jsc file when executing any .js file
+- - update.enable_post
+  - b
+  - true
+  - title: Enable POST updates
 - - mqtt
   - o
   - title: MQTT settings
@@ -502,10 +505,6 @@ config_schema:
   - s
   - ""
   - title: MQTT topic to publish STDERR to
-- - update.enable_post
-  - b
-  - true
-  - title: Enable POST updates
 - - rpc.mqtt
   - o
   - title: RPC over MQTT settings
@@ -543,6 +542,8 @@ config_schema:
   - true
 - - file_logger.enable
   - true
+- - file_logger.max_num_files
+  - 4
 - - dash.token
   - 62e00e6e2915c9b80f80f6e212e748a8
 - - app
@@ -806,10 +807,6 @@ libs_handled:
   - /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/mjs/src/mos_mjs.c
   - /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/modules/mjs-1.22/mjs.c
   - /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/mjs/esp8266/src/esp8266_mjs.c
-- name: mqtt
-  path: /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/mqtt
-  sources:
-  - /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/mqtt/src/mgos_mqtt.c
 - name: ota-http-server
   path: /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/ota-http-server
   deps:
@@ -821,6 +818,10 @@ libs_handled:
   - rpc-common
   sources:
   - /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/rpc-loopback/src/mg_rpc_channel_loopback.c
+- name: mqtt
+  path: /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/mqtt
+  sources:
+  - /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/mqtt/src/mgos_mqtt.c
 - name: rpc-mqtt
   path: /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/rpc-mqtt
   deps:
