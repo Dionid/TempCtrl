@@ -63,7 +63,7 @@ let deviceConfigs = {
 };
 
 function INIT_OLED(dhtState, heaterState) {
-  print("Started INIT_OLED");
+  TZLog.infoDev('oled', "Started INIT_OLED");
 
   lcd = LiquidCrystalI2C.create(0x3F,20,4);
   lcd.init();
@@ -119,7 +119,7 @@ function INIT_OLED(dhtState, heaterState) {
     RenderHeaterTurnedOn(heaterState.turnedOn, false);
   }, oledObj);
 
-  print("Ended INIT_OLED");
+  TZLog.infoDev('oled', "Ended INIT_OLED");
 
   return oledObj;
 }

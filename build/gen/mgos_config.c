@@ -3,8 +3,8 @@
 #include <stddef.h>
 #include "mgos_config.h"
 
-const struct mgos_conf_entry mgos_config_schema_[170] = {
-  {.type = CONF_TYPE_OBJECT, .key = "", .num_desc = 169},
+const struct mgos_conf_entry mgos_config_schema_[176] = {
+  {.type = CONF_TYPE_OBJECT, .key = "", .num_desc = 175},
   {.type = CONF_TYPE_OBJECT, .key = "sntp", .num_desc = 5},
   {.type = CONF_TYPE_BOOL, .key = "enable", .offset = offsetof(struct mgos_config, sntp.enable)},
   {.type = CONF_TYPE_STRING, .key = "server", .offset = offsetof(struct mgos_config, sntp.server)},
@@ -123,6 +123,12 @@ const struct mgos_conf_entry mgos_config_schema_[170] = {
   {.type = CONF_TYPE_STRING, .key = "ca_file", .offset = offsetof(struct mgos_config, dash.ca_file)},
   {.type = CONF_TYPE_INT, .key = "heartbeat_interval", .offset = offsetof(struct mgos_config, dash.heartbeat_interval)},
   {.type = CONF_TYPE_BOOL, .key = "send_logs", .offset = offsetof(struct mgos_config, dash.send_logs)},
+  {.type = CONF_TYPE_OBJECT, .key = "file_logger", .num_desc = 5},
+  {.type = CONF_TYPE_BOOL, .key = "enable", .offset = offsetof(struct mgos_config, file_logger.enable)},
+  {.type = CONF_TYPE_STRING, .key = "dir", .offset = offsetof(struct mgos_config, file_logger.dir)},
+  {.type = CONF_TYPE_STRING, .key = "prefix", .offset = offsetof(struct mgos_config, file_logger.prefix)},
+  {.type = CONF_TYPE_INT, .key = "max_file_size", .offset = offsetof(struct mgos_config, file_logger.max_file_size)},
+  {.type = CONF_TYPE_INT, .key = "max_num_files", .offset = offsetof(struct mgos_config, file_logger.max_num_files)},
   {.type = CONF_TYPE_OBJECT, .key = "mjs", .num_desc = 1},
   {.type = CONF_TYPE_BOOL, .key = "generate_jsc", .offset = offsetof(struct mgos_config, mjs.generate_jsc)},
   {.type = CONF_TYPE_OBJECT, .key = "mqtt", .num_desc = 19},
@@ -537,6 +543,24 @@ int         mgos_config_get_dash_heartbeat_interval(struct mgos_config *cfg) {
 }
 int         mgos_config_get_dash_send_logs(struct mgos_config *cfg) {
   return cfg->dash.send_logs;
+}
+const struct mgos_config_file_logger *mgos_config_get_file_logger(struct mgos_config *cfg) {
+  return &cfg->file_logger;
+}
+int         mgos_config_get_file_logger_enable(struct mgos_config *cfg) {
+  return cfg->file_logger.enable;
+}
+const char *mgos_config_get_file_logger_dir(struct mgos_config *cfg) {
+  return cfg->file_logger.dir;
+}
+const char *mgos_config_get_file_logger_prefix(struct mgos_config *cfg) {
+  return cfg->file_logger.prefix;
+}
+int         mgos_config_get_file_logger_max_file_size(struct mgos_config *cfg) {
+  return cfg->file_logger.max_file_size;
+}
+int         mgos_config_get_file_logger_max_num_files(struct mgos_config *cfg) {
+  return cfg->file_logger.max_num_files;
 }
 const struct mgos_config_mjs *mgos_config_get_mjs(struct mgos_config *cfg) {
   return &cfg->mjs;
@@ -999,6 +1023,21 @@ void mgos_config_set_dash_heartbeat_interval(struct mgos_config *cfg, int       
 }
 void mgos_config_set_dash_send_logs(struct mgos_config *cfg, int         val) {
   cfg->dash.send_logs = val;
+}
+void mgos_config_set_file_logger_enable(struct mgos_config *cfg, int         val) {
+  cfg->file_logger.enable = val;
+}
+void mgos_config_set_file_logger_dir(struct mgos_config *cfg, const char *val) {
+  mgos_conf_set_str(&cfg->file_logger.dir, val);
+}
+void mgos_config_set_file_logger_prefix(struct mgos_config *cfg, const char *val) {
+  mgos_conf_set_str(&cfg->file_logger.prefix, val);
+}
+void mgos_config_set_file_logger_max_file_size(struct mgos_config *cfg, int         val) {
+  cfg->file_logger.max_file_size = val;
+}
+void mgos_config_set_file_logger_max_num_files(struct mgos_config *cfg, int         val) {
+  cfg->file_logger.max_num_files = val;
 }
 void mgos_config_set_mjs_generate_jsc(struct mgos_config *cfg, int         val) {
   cfg->mjs.generate_jsc = val;

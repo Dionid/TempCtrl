@@ -26,6 +26,8 @@ config_schema:
   - ["i2c.enable", true]
   - ["mqtt.server", "iot.eclipse.org:1883"]
   - ["dash.enable", true]
+  - ["file_logger.enable", true]
+  - ["file_logger.max_num_files", 4]
   - ["dash.token", "62e00e6e2915c9b80f80f6e212e748a8"]
   # - ["mqtt.enable", true]
   # - ["rpc.mqtt.enable", true]
@@ -90,7 +92,7 @@ libs:
   - origin: https://github.com/mongoose-os-libs/rpc-service-wifi
   - origin: https://github.com/mongoose-os-libs/mjs
   - origin: https://github.com/mongoose-os-libs/dash
-  # - origin: https://github.com/mongoose-os-libs/file-logger
+  - origin: https://github.com/mongoose-os-libs/file-logger
 
     # libs necessary for the current app
   - origin: https://github.com/mongoose-os-libs/dht

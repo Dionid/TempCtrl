@@ -1,6 +1,6 @@
 /*
  * Generated file - do not edit.
- * Command: /mongoose-os/fw/tools/gen_sys_config.py --c_name=mgos_config --c_global_name=mgos_sys_config --dest_dir=/fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_720103732/build/gen/ /mongoose-os/fw/src/mgos_debug_udp_config.yaml /mongoose-os/fw/src/mgos_sntp_config.yaml /mongoose-os/fw/src/mgos_updater_config.yaml /mongoose-os/fw/platforms/esp8266/src/esp_mbedtls_config.yaml /mongoose-os/fw/src/mgos_sys_config.yaml /mongoose-os/fw/platforms/esp8266/src/esp_sys_config.yaml /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_720103732/build/gen/mos_conf_schema.yml
+ * Command: /mongoose-os/fw/tools/gen_sys_config.py --c_name=mgos_config --c_global_name=mgos_sys_config --dest_dir=/fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/build/gen/ /mongoose-os/fw/src/mgos_debug_udp_config.yaml /mongoose-os/fw/src/mgos_sntp_config.yaml /mongoose-os/fw/src/mgos_updater_config.yaml /mongoose-os/fw/platforms/esp8266/src/esp_mbedtls_config.yaml /mongoose-os/fw/src/mgos_sys_config.yaml /mongoose-os/fw/platforms/esp8266/src/esp_sys_config.yaml /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/build/gen/mos_conf_schema.yml
  */
 
 #ifndef MGOS_CONFIG_H_
@@ -167,6 +167,14 @@ struct mgos_config_dash {
   int send_logs;
 };
 
+struct mgos_config_file_logger {
+  int enable;
+  char *dir;
+  char *prefix;
+  int max_file_size;
+  int max_num_files;
+};
+
 struct mgos_config_mjs {
   int generate_jsc;
 };
@@ -251,6 +259,7 @@ struct mgos_config {
   struct mgos_config_http http;
   struct mgos_config_rpc rpc;
   struct mgos_config_dash dash;
+  struct mgos_config_file_logger file_logger;
   struct mgos_config_mjs mjs;
   struct mgos_config_mqtt mqtt;
   struct mgos_config_app app;
@@ -378,6 +387,12 @@ const char *mgos_config_get_dash_server(struct mgos_config *cfg);
 const char *mgos_config_get_dash_ca_file(struct mgos_config *cfg);
 int         mgos_config_get_dash_heartbeat_interval(struct mgos_config *cfg);
 int         mgos_config_get_dash_send_logs(struct mgos_config *cfg);
+const struct mgos_config_file_logger *mgos_config_get_file_logger(struct mgos_config *cfg);
+int         mgos_config_get_file_logger_enable(struct mgos_config *cfg);
+const char *mgos_config_get_file_logger_dir(struct mgos_config *cfg);
+const char *mgos_config_get_file_logger_prefix(struct mgos_config *cfg);
+int         mgos_config_get_file_logger_max_file_size(struct mgos_config *cfg);
+int         mgos_config_get_file_logger_max_num_files(struct mgos_config *cfg);
 const struct mgos_config_mjs *mgos_config_get_mjs(struct mgos_config *cfg);
 int         mgos_config_get_mjs_generate_jsc(struct mgos_config *cfg);
 const struct mgos_config_mqtt *mgos_config_get_mqtt(struct mgos_config *cfg);
@@ -532,6 +547,11 @@ void mgos_config_set_dash_server(struct mgos_config *cfg, const char *val);
 void mgos_config_set_dash_ca_file(struct mgos_config *cfg, const char *val);
 void mgos_config_set_dash_heartbeat_interval(struct mgos_config *cfg, int         val);
 void mgos_config_set_dash_send_logs(struct mgos_config *cfg, int         val);
+void mgos_config_set_file_logger_enable(struct mgos_config *cfg, int         val);
+void mgos_config_set_file_logger_dir(struct mgos_config *cfg, const char *val);
+void mgos_config_set_file_logger_prefix(struct mgos_config *cfg, const char *val);
+void mgos_config_set_file_logger_max_file_size(struct mgos_config *cfg, int         val);
+void mgos_config_set_file_logger_max_num_files(struct mgos_config *cfg, int         val);
 void mgos_config_set_mjs_generate_jsc(struct mgos_config *cfg, int         val);
 void mgos_config_set_mqtt_enable(struct mgos_config *cfg, int         val);
 void mgos_config_set_mqtt_server(struct mgos_config *cfg, const char *val);
@@ -696,6 +716,12 @@ static inline const char *mgos_sys_config_get_dash_server(void) { return mgos_co
 static inline const char *mgos_sys_config_get_dash_ca_file(void) { return mgos_config_get_dash_ca_file(&mgos_sys_config); }
 static inline int         mgos_sys_config_get_dash_heartbeat_interval(void) { return mgos_config_get_dash_heartbeat_interval(&mgos_sys_config); }
 static inline int         mgos_sys_config_get_dash_send_logs(void) { return mgos_config_get_dash_send_logs(&mgos_sys_config); }
+static inline const struct mgos_config_file_logger *mgos_sys_config_get_file_logger(void) { return mgos_config_get_file_logger(&mgos_sys_config); }
+static inline int         mgos_sys_config_get_file_logger_enable(void) { return mgos_config_get_file_logger_enable(&mgos_sys_config); }
+static inline const char *mgos_sys_config_get_file_logger_dir(void) { return mgos_config_get_file_logger_dir(&mgos_sys_config); }
+static inline const char *mgos_sys_config_get_file_logger_prefix(void) { return mgos_config_get_file_logger_prefix(&mgos_sys_config); }
+static inline int         mgos_sys_config_get_file_logger_max_file_size(void) { return mgos_config_get_file_logger_max_file_size(&mgos_sys_config); }
+static inline int         mgos_sys_config_get_file_logger_max_num_files(void) { return mgos_config_get_file_logger_max_num_files(&mgos_sys_config); }
 static inline const struct mgos_config_mjs *mgos_sys_config_get_mjs(void) { return mgos_config_get_mjs(&mgos_sys_config); }
 static inline int         mgos_sys_config_get_mjs_generate_jsc(void) { return mgos_config_get_mjs_generate_jsc(&mgos_sys_config); }
 static inline const struct mgos_config_mqtt *mgos_sys_config_get_mqtt(void) { return mgos_config_get_mqtt(&mgos_sys_config); }
@@ -850,6 +876,11 @@ static inline void mgos_sys_config_set_dash_server(const char *val) { mgos_confi
 static inline void mgos_sys_config_set_dash_ca_file(const char *val) { mgos_config_set_dash_ca_file(&mgos_sys_config, val); }
 static inline void mgos_sys_config_set_dash_heartbeat_interval(int         val) { mgos_config_set_dash_heartbeat_interval(&mgos_sys_config, val); }
 static inline void mgos_sys_config_set_dash_send_logs(int         val) { mgos_config_set_dash_send_logs(&mgos_sys_config, val); }
+static inline void mgos_sys_config_set_file_logger_enable(int         val) { mgos_config_set_file_logger_enable(&mgos_sys_config, val); }
+static inline void mgos_sys_config_set_file_logger_dir(const char *val) { mgos_config_set_file_logger_dir(&mgos_sys_config, val); }
+static inline void mgos_sys_config_set_file_logger_prefix(const char *val) { mgos_config_set_file_logger_prefix(&mgos_sys_config, val); }
+static inline void mgos_sys_config_set_file_logger_max_file_size(int         val) { mgos_config_set_file_logger_max_file_size(&mgos_sys_config, val); }
+static inline void mgos_sys_config_set_file_logger_max_num_files(int         val) { mgos_config_set_file_logger_max_num_files(&mgos_sys_config, val); }
 static inline void mgos_sys_config_set_mjs_generate_jsc(int         val) { mgos_config_set_mjs_generate_jsc(&mgos_sys_config, val); }
 static inline void mgos_sys_config_set_mqtt_enable(int         val) { mgos_config_set_mqtt_enable(&mgos_sys_config, val); }
 static inline void mgos_sys_config_set_mqtt_server(const char *val) { mgos_config_set_mqtt_server(&mgos_sys_config, val); }

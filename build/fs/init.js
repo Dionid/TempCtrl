@@ -69,12 +69,6 @@ Timer.set(200, false, function() {
     if (changedProps.hum) {
       RenderHum(changedProps.hum);
     }
-    // if (changedProps.minTempActions) {
-    //   Cfg.set({devices: {mainDHT: {minTempActions: JSON.stringify(changedProps.minTempActions)}}}, true);
-    // }
-    // if (changedProps.maxTempActions) {
-    //   Cfg.set({devices: {mainDHT: {maxTempActions: JSON.stringify(changedProps.maxTempActions)}}}, true);
-    // }
   });
 }, null);
 
@@ -98,27 +92,7 @@ Timer.set(500 , false , function() {
   RPC.addHandler(deviceId + '.GetState', function(args, sm, obj) {
     return {
       mainHeaterState: globalObjs.mainHeaterObj.state,
-      mainDHTState: globalObjs.mainDHT.state,
+      mainDHTState: globalObjs.mainDHTObj.state,
     };
   }, null);
 }, null);
-
-Timer.set(5000 , false , function() {
-  // print('Calling RPC');
-  // RPC.call('', 'Main.Log', {}, function(resp) {
-  //   print('CALLING RPC RESPONSE');
-  //   print(resp.test);
-  //   return true;
-  // }, null);
-}, null);
-
-
-// RPC.addHandler(deviceId + '.SetState', function(args, sm, obj) {
-//   if (args.turnedOn !== undefined) {
-//     SetHeaterModuleTurnedOn(obj, args.turnedOn);
-//   }
-//   if (args.heatActive !== undefined) {
-//     SetHeaterModuleHeatActive(obj, args.heatActive);
-//   }
-//   return obj.state;
-// }, heaterObj);

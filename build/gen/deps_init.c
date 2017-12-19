@@ -17,6 +17,7 @@ extern bool mgos_http_server_init(void);
 extern bool mgos_rpc_common_init(void);
 extern bool mgos_dash_init(void);
 extern bool mgos_dht_init(void);
+extern bool mgos_file_logger_init(void);
 extern bool mgos_mjs_init(void);
 extern bool mgos_mqtt_init(void);
 extern bool mgos_ota_http_server_init(void);
@@ -98,6 +99,12 @@ static const struct lib_descr {
   {
     .title = "dht",
     .init = mgos_dht_init,
+  },
+
+  // "file_logger". deps: [ ]
+  {
+    .title = "file_logger",
+    .init = mgos_file_logger_init,
   },
 
   // "mjs". deps: [ ]

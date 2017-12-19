@@ -30,9 +30,9 @@
 
 // mgos_hook_register(MGOS_HOOK_DEBUG_WRITE, s_debug_write_hook, NULL);
 
-bool tz_register_debug_event_add_handler(mgos_event_handler_t hook_cb, void *userdata) {
-  return mgos_event_add_handler(MGOS_EVENT_LOG, hook_cb, userdata);
-}
+// bool tz_register_debug_event_add_handler(mgos_event_handler_t hook_cb, void *userdata) {
+//   return mgos_event_add_handler(MGOS_EVENT_LOG, hook_cb, userdata);
+// }
 
 static void tz_s_debug_write_cb(int ev, void *ev_data, void *userdata) {
   const struct mgos_debug_hook_arg *arg =
@@ -42,7 +42,7 @@ static void tz_s_debug_write_cb(int ev, void *ev_data, void *userdata) {
   struct mbuf prefb;
   struct json_out prefbout = JSON_OUT_MBUF(&prefb);
   mbuf_init(&prefb, 100);
-  json_printf(&prefbout, "{fd:%d, data: %.*Q, t: %.3lf}", arg->fd, (int) arg->len, arg->data, mg_time());
+  json_printf(&prefbout, "{data: %.*Q, t: %.3lf}", (int) arg->len, arg->data, mg_time());
   const struct mg_str pprefix = mg_mk_str_n(prefb.buf, prefb.len);
   mgos_mqtt_pub(mgos_sys_config_get_server_topicName(), pprefix.p, pprefix.len, 1, false);
   mbuf_free(&prefb);

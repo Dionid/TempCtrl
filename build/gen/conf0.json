@@ -133,6 +133,13 @@
     "heartbeat_interval": 10, 
     "send_logs": true
   }, 
+  "file_logger": {
+    "enable": true, 
+    "dir": "/", 
+    "prefix": "log_", 
+    "max_file_size": 5000, 
+    "max_num_files": 10
+  }, 
   "mjs": {
     "generate_jsc": true
   }, 

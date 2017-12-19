@@ -272,6 +272,29 @@
   - b
   - true
   - title: Send logs
+- - file_logger
+  - o
+  - title: File logger settings
+- - file_logger.enable
+  - b
+  - false
+  - title: Enable
+- - file_logger.dir
+  - s
+  - /
+  - title: Directory to store log files into
+- - file_logger.prefix
+  - s
+  - log_
+  - title: Prefix for the log files
+- - file_logger.max_file_size
+  - i
+  - 5000
+  - title: Max size of each log file
+- - file_logger.max_num_files
+  - i
+  - 10
+  - title: Max number of files
 - - mjs
   - o
   - title: mJS settings
@@ -404,6 +427,8 @@
 - - mqtt.server
   - iot.eclipse.org:1883
 - - dash.enable
+  - true
+- - file_logger.enable
   - true
 - - dash.token
   - 62e00e6e2915c9b80f80f6e212e748a8

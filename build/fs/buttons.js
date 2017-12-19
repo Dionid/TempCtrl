@@ -16,7 +16,7 @@ function SetNextSelectedConfig(obj) {
 
 
 function INIT_BUTTONS(options) {
-  print("Started INIT_BUTTONS");
+  TZLog.infoDev('buttons', "Started INIT_BUTTONS");
 
   let buttonsObj = {
     oledState: options.oledState,
@@ -74,6 +74,6 @@ function INIT_BUTTONS(options) {
     }
   }, buttonsObj);
 
-  print("Ended INIT_BUTTONS");
+  TZLog.infoDev('buttons', "Ended INIT_BUTTONS");
   return buttonsObj;
 }

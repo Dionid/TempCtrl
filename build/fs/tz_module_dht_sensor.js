@@ -19,7 +19,7 @@ function DHTModuleRefreshHumAndTemp(obj) {
   let h = obj.dht.getHumidity();
 
   if (isNaN(h) || isNaN(t)) {
-    print('Failed to read data from sensor');
+    TZLog.errorDev(obj.deviceId, 'Failed to read data from sensor');
     return;
   } else {
     SetDHTModuleTemp(obj, t);
@@ -52,7 +52,7 @@ function INIT_DHT_MODULE(options) {
   let maxTempActions = options.maxTempActions;
   let mainTimerInterval = options.mainTimerInterval;
 
-  print('Started INIT_DHT_MODULE');
+  TZLog.infoDev(deviceId, 'Started INIT_DHT_MODULE');
 
   // Initialize DHT library
   let dht = CreateDHT(DHT_PIN);
@@ -139,15 +139,15 @@ function INIT_DHT_MODULE(options) {
     // Dash.send("temperature", temp);
     // Dash.send("humidity", hum);
 
-    // print('Temperature:', temp, '*C');
-    // print('Humidity:', hum, '%');
+    // TZLog.infoDev(deviceId, 'Temperature:', temp, '*C');
+    // TZLog.infoDev(deviceId, 'Humidity:', hum, '%');
   }, dhtObj);
 
   Timer.set(1000 /* milliseconds */, false /* repeat */, function(obj) {
     DHTModuleRefreshHumAndTemp(obj);
   }, dhtObj);
 
-  print('Ended INIT_DHT_MODULE');
+  TZLog.infoDev(deviceId, 'Ended INIT_DHT_MODULE');
 
   return dhtObj;
 }
