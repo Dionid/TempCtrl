@@ -3,8 +3,8 @@
 #include <stddef.h>
 #include "mgos_config.h"
 
-const struct mgos_conf_entry mgos_config_schema_[165] = {
-  {.type = CONF_TYPE_OBJECT, .key = "", .num_desc = 164},
+const struct mgos_conf_entry mgos_config_schema_[170] = {
+  {.type = CONF_TYPE_OBJECT, .key = "", .num_desc = 169},
   {.type = CONF_TYPE_OBJECT, .key = "sntp", .num_desc = 5},
   {.type = CONF_TYPE_BOOL, .key = "enable", .offset = offsetof(struct mgos_config, sntp.enable)},
   {.type = CONF_TYPE_STRING, .key = "server", .offset = offsetof(struct mgos_config, sntp.server)},
@@ -145,12 +145,17 @@ const struct mgos_conf_entry mgos_config_schema_[165] = {
   {.type = CONF_TYPE_STRING, .key = "will_message", .offset = offsetof(struct mgos_config, mqtt.will_message)},
   {.type = CONF_TYPE_INT, .key = "max_qos", .offset = offsetof(struct mgos_config, mqtt.max_qos)},
   {.type = CONF_TYPE_INT, .key = "recv_mbuf_limit", .offset = offsetof(struct mgos_config, mqtt.recv_mbuf_limit)},
-  {.type = CONF_TYPE_OBJECT, .key = "app", .num_desc = 4},
+  {.type = CONF_TYPE_OBJECT, .key = "app", .num_desc = 3},
   {.type = CONF_TYPE_STRING, .key = "devId", .offset = offsetof(struct mgos_config, app.devId)},
   {.type = CONF_TYPE_INT, .key = "minTemp", .offset = offsetof(struct mgos_config, app.minTemp)},
   {.type = CONF_TYPE_INT, .key = "maxTemp", .offset = offsetof(struct mgos_config, app.maxTemp)},
-  {.type = CONF_TYPE_STRING, .key = "modules", .offset = offsetof(struct mgos_config, app.modules)},
-  {.type = CONF_TYPE_OBJECT, .key = "devices", .num_desc = 14},
+  {.type = CONF_TYPE_OBJECT, .key = "server", .num_desc = 2},
+  {.type = CONF_TYPE_STRING, .key = "id", .offset = offsetof(struct mgos_config, server.id)},
+  {.type = CONF_TYPE_STRING, .key = "topicName", .offset = offsetof(struct mgos_config, server.topicName)},
+  {.type = CONF_TYPE_OBJECT, .key = "devices", .num_desc = 17},
+  {.type = CONF_TYPE_OBJECT, .key = "mainDevice", .num_desc = 2},
+  {.type = CONF_TYPE_STRING, .key = "id", .offset = offsetof(struct mgos_config, devices.mainDevice.id)},
+  {.type = CONF_TYPE_STRING, .key = "type", .offset = offsetof(struct mgos_config, devices.mainDevice.type)},
   {.type = CONF_TYPE_OBJECT, .key = "mainHeater", .num_desc = 4},
   {.type = CONF_TYPE_STRING, .key = "id", .offset = offsetof(struct mgos_config, devices.mainHeater.id)},
   {.type = CONF_TYPE_INT, .key = "HEAT_PIN", .offset = offsetof(struct mgos_config, devices.mainHeater.HEAT_PIN)},
@@ -611,11 +616,26 @@ int         mgos_config_get_app_minTemp(struct mgos_config *cfg) {
 int         mgos_config_get_app_maxTemp(struct mgos_config *cfg) {
   return cfg->app.maxTemp;
 }
-const char *mgos_config_get_app_modules(struct mgos_config *cfg) {
-  return cfg->app.modules;
+const struct mgos_config_server *mgos_config_get_server(struct mgos_config *cfg) {
+  return &cfg->server;
+}
+const char *mgos_config_get_server_id(struct mgos_config *cfg) {
+  return cfg->server.id;
+}
+const char *mgos_config_get_server_topicName(struct mgos_config *cfg) {
+  return cfg->server.topicName;
 }
 const struct mgos_config_devices *mgos_config_get_devices(struct mgos_config *cfg) {
   return &cfg->devices;
+}
+const struct mgos_config_devices_mainDevice *mgos_config_get_devices_mainDevice(struct mgos_config *cfg) {
+  return &cfg->devices.mainDevice;
+}
+const char *mgos_config_get_devices_mainDevice_id(struct mgos_config *cfg) {
+  return cfg->devices.mainDevice.id;
+}
+const char *mgos_config_get_devices_mainDevice_type(struct mgos_config *cfg) {
+  return cfg->devices.mainDevice.type;
 }
 const struct mgos_config_devices_mainHeater *mgos_config_get_devices_mainHeater(struct mgos_config *cfg) {
   return &cfg->devices.mainHeater;
@@ -1049,8 +1069,17 @@ void mgos_config_set_app_minTemp(struct mgos_config *cfg, int         val) {
 void mgos_config_set_app_maxTemp(struct mgos_config *cfg, int         val) {
   cfg->app.maxTemp = val;
 }
-void mgos_config_set_app_modules(struct mgos_config *cfg, const char *val) {
-  mgos_conf_set_str(&cfg->app.modules, val);
+void mgos_config_set_server_id(struct mgos_config *cfg, const char *val) {
+  mgos_conf_set_str(&cfg->server.id, val);
+}
+void mgos_config_set_server_topicName(struct mgos_config *cfg, const char *val) {
+  mgos_conf_set_str(&cfg->server.topicName, val);
+}
+void mgos_config_set_devices_mainDevice_id(struct mgos_config *cfg, const char *val) {
+  mgos_conf_set_str(&cfg->devices.mainDevice.id, val);
+}
+void mgos_config_set_devices_mainDevice_type(struct mgos_config *cfg, const char *val) {
+  mgos_conf_set_str(&cfg->devices.mainDevice.type, val);
 }
 void mgos_config_set_devices_mainHeater_id(struct mgos_config *cfg, const char *val) {
   mgos_conf_set_str(&cfg->devices.mainHeater.id, val);

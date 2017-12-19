@@ -422,13 +422,31 @@
   - i
   - 20
   - title: Max heater temperature
-- - app.modules
+- - server
+  - o
+  - title: My app custom settings
+- - server.id
   - s
-  - '{}'
-  - title: JSON with modules
+  - qweyuiasdhjky
+  - title: My app custom settings
+- - server.topicName
+  - s
+  - qweyuiasdhjky/p/smart_heater/asdqwezxc/s/rpc
+  - title: My app custom settings
 - - devices
   - o
   - title: My app custom settings
+- - devices.mainDevice
+  - o
+  - title: My app custom settings
+- - devices.mainDevice.id
+  - s
+  - qwertyqwerty
+  - title: JSON with modules
+- - devices.mainDevice.type
+  - s
+  - smart_heater
+  - title: JSON with modules
 - - devices.mainHeater
   - o
   - title: My app custom settings

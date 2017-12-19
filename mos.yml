@@ -35,9 +35,17 @@ config_schema:
   - ["app.devId", "s", "qweqweqwe", {title: "Device uniq ID"}]
   - ["app.minTemp", "i", 10, {title: "Min heater temperature"}]
   - ["app.maxTemp", "i", 20, {title: "Max heater temperature"}]
-  - ["app.modules", "s", "{}", {title: "JSON with modules"}]
+  # - ["app.modules", "s", "{}", {title: "JSON with modules"}]
+
+  - ["server", "o", {title: "My app custom settings"}]
+  - ["server.id", "s", "qweyuiasdhjky", {title: "My app custom settings"}]
+  - ["server.topicName", "s", "qweyuiasdhjky/p/smart_heater/asdqwezxc/s/rpc", {title: "My app custom settings"}]
 
   - ["devices", "o", {title: "My app custom settings"}]
+
+  - ["devices.mainDevice", "o", {title: "My app custom settings"}]
+  - ["devices.mainDevice.id", "s", "qwertyqwerty", {title: "JSON with modules"}]
+  - ["devices.mainDevice.type", "s", "smart_heater", {title: "JSON with modules"}]
 
   - ["devices.mainHeater", "o", {title: "My app custom settings"}]
   - ["devices.mainHeater.id", "s", "asdqwezxc", {title: "JSON with modules"}]
@@ -77,11 +85,13 @@ libs:
   - origin: https://github.com/mongoose-os-libs/rpc-service-config
   - origin: https://github.com/mongoose-os-libs/rpc-service-fs
   - origin: https://github.com/mongoose-os-libs/rpc-service-gpio
-  - origin: https://github.com/mongoose-os-libs/rpc-service-i2c
+  # - origin: https://github.com/mongoose-os-libs/rpc-service-i2c
   - origin: https://github.com/mongoose-os-libs/rpc-service-ota
   - origin: https://github.com/mongoose-os-libs/rpc-service-wifi
   - origin: https://github.com/mongoose-os-libs/mjs
   - origin: https://github.com/mongoose-os-libs/dash
+  # - origin: https://github.com/mongoose-os-libs/file-logger
+
     # libs necessary for the current app
   - origin: https://github.com/mongoose-os-libs/dht
   - origin: https://github.com/Dionid/arduino-LiquidCrystal_I2C

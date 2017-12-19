@@ -92,3 +92,23 @@ Timer.set(400 , false , function() {
     mainHeaterId: globalObjs.mainHeaterObj.deviceId,
   });
 }, null);
+
+Timer.set(500 , false , function() {
+  let deviceId = Cfg.get('devices.mainDevice.id');
+  RPC.addHandler(deviceId + '.GetState', function(args, sm, obj) {
+    return {
+      mainHeaterState: globalObjs.mainHeaterObj.state,
+      mainDHTState: globalObjs.mainDHT.state,
+    };
+  }, null);
+}, null);
+
+// RPC.addHandler(deviceId + '.SetState', function(args, sm, obj) {
+//   if (args.turnedOn !== undefined) {
+//     SetHeaterModuleTurnedOn(obj, args.turnedOn);
+//   }
+//   if (args.heatActive !== undefined) {
+//     SetHeaterModuleHeatActive(obj, args.heatActive);
+//   }
+//   return obj.state;
+// }, heaterObj);

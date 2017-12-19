@@ -197,7 +197,16 @@ struct mgos_config_app {
   char *devId;
   int minTemp;
   int maxTemp;
-  char *modules;
+};
+
+struct mgos_config_server {
+  char *id;
+  char *topicName;
+};
+
+struct mgos_config_devices_mainDevice {
+  char *id;
+  char *type;
 };
 
 struct mgos_config_devices_mainHeater {
@@ -219,6 +228,7 @@ struct mgos_config_devices_mainDHT {
 };
 
 struct mgos_config_devices {
+  struct mgos_config_devices_mainDevice mainDevice;
   struct mgos_config_devices_mainHeater mainHeater;
   struct mgos_config_devices_mainDHT mainDHT;
 };
@@ -244,6 +254,7 @@ struct mgos_config {
   struct mgos_config_mjs mjs;
   struct mgos_config_mqtt mqtt;
   struct mgos_config_app app;
+  struct mgos_config_server server;
   struct mgos_config_devices devices;
   struct mgos_config_pins pins;
 };
@@ -393,8 +404,13 @@ const struct mgos_config_app *mgos_config_get_app(struct mgos_config *cfg);
 const char *mgos_config_get_app_devId(struct mgos_config *cfg);
 int         mgos_config_get_app_minTemp(struct mgos_config *cfg);
 int         mgos_config_get_app_maxTemp(struct mgos_config *cfg);
-const char *mgos_config_get_app_modules(struct mgos_config *cfg);
+const struct mgos_config_server *mgos_config_get_server(struct mgos_config *cfg);
+const char *mgos_config_get_server_id(struct mgos_config *cfg);
+const char *mgos_config_get_server_topicName(struct mgos_config *cfg);
 const struct mgos_config_devices *mgos_config_get_devices(struct mgos_config *cfg);
+const struct mgos_config_devices_mainDevice *mgos_config_get_devices_mainDevice(struct mgos_config *cfg);
+const char *mgos_config_get_devices_mainDevice_id(struct mgos_config *cfg);
+const char *mgos_config_get_devices_mainDevice_type(struct mgos_config *cfg);
 const struct mgos_config_devices_mainHeater *mgos_config_get_devices_mainHeater(struct mgos_config *cfg);
 const char *mgos_config_get_devices_mainHeater_id(struct mgos_config *cfg);
 int         mgos_config_get_devices_mainHeater_HEAT_PIN(struct mgos_config *cfg);
@@ -539,7 +555,10 @@ void mgos_config_set_mqtt_recv_mbuf_limit(struct mgos_config *cfg, int         v
 void mgos_config_set_app_devId(struct mgos_config *cfg, const char *val);
 void mgos_config_set_app_minTemp(struct mgos_config *cfg, int         val);
 void mgos_config_set_app_maxTemp(struct mgos_config *cfg, int         val);
-void mgos_config_set_app_modules(struct mgos_config *cfg, const char *val);
+void mgos_config_set_server_id(struct mgos_config *cfg, const char *val);
+void mgos_config_set_server_topicName(struct mgos_config *cfg, const char *val);
+void mgos_config_set_devices_mainDevice_id(struct mgos_config *cfg, const char *val);
+void mgos_config_set_devices_mainDevice_type(struct mgos_config *cfg, const char *val);
 void mgos_config_set_devices_mainHeater_id(struct mgos_config *cfg, const char *val);
 void mgos_config_set_devices_mainHeater_HEAT_PIN(struct mgos_config *cfg, int         val);
 void mgos_config_set_devices_mainHeater_POWER_PIN(struct mgos_config *cfg, int         val);
@@ -703,8 +722,13 @@ static inline const struct mgos_config_app *mgos_sys_config_get_app(void) { retu
 static inline const char *mgos_sys_config_get_app_devId(void) { return mgos_config_get_app_devId(&mgos_sys_config); }
 static inline int         mgos_sys_config_get_app_minTemp(void) { return mgos_config_get_app_minTemp(&mgos_sys_config); }
 static inline int         mgos_sys_config_get_app_maxTemp(void) { return mgos_config_get_app_maxTemp(&mgos_sys_config); }
-static inline const char *mgos_sys_config_get_app_modules(void) { return mgos_config_get_app_modules(&mgos_sys_config); }
+static inline const struct mgos_config_server *mgos_sys_config_get_server(void) { return mgos_config_get_server(&mgos_sys_config); }
+static inline const char *mgos_sys_config_get_server_id(void) { return mgos_config_get_server_id(&mgos_sys_config); }
+static inline const char *mgos_sys_config_get_server_topicName(void) { return mgos_config_get_server_topicName(&mgos_sys_config); }
 static inline const struct mgos_config_devices *mgos_sys_config_get_devices(void) { return mgos_config_get_devices(&mgos_sys_config); }
+static inline const struct mgos_config_devices_mainDevice *mgos_sys_config_get_devices_mainDevice(void) { return mgos_config_get_devices_mainDevice(&mgos_sys_config); }
+static inline const char *mgos_sys_config_get_devices_mainDevice_id(void) { return mgos_config_get_devices_mainDevice_id(&mgos_sys_config); }
+static inline const char *mgos_sys_config_get_devices_mainDevice_type(void) { return mgos_config_get_devices_mainDevice_type(&mgos_sys_config); }
 static inline const struct mgos_config_devices_mainHeater *mgos_sys_config_get_devices_mainHeater(void) { return mgos_config_get_devices_mainHeater(&mgos_sys_config); }
 static inline const char *mgos_sys_config_get_devices_mainHeater_id(void) { return mgos_config_get_devices_mainHeater_id(&mgos_sys_config); }
 static inline int         mgos_sys_config_get_devices_mainHeater_HEAT_PIN(void) { return mgos_config_get_devices_mainHeater_HEAT_PIN(&mgos_sys_config); }
@@ -849,7 +873,10 @@ static inline void mgos_sys_config_set_mqtt_recv_mbuf_limit(int         val) { m
 static inline void mgos_sys_config_set_app_devId(const char *val) { mgos_config_set_app_devId(&mgos_sys_config, val); }
 static inline void mgos_sys_config_set_app_minTemp(int         val) { mgos_config_set_app_minTemp(&mgos_sys_config, val); }
 static inline void mgos_sys_config_set_app_maxTemp(int         val) { mgos_config_set_app_maxTemp(&mgos_sys_config, val); }
-static inline void mgos_sys_config_set_app_modules(const char *val) { mgos_config_set_app_modules(&mgos_sys_config, val); }
+static inline void mgos_sys_config_set_server_id(const char *val) { mgos_config_set_server_id(&mgos_sys_config, val); }
+static inline void mgos_sys_config_set_server_topicName(const char *val) { mgos_config_set_server_topicName(&mgos_sys_config, val); }
+static inline void mgos_sys_config_set_devices_mainDevice_id(const char *val) { mgos_config_set_devices_mainDevice_id(&mgos_sys_config, val); }
+static inline void mgos_sys_config_set_devices_mainDevice_type(const char *val) { mgos_config_set_devices_mainDevice_type(&mgos_sys_config, val); }
 static inline void mgos_sys_config_set_devices_mainHeater_id(const char *val) { mgos_config_set_devices_mainHeater_id(&mgos_sys_config, val); }
 static inline void mgos_sys_config_set_devices_mainHeater_HEAT_PIN(int         val) { mgos_config_set_devices_mainHeater_HEAT_PIN(&mgos_sys_config, val); }
 static inline void mgos_sys_config_set_devices_mainHeater_POWER_PIN(int         val) { mgos_config_set_devices_mainHeater_POWER_PIN(&mgos_sys_config, val); }

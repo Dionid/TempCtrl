@@ -41,7 +41,6 @@ sources:
 - /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_720103732/libs/rpc-service-config/src/mgos_service_config.c
 - /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_720103732/libs/rpc-service-fs/src/mgos_service_filesystem.c
 - /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_720103732/libs/rpc-service-gpio/src/mgos_gpio_service.c
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_720103732/libs/rpc-service-i2c/src/mgos_i2c_service.c
 - /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_720103732/libs/rpc-service-wifi/src/mgos_rpc_service_wifi.c
 - /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_720103732/libs/rpc-uart/src/mgos_rpc_channel_uart.c
 includes:
@@ -64,7 +63,6 @@ includes:
 - /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_720103732/libs/rpc-service-config/include
 - /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_720103732/libs/rpc-service-fs/include
 - /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_720103732/libs/rpc-service-gpio/include
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_720103732/libs/rpc-service-i2c/include
 - /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_720103732/libs/rpc-service-ota/include
 - /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_720103732/libs/rpc-uart/include
 filesystem:
@@ -536,13 +534,31 @@ config_schema:
   - i
   - 20
   - title: Max heater temperature
-- - app.modules
+- - server
+  - o
+  - title: My app custom settings
+- - server.id
   - s
-  - '{}'
-  - title: JSON with modules
+  - qweyuiasdhjky
+  - title: My app custom settings
+- - server.topicName
+  - s
+  - qweyuiasdhjky/p/smart_heater/asdqwezxc/s/rpc
+  - title: My app custom settings
 - - devices
   - o
   - title: My app custom settings
+- - devices.mainDevice
+  - o
+  - title: My app custom settings
+- - devices.mainDevice.id
+  - s
+  - qwertyqwerty
+  - title: JSON with modules
+- - devices.mainDevice.type
+  - s
+  - smart_heater
+  - title: JSON with modules
 - - devices.mainHeater
   - o
   - title: My app custom settings
@@ -633,7 +649,6 @@ build_vars:
   MGOS_HAVE_RPC_SERVICE_CONFIG: "1"
   MGOS_HAVE_RPC_SERVICE_FS: "1"
   MGOS_HAVE_RPC_SERVICE_GPIO: "1"
-  MGOS_HAVE_RPC_SERVICE_I2C: "1"
   MGOS_HAVE_RPC_SERVICE_OTA: "1"
   MGOS_HAVE_RPC_SERVICE_WIFI: "1"
   MGOS_HAVE_RPC_UART: "1"
@@ -671,7 +686,6 @@ cdefs:
   MGOS_HAVE_RPC_SERVICE_CONFIG: "1"
   MGOS_HAVE_RPC_SERVICE_FS: "1"
   MGOS_HAVE_RPC_SERVICE_GPIO: "1"
-  MGOS_HAVE_RPC_SERVICE_I2C: "1"
   MGOS_HAVE_RPC_SERVICE_OTA: "1"
   MGOS_HAVE_RPC_SERVICE_WIFI: "1"
   MGOS_HAVE_RPC_UART: "1"
@@ -800,13 +814,6 @@ libs_handled:
   - rpc-common
   sources:
   - /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_720103732/libs/rpc-service-gpio/src/mgos_gpio_service.c
-- name: rpc-service-i2c
-  path: /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_720103732/libs/rpc-service-i2c
-  deps:
-  - i2c
-  - rpc-common
-  sources:
-  - /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_720103732/libs/rpc-service-i2c/src/mgos_i2c_service.c
 - name: rpc-service-ota
   path: /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_720103732/libs/rpc-service-ota
   deps:

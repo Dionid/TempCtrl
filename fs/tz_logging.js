@@ -51,7 +51,7 @@ let TZLog = {
   // },
 
   errorDev: function(deviceId, msg) {
-    let newMsg = "[error] " + msg;
+    let newMsg = "[" + deviceId + "][error]" + msg;
     // let deviceLogs = this.getDevLog(deviceId);
     // this.preWriteDeviceLogsCheck(deviceId, deviceLogs);
     // deviceLogs[deviceLogs.length] = newMsg;
@@ -60,7 +60,7 @@ let TZLog = {
   },
 
   warnDev: function(deviceId, msg) {
-    let newMsg = "[warn] " + msg;
+    let newMsg = "[" + deviceId + "][warn]" + msg;
     // let deviceLogs = this.getDevLog(deviceId);
     // this.preWriteDeviceLogsCheck(deviceId, deviceLogs);
     // deviceLogs[deviceLogs.length] = newMsg;
@@ -69,7 +69,7 @@ let TZLog = {
   },
 
   infoDev: function(deviceId, msg) {
-    let newMsg = "[info] " + msg;
+    let newMsg = "[" + deviceId + "][info]" + msg;
     // let deviceLogs = this.getDevLog(deviceId);
     // this.preWriteDeviceLogsCheck(deviceId, deviceLogs);
     // deviceLogs[deviceLogs.length] = newMsg;
@@ -78,7 +78,7 @@ let TZLog = {
   },
 
   debugDev: function(deviceId, msg) {
-    let newMsg = "[debug] " + msg;
+    let newMsg = "[" + deviceId + "][debug]" + msg;
     // let deviceLogs = this.getDevLog(deviceId);
     // this.preWriteDeviceLogsCheck(deviceId, deviceLogs);
     // deviceLogs[deviceLogs.length] = newMsg;
@@ -87,7 +87,7 @@ let TZLog = {
   },
 
   verboseDebugDev: function(deviceId, msg) {
-    let newMsg = "[verboseDebug] " + msg;
+    let newMsg = "[" + deviceId + "][verboseDebug]" + msg;
     // let deviceLogs = this.getDevLog(deviceId);
     // this.preWriteDeviceLogsCheck(deviceId, deviceLogs);
     // deviceLogs[deviceLogs.length] = newMsg;

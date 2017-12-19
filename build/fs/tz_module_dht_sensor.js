@@ -128,16 +128,16 @@ function INIT_DHT_MODULE(options) {
       let maxTemp = state.maxTemp;
       let minTemp = state.minTemp;
 
-      if (temp > maxTemp) {
+      if (temp >= maxTemp) {
         print('temp > maxTemp');
         TZ_Actions.DoActions(state.maxTempActions, obj.deviceId);
-      } else if (temp < minTemp) {
+      } else if (temp <= minTemp) {
         print('temp < minTemp');
         TZ_Actions.DoActions(state.minTempActions, obj.deviceId);
       }
     }
 
-    TZ_RPC.main_server_rpc_call(obj.deviceId + '.SaveData', {temp: temp, hum: hum});
+    TZ_RPC.main_server_rpc_call(obj.deviceId + '.SaveData', {temp: temp, hum: hum, t: Timer.now()});
     Dash.send("temperature", temp);
     Dash.send("humidity", hum);
 

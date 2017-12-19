@@ -25,7 +25,7 @@ let TZLog = {
     Log.print(Log.VERBOSE_DEBUG, msg);
   },
 
-  devicesLogs: {},
+  // devicesLogs: {},
 
   sendDeviceLogMsg: function(deviceId, type, msg) {
     // let sended = TZ_RPC.main_server_rpc_call(deviceId + '.Log', {msg: msg, type: type});
@@ -34,76 +34,75 @@ let TZLog = {
     // }
   },
 
-  getDevLog: function(deviceId) {
-    let deviceLogs = this.devicesLogs[deviceId];
-    if (deviceLogs === undefined) {
-      this.devicesLogs[deviceId] = [];
-      return this.devicesLogs[deviceId];
-    }
-    return deviceLogs;
-  },
+  // getDevLog: function(deviceId) {
+  //   let deviceLogs = this.devicesLogs[deviceId];
+  //   if (deviceLogs === undefined) {
+  //     this.devicesLogs[deviceId] = [];
+  //     return this.devicesLogs[deviceId];
+  //   }
+  //   return deviceLogs;
+  // },
 
-  preWriteDeviceLogsCheck: function(deviceId, deviceLogs) {
-    if (deviceLogs.length > 30) {
-      this.devicesLogs[deviceId] = [];
-      deviceLogs = this.devicesLogs[deviceId];
-    }
-  },
+  // preWriteDeviceLogsCheck: function(deviceId, deviceLogs) {
+  //   if (deviceLogs.length > 30) {
+  //     this.devicesLogs[deviceId] = [];
+  //     deviceLogs = this.devicesLogs[deviceId];
+  //   }
+  // },
 
   errorDev: function(deviceId, msg) {
     let newMsg = "[error] " + msg;
-    let deviceLogs = this.getDevLog(deviceId);
-    this.preWriteDeviceLogsCheck(deviceId, deviceLogs);
+    // let deviceLogs = this.getDevLog(deviceId);
+    // this.preWriteDeviceLogsCheck(deviceId, deviceLogs);
     // deviceLogs[deviceLogs.length] = newMsg;
     Log.print(Log.ERROR, newMsg);
-    this.sendDeviceLogMsg(deviceId, 'error', newMsg);
+    // this.sendDeviceLogMsg(deviceId, 'error', newMsg);
   },
 
   warnDev: function(deviceId, msg) {
     let newMsg = "[warn] " + msg;
-    let deviceLogs = this.getDevLog(deviceId);
-    this.preWriteDeviceLogsCheck(deviceId, deviceLogs);
+    // let deviceLogs = this.getDevLog(deviceId);
+    // this.preWriteDeviceLogsCheck(deviceId, deviceLogs);
     // deviceLogs[deviceLogs.length] = newMsg;
     Log.print(Log.WARN, newMsg);
-    this.sendDeviceLogMsg(deviceId, 'warn', newMsg);
+    // this.sendDeviceLogMsg(deviceId, 'warn', newMsg);
   },
 
   infoDev: function(deviceId, msg) {
     let newMsg = "[info] " + msg;
-    let deviceLogs = this.getDevLog(deviceId);
-    this.preWriteDeviceLogsCheck(deviceId, deviceLogs);
+    // let deviceLogs = this.getDevLog(deviceId);
+    // this.preWriteDeviceLogsCheck(deviceId, deviceLogs);
     // deviceLogs[deviceLogs.length] = newMsg;
     Log.print(Log.INFO, newMsg);
-    this.sendDeviceLogMsg(deviceId, 'info', newMsg);
+    // this.sendDeviceLogMsg(deviceId, 'info', newMsg);
   },
 
   debugDev: function(deviceId, msg) {
     let newMsg = "[debug] " + msg;
-    let deviceLogs = this.getDevLog(deviceId);
-    this.preWriteDeviceLogsCheck(deviceId, deviceLogs);
+    // let deviceLogs = this.getDevLog(deviceId);
+    // this.preWriteDeviceLogsCheck(deviceId, deviceLogs);
     // deviceLogs[deviceLogs.length] = newMsg;
     Log.print(Log.DEBUG, newMsg);
-    this.sendDeviceLogMsg(deviceId, 'debug', newMsg);
+    // this.sendDeviceLogMsg(deviceId, 'debug', newMsg);
   },
 
   verboseDebugDev: function(deviceId, msg) {
     let newMsg = "[verboseDebug] " + msg;
-    let deviceLogs = this.getDevLog(deviceId);
-    this.preWriteDeviceLogsCheck(deviceId, deviceLogs);
+    // let deviceLogs = this.getDevLog(deviceId);
+    // this.preWriteDeviceLogsCheck(deviceId, deviceLogs);
     // deviceLogs[deviceLogs.length] = newMsg;
     Log.print(Log.VERBOSE_DEBUG, newMsg);
-    this.sendDeviceLogMsg(deviceId, 'verboseDebug', newMsg);
+    // this.sendDeviceLogMsg(deviceId, 'verboseDebug', newMsg);
   }
 };
 
-RPC.addHandler('TZLogs.GetLogs', function(args) {
-  return deb_arr;
-}, null);
-
-RPC.addHandler('TZLogs.CallLogs', function(args) {
-  return TZLog.getDevLog(args.deviceId);
-}, null);
-
+// RPC.addHandler('TZLogs.GetLogs', function(args) {
+//   return deb_arr;
+// }, null);
+//
+// RPC.addHandler('TZLogs.CallLogs', function(args) {
+//   return TZLog.getDevLog(args.deviceId);
+// }, null);
 
 // let deb_arr = [];
 
@@ -112,5 +111,3 @@ RPC.addHandler('TZLogs.CallLogs', function(args) {
 //   deb_arr[deb_arr.length] = ev;
 //   // TZ_RPC.main_server_rpc_call('Main.Log', data.data);
 // }, null);
-
-

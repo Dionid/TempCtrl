@@ -160,10 +160,17 @@
   "app": {
     "devId": "qweqweqwe", 
     "minTemp": 10, 
-    "maxTemp": 20, 
-    "modules": "{}"
+    "maxTemp": 20
+  }, 
+  "server": {
+    "id": "qweyuiasdhjky", 
+    "topicName": "qweyuiasdhjky/p/smart_heater/asdqwezxc/s/rpc"
   }, 
   "devices": {
+    "mainDevice": {
+      "id": "qwertyqwerty", 
+      "type": "smart_heater"
+    }, 
     "mainHeater": {
       "id": "asdqwezxc", 
       "HEAT_PIN": 13, 
