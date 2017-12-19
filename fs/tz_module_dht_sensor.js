@@ -92,26 +92,6 @@ function INIT_DHT_MODULE(options) {
     return dhtObj.state;
   }, dhtObj);
 
-  RPC.addHandler(deviceId + '.IncrementMaxTemp', function(args, sm, dhtObj) {
-    SetMaxTemp(dhtObj, dhtObj.state.maxTemp + 1);
-    return true;
-  }, dhtObj);
-
-  RPC.addHandler(deviceId + '.IncrementMinTemp', function(args, sm, dhtObj) {
-    SetMinTemp(dhtObj, dhtObj.state.minTemp + 1);
-    return true;
-  }, dhtObj);
-
-  RPC.addHandler(deviceId + '.DecrementMaxTemp', function(args, sm, dhtObj) {
-    SetMaxTemp(dhtObj, dhtObj.state.maxTemp - 1);
-    return true;
-  }, dhtObj);
-
-  RPC.addHandler(deviceId + '.DecrementMinTemp', function(args, sm, dhtObj) {
-    SetMinTemp(dhtObj, dhtObj.state.minTemp - 1);
-    return true;
-  }, dhtObj);
-
   RPC.addHandler(deviceId + '.GetState', function(args, sm, dhtObj) {
     DHTModuleRefreshHumAndTemp(dhtObj);
     return dhtObj.state;

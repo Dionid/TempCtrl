@@ -16,8 +16,8 @@ load('tz_actions.js');
 
 load('tz_module_heater.js');
 load('tz_module_dht_sensor.js');
-load('oled.js');
-load('buttons.js');
+load('tz_smart_heater_oled.js');
+load('tz_smart_heater_buttons.js');
 
 Timer.set(100, false, function() {
   let heaterDeviceId = Cfg.get('devices.mainHeater.id');
