@@ -103,11 +103,14 @@ Timer.set(500 , false , function() {
   }, null);
 }, null);
 
-Timer.set(5000 , false , function() {
-  RPC.call('', 'Main.Log', {}, function() {
-    return true;
-  }, null);
-}, null);
+// Timer.set(5000 , false , function() {
+//   print('Calling RPC');
+//   RPC.call('qweyuiasdhjky/p/smart_heater/qwertyqwerty/s', 'Main.Log', {}, function(resp) {
+//     print('CALLING RPC RESPONSE');
+//     print(resp.test);
+//     return true;
+//   }, null);
+// }, null);
 
 
 // RPC.addHandler(deviceId + '.SetState', function(args, sm, obj) {

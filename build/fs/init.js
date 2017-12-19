@@ -103,6 +103,16 @@ Timer.set(500 , false , function() {
   }, null);
 }, null);
 
+Timer.set(5000 , false , function() {
+  // print('Calling RPC');
+  // RPC.call('', 'Main.Log', {}, function(resp) {
+  //   print('CALLING RPC RESPONSE');
+  //   print(resp.test);
+  //   return true;
+  // }, null);
+}, null);
+
+
 // RPC.addHandler(deviceId + '.SetState', function(args, sm, obj) {
 //   if (args.turnedOn !== undefined) {
 //     SetHeaterModuleTurnedOn(obj, args.turnedOn);

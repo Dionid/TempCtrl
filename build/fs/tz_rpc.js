@@ -5,7 +5,7 @@ let TZ_RPC = {
   inited: false,
   send_msg_qeue: [],
   main_server_rpc_call_next_id: 872663,
-  main_rpc_call_dst: 'qweyuiasdhjky/p/smart_heater/asdqwezxc/s/rpc',
+  main_rpc_call_dst: Cfg.get('server.topicName'),
   device_main_mqtt_rpc_topic_name: Cfg.get('rpc.mqtt.topic') || Cfg.get('device.id'),
 
   send_msgs_from_qeue: function() {
