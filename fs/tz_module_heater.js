@@ -5,16 +5,16 @@ load('api_rpc.js');
 
 load('tz_actions.js');
 
-function SetHeaterModuleTurnedOn(obj, turnedOn) {
+function SetHeaterModuleTurnedOn(obj, turnedOn, report) {
   GPIO.write(obj.pins.POWER_PIN, turnedOn);
   obj.state.turnedOn = turnedOn;
-  StateChangedRpcCall(obj.deviceId, obj.state, {turnedOn:turnedOn});
+  StateChangedRpcCall(obj.deviceId, obj.state, {turnedOn:turnedOn}, report);
 }
 
-function SetHeaterModuleHeatActive(obj, heatActive) {
+function SetHeaterModuleHeatActive(obj, heatActive, report) {
   GPIO.write(obj.pins.HEAT_PIN, heatActive);
   obj.state.heatActive = heatActive;
-  StateChangedRpcCall(obj.deviceId, obj.state, {heatActive:heatActive});
+  StateChangedRpcCall(obj.deviceId, obj.state, {heatActive:heatActive}, report);
 }
 
 function INIT_HEATER_MODULE(options) {
@@ -45,8 +45,9 @@ function INIT_HEATER_MODULE(options) {
     state: heaterState,
   };
 
-  SetHeaterModuleTurnedOn(heaterObj, options.turnedOn);
-  SetHeaterModuleHeatActive(heaterObj, options.heatActive);
+  // report = false, because this initial state will we translated
+  SetHeaterModuleTurnedOn(heaterObj, options.turnedOn, false);
+  SetHeaterModuleHeatActive(heaterObj, options.heatActive, false);
 
   TZLog.infoDev(deviceId, 'Ended INIT_HEATER_MODULE');
 

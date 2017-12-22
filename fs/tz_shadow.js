@@ -68,25 +68,6 @@ let TZShadow = {
     return true;
   },
 
-  // LocalUpdate: function(changedProps) {
-  //   let state = {};
-  //
-  //   TZShadowDeltaCb({state: changedProps}, state);
-  //
-  //   let response = {
-  //     reported: state,
-  //     desired: state,
-  //     // reported: TZShadow.State,
-  //     // desired: TZShadow.State,
-  //     version: this.GetCurrentVersion()
-  //   };
-  //
-  //   // RESPONSE to /:server_id/:shadow_id/update {"reported": ...}
-  //   MQTT.pub(this._serverTopicName+"/update", JSON.stringify(response), 1);
-  //
-  //   return true;
-  // },
-
   Init: function(options) {
     let deviceId = options.deviceId;
     let serverId = options.serverId;

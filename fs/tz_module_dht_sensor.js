@@ -4,17 +4,23 @@
 
 // load('tz_actions.js');
 
-function SetDHTModuleTemp(obj, temp) {
+function SetDHTModuleTemp(obj, temp, report) {
   obj.state.temp = temp;
-  StateChangedRpcCall(obj.deviceId, obj.state, {temp: t});
+  StateChangedRpcCall(obj.deviceId, obj.state, {temp: t}, report);
 }
 
-function SetDHTModuleHum(obj, hum) {
+function SetDHTModuleHum(obj, hum, report) {
   obj.state.hum = hum;
-  StateChangedRpcCall(obj.deviceId, obj.state, {hum: h});
+  StateChangedRpcCall(obj.deviceId, obj.state, {hum: h}, report);
 }
 
-function DHTModuleRefreshHumAndTemp(obj) {
+function SetDHTModuleTempAndHum(obj, temp, hum, report) {
+  obj.state.temp = temp;
+  obj.state.hum = hum;
+  StateChangedRpcCall(obj.deviceId, obj.state, {temp: t, hum: hum}, report);
+}
+
+function DHTModuleRefreshHumAndTemp(obj, report) {
   obj.state.temp = 0;
   obj.state.hum = 0;
   let t = obj.dht.getTemp();
@@ -24,19 +30,18 @@ function DHTModuleRefreshHumAndTemp(obj) {
     TZLog.errorDev(obj.deviceId, 'Failed to read data from sensor');
     return;
   } else {
-    SetDHTModuleTemp(obj, t);
-    SetDHTModuleHum(obj, h);
+    SetDHTModuleTempAndHum(obj, t, h, report);
   }
 }
 
-function SetMinTemp(obj, minTemp) {
+function SetMinTemp(obj, minTemp, report) {
   obj.state.minTemp = minTemp;
-  StateChangedRpcCall(obj.deviceId, obj.state, {minTemp:minTemp});
+  StateChangedRpcCall(obj.deviceId, obj.state, {minTemp:minTemp}, report);
 }
 
-function SetMaxTemp(obj, maxTemp) {
+function SetMaxTemp(obj, maxTemp, report) {
   obj.state.maxTemp = maxTemp;
-  StateChangedRpcCall(obj.deviceId, obj.state, {maxTemp:maxTemp});
+  StateChangedRpcCall(obj.deviceId, obj.state, {maxTemp:maxTemp}, report);
 }
 
 function INIT_DHT_MODULE(options) {
@@ -76,32 +81,23 @@ function INIT_DHT_MODULE(options) {
   };
 
   Timer.set(mainTimerInterval /* milliseconds */, true /* repeat */, function(obj) {
-    DHTModuleRefreshHumAndTemp(obj);
+    DHTModuleRefreshHumAndTemp(obj, true);
 
     let state = obj.state;
     let temp = state.temp;
-    let hum = state.hum;
+    // let hum = state.hum;
 
     if (state.autoCtrl) {
-      let maxTemp = state.maxTemp;
-      let minTemp = state.minTemp;
-
-      if (temp >= maxTemp) {
+      if (temp >= state.maxTemp) {
         TZ_Actions.DoActions(state.maxTempActions, obj.deviceId);
-      } else if (temp <= minTemp) {
+      } else if (temp <= state.minTemp) {
         TZ_Actions.DoActions(state.minTempActions, obj.deviceId);
       }
     }
-
-    // TZShadow.UpdateReportedAndDesire();
-    // ShadowReportAndDesire()
-    // TZ_RPC.main_server_rpc_call(obj.deviceId + '.SaveData', {temp: temp, hum: hum, t: Timer.now()});
-    // TZTShadow.LocalUpdate();
-    
   }, dhtObj);
 
   Timer.set(3000 /* milliseconds */, false /* repeat */, function(obj) {
-    DHTModuleRefreshHumAndTemp(obj);
+    DHTModuleRefreshHumAndTemp(obj, false);
   }, dhtObj);
 
   TZLog.infoDev(deviceId, 'Ended INIT_DHT_MODULE');

@@ -45,6 +45,8 @@ config_schema:
   - ["devices.mainDevice", "o", {title: "My app custom settings"}]
   - ["devices.mainDevice.id", "s", "qwertyqwerty", {title: "JSON with modules"}]
   - ["devices.mainDevice.type", "s", "smart_heater", {title: "JSON with modules"}]
+  - ["devices.mainDevice.mainHeaterStateName", "s", "mainHeaterState", {title: "JSON with modules"}]
+  - ["devices.mainDevice.mainTempAndHumStateName", "s", "mainTempAndHumState", {title: "JSON with modules"}]
 
   - ["devices.mainHeater", "o", {title: "My app custom settings"}]
   - ["devices.mainHeater.id", "s", "asdqwezxc", {title: "JSON with modules"}]
@@ -58,10 +60,10 @@ config_schema:
   - ["devices.mainDHT.minTemp", "i", 10, {title: "My app custom settings"}]
   - ["devices.mainDHT.maxTemp", "i", 20, {title: "My app custom settings"}]
   - ["devices.mainDHT.autoCtrl", "b", true, {title: "My app custom settings"}]
-  - ["devices.mainDHT.minTempActions", "s", "[{\"method\":\"asdqwezxc.SetState\",\"args\":{\"heatActive\":true},\"local\":true,\"interval\":60}]", {title: "JSON with modules"}]
-  - ["devices.mainDHT.maxTempActions", "s", "[{\"method\":\"asdqwezxc.SetState\",\"args\":{\"heatActive\":false},\"local\":true,\"interval\":60}]", {title: "JSON with modules"}]
-  # - ["devices.mainDHT.minTempActions", "s", "[{\"method\":\"qwertyqwerty.Shadow.LocalDelta\",\"args\":{\"state\": {\"mainHeaterState\":{\"heatActive\": true}},\"local\":true,\"interval\":60}]", {title: "JSON with modules"}]
-  # - ["devices.mainDHT.maxTempActions", "s", "[{\"method\":\"qwertyqwerty.Shadow.LocalDelta\",\"args\":{\"state\": {\"mainHeaterState\":{\"heatActive\": false}},\"local\":true,\"interval\":60}]", {title: "JSON with modules"}]
+  # - ["devices.mainDHT.minTempActions", "s", "[{\"method\":\"asdqwezxc.SetState\",\"args\":{\"heatActive\":true},\"local\":true,\"interval\":60}]", {title: "JSON with modules"}]
+  # - ["devices.mainDHT.maxTempActions", "s", "[{\"method\":\"asdqwezxc.SetState\",\"args\":{\"heatActive\":false},\"local\":true,\"interval\":60}]", {title: "JSON with modules"}]
+  - ["devices.mainDHT.minTempActions", "s", "[{\"type\":\"rpc\",\"method\":\"qwertyqwerty.Shadow.LocalDelta\",\"args\":{\"state\": {\"mainHeaterState\":{\"heatActive\": true}},\"local\":true,\"interval\":60}]", {title: "JSON with modules"}]
+  - ["devices.mainDHT.maxTempActions", "s", "[{\"type\":\"rpc\",\"method\":\"qwertyqwerty.Shadow.LocalDelta\",\"args\":{\"state\": {\"mainHeaterState\":{\"heatActive\": false}},\"local\":true,\"interval\":60}]", {title: "JSON with modules"}]
   - ["devices.mainDHT.mainTimerInterval", "i", 10000, {title: "My app custom settings"}]
 
   - ["pins", "o", {title: "My app custom settings"}]

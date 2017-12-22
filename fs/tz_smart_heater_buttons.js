@@ -28,13 +28,13 @@ function INIT_BUTTONS(options) {
     if (selectedConfig === deviceConfigs.NONE) {
       return;
     } else if (selectedConfig === deviceConfigs.POWER) {
-      SetHeaterModuleTurnedOn(globalObjs.mainHeaterObj, !globalObjs.mainHeaterObj.state.turnedOn);
+      SetHeaterModuleTurnedOn(globalObjs.mainHeaterObj, !globalObjs.mainHeaterObj.state.turnedOn, true);
       return;
     } else if (selectedConfig === deviceConfigs.MIN_TEMP) {
-      SetMinTemp(globalObjs.mainDHTObj, globalObjs.mainDHTObj.state.minTemp - 1);
+      SetMinTemp(globalObjs.mainDHTObj, globalObjs.mainDHTObj.state.minTemp - 1, true);
       return;
     } else if (selectedConfig === deviceConfigs.MAX_TEMP) {
-      SetMaxTemp(globalObjs.mainDHTObj, globalObjs.mainDHTObj.state.maxTemp - 1);
+      SetMaxTemp(globalObjs.mainDHTObj, globalObjs.mainDHTObj.state.maxTemp - 1, true);
       return;
     }
   }, buttonsObj);
@@ -45,13 +45,13 @@ function INIT_BUTTONS(options) {
     if (selectedConfig === deviceConfigs.NONE) {
       return;
     } else if (selectedConfig === deviceConfigs.POWER) {
-      SetHeaterModuleTurnedOn(globalObjs.mainHeaterObj, !globalObjs.mainHeaterObj.state.turnedOn);
+      SetHeaterModuleTurnedOn(globalObjs.mainHeaterObj, !globalObjs.mainHeaterObj.state.turnedOn, true);
       return;
     } else if (selectedConfig === deviceConfigs.MIN_TEMP) {
-      SetMinTemp(globalObjs.mainDHTObj, globalObjs.mainDHTObj.state.minTemp + 1);
+      SetMinTemp(globalObjs.mainDHTObj, globalObjs.mainDHTObj.state.minTemp + 1, true);
       return;
     } else if (selectedConfig === deviceConfigs.MAX_TEMP) {
-      SetMaxTemp(globalObjs.mainDHTObj, globalObjs.mainDHTObj.state.maxTemp + 1);
+      SetMaxTemp(globalObjs.mainDHTObj, globalObjs.mainDHTObj.state.maxTemp + 1, true);
       return;
     }
   }, buttonsObj);

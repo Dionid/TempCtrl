@@ -10,9 +10,9 @@ load('api_sys.js');
 
 load('tz_rpc.js');
 load('tz_logging.js');
-
 load('tz_global_state.js');
 load('tz_actions.js');
+load('tz_shadow.js');
 
 load('tz_module_heater.js');
 load('tz_module_dht_sensor.js');
@@ -35,7 +35,9 @@ Timer.set(100, false, function() {
       Cfg.set({devices: {mainHeater: {turnedOn: changedProps.turnedOn}}}, true);
       RenderHeaterTurnedOn(changedProps.turnedOn, false);
     }
-    // TZShadow.PublishLocalUpdate({mainTempAndHumidityState: changedProps});
+    if (args.report) {
+      TZShadow.PublishLocalUpdate({mainHeaterState: changedProps});
+    }
     return true;
   });
 }, null);
@@ -69,7 +71,9 @@ Timer.set(200, false, function() {
     if (changedProps.hum) {
       RenderHum(changedProps.hum);
     }
-    // TZShadow.PublishLocalUpdate({mainTempAndHumidityState: changedProps});
+    if (args.report) {
+      TZShadow.PublishLocalUpdate({mainTempAndHumState: changedProps});
+    }
     return true;
   });
 }, null);
@@ -104,19 +108,19 @@ function TZShadowDeltaCb(args, changedState) {
     }
     changedState.mainHeaterState = mainHeaterState;
   }
-  if (args.state.mainTempAndHumidityState !== undefined) {
-    let mainTempAndHumidityState = {};
-    let minTemp = args.state.mainTempAndHumidityState.minTemp;
+  if (args.state.mainTempAndHumState !== undefined) {
+    let mainTempAndHumState = {};
+    let minTemp = args.state.mainTempAndHumState.minTemp;
     if (minTemp !== undefined) {
       SetMinTemp(globalObjs.mainDHTObj, minTemp);
-      mainTempAndHumidityState.minTemp = minTemp;
+      mainTempAndHumState.minTemp = minTemp;
     }
-    let maxTemp = args.state.mainTempAndHumidityState.maxTemp;
+    let maxTemp = args.state.mainTempAndHumState.maxTemp;
     if (maxTemp !== undefined) {
       SetMaxTemp(globalObjs.mainDHTObj, maxTemp);
-      mainTempAndHumidityState.maxTemp = maxTemp;
+      mainTempAndHumState.maxTemp = maxTemp;
     }
-    changedState.mainTempAndHumidityState = mainTempAndHumidityState;
+    changedState.mainTempAndHumState = mainTempAndHumState;
   }
 }
 
@@ -128,10 +132,10 @@ Timer.set(500 , false , function() {
     serverId: Cfd.get('server.id'),
     state: {
       mainHeaterState: globalObjs.mainHeaterObj.state,
-      mainDHTState: globalObjs.mainDHTObj.state,
+      mainTempAndHumState: globalObjs.mainDHTObj.state,
     },
   });
 
 }, null);
 
-print('New build');
+print('Shadow build');
