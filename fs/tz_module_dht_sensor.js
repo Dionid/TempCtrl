@@ -93,10 +93,11 @@ function INIT_DHT_MODULE(options) {
       }
     }
 
-    
-
+    // TZShadow.UpdateReportedAndDesire();
     // ShadowReportAndDesire()
     // TZ_RPC.main_server_rpc_call(obj.deviceId + '.SaveData', {temp: temp, hum: hum, t: Timer.now()});
+    // TZTShadow.LocalUpdate();
+    
   }, dhtObj);
 
   Timer.set(3000 /* milliseconds */, false /* repeat */, function(obj) {

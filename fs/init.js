@@ -33,9 +33,9 @@ Timer.set(100, false, function() {
     let changedProps = args.changedProps;
     if (changedProps.turnedOn !== undefined) {
       Cfg.set({devices: {mainHeater: {turnedOn: changedProps.turnedOn}}}, true);
-      // TZ_RPC.main_server_rpc_call(globalObjs.mainHeaterObj.deviceId + '.SetState', {temp: temp, hum: hum, t: Timer.now()});
       RenderHeaterTurnedOn(changedProps.turnedOn, false);
     }
+    // TZShadow.PublishLocalUpdate({mainTempAndHumidityState: changedProps});
     return true;
   });
 }, null);
@@ -69,6 +69,8 @@ Timer.set(200, false, function() {
     if (changedProps.hum) {
       RenderHum(changedProps.hum);
     }
+    // TZShadow.PublishLocalUpdate({mainTempAndHumidityState: changedProps});
+    return true;
   });
 }, null);
 
@@ -87,76 +89,48 @@ Timer.set(400 , false , function() {
   });
 }, null);
 
-function TZShadowDeltaCb(args, state) {
+function TZShadowDeltaCb(args, changedState) {
   if (args.state.mainHeaterState !== undefined) {
-    // state.mainHeaterState = {};
-    if (args.state.mainHeaterState.turnedOn !== undefined) {
-      SetHeaterModuleTurnedOn(globalObjs.mainHeaterObj, args.state.mainHeaterState.turnedOn);
-      // state.mainHeaterState.turnedOn = args.state.mainHeaterState.turnedOn;
+    let mainHeaterState = {};
+    let turnedOn = args.state.mainHeaterState.turnedOn;
+    if (turnedOn !== undefined) {
+      SetHeaterModuleTurnedOn(globalObjs.mainHeaterObj, turnedOn);
+      mainHeaterState.turnedOn = turnedOn;
     }
-    if (args.state.mainHeaterState.heatActive !== undefined) {
-      SetHeaterModuleHeatActive(globalObjs.mainHeaterObj, args.state.mainHeaterState.heatActive);
-      // state.mainHeaterState.turnedOn = args.state.mainHeaterState.heatActive;
+    let heatActive = args.state.mainHeaterState.heatActive;
+    if (heatActive !== undefined) {
+      SetHeaterModuleHeatActive(globalObjs.mainHeaterObj, heatActive);
+      mainHeaterState.turnedOn = heatActive;
     }
+    changedState.mainHeaterState = mainHeaterState;
   }
   if (args.state.mainTempAndHumidityState !== undefined) {
-    // state.mainTempAndHumidityState = {};
-    if (args.state.mainTempAndHumidityState.minTemp !== undefined) {
-      SetMinTemp(globalObjs.mainDHTObj, args.state.mainTempAndHumidityState.minTemp);
-      // state.mainTempAndHumidityState.minTemp = args.state.mainTempAndHumidityState.minTemp;
+    let mainTempAndHumidityState = {};
+    let minTemp = args.state.mainTempAndHumidityState.minTemp;
+    if (minTemp !== undefined) {
+      SetMinTemp(globalObjs.mainDHTObj, minTemp);
+      mainTempAndHumidityState.minTemp = minTemp;
     }
-    if (args.state.mainTempAndHumidityState.maxTemp !== undefined) {
-      SetMaxTemp(globalObjs.mainDHTObj, args.state.mainTempAndHumidityState.maxTemp);
-      // state.mainTempAndHumidityState.maxTemp = args.state.mainTempAndHumidityState.maxTemp;
+    let maxTemp = args.state.mainTempAndHumidityState.maxTemp;
+    if (maxTemp !== undefined) {
+      SetMaxTemp(globalObjs.mainDHTObj, maxTemp);
+      mainTempAndHumidityState.maxTemp = maxTemp;
     }
+    changedState.mainTempAndHumidityState = mainTempAndHumidityState;
   }
 }
 
 Timer.set(500 , false , function() {
   let deviceId = Cfg.get('devices.mainDevice.id');
 
-  // GlobalShadowState = {
-  //   mainHeaterState: globalObjs.mainHeaterObj.state,
-  //   mainDHTState: globalObjs.mainDHTObj.state,
-  // };
-
-  TZShadow.State = {
-    mainHeaterState: globalObjs.mainHeaterObj.state,
-    mainDHTState: globalObjs.mainDHTObj.state,
-  };
-
-  // let shadow = INIT_SHADOW({
-  //   deviceId: deviceId,
-  //   serverId: serverId,
-  //   // deviceState: {
-  //   //   mainHeaterState: globalObjs.mainHeaterObj.state,
-  //   //   mainDHTState: globalObjs.mainDHTObj.state,
-  //   // },
-  //   deltaCb: function(args, state) {
-  //     if (args.state.mainHeaterState !== undefined) {
-  //       state.mainHeaterState = {};
-  //       if (args.state.mainHeaterState.turnedOn !== undefined) {
-  //         SetHeaterModuleTurnedOn(globalObjs.mainHeaterObj, args.state.mainHeaterState.turnedOn);
-  //         state.mainHeaterState.turnedOn = args.state.mainHeaterState.turnedOn;
-  //       }
-  //       if (args.state.mainHeaterState.heatActive !== undefined) {
-  //         SetHeaterModuleHeatActive(globalObjs.mainHeaterObj, args.state.mainHeaterState.heatActive);
-  //         state.mainHeaterState.turnedOn = args.state.mainHeaterState.heatActive;
-  //       }
-  //     }
-  //     if (args.state.mainTempAndHumidityState !== undefined) {
-  //       state.mainTempAndHumidityState = {};
-  //       if (args.state.mainTempAndHumidityState.minTemp !== undefined) {
-  //         SetMinTemp(globalObjs.mainDHTObj, args.state.mainTempAndHumidityState.minTemp);
-  //         state.mainTempAndHumidityState.minTemp = args.state.mainTempAndHumidityState.minTemp;
-  //       }
-  //       if (args.state.mainTempAndHumidityState.maxTemp !== undefined) {
-  //         SetMaxTemp(globalObjs.mainDHTObj, args.state.mainTempAndHumidityState.maxTemp);
-  //         state.mainTempAndHumidityState.maxTemp = args.state.mainTempAndHumidityState.maxTemp;
-  //       }
-  //     }
-  //   }
-  // });
+  TZShadow.Init({
+    deviceId: deviceId,
+    serverId: Cfd.get('server.id'),
+    state: {
+      mainHeaterState: globalObjs.mainHeaterObj.state,
+      mainDHTState: globalObjs.mainDHTObj.state,
+    },
+  });
 
 }, null);
 

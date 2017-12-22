@@ -48,25 +48,6 @@ function INIT_HEATER_MODULE(options) {
   SetHeaterModuleTurnedOn(heaterObj, options.turnedOn);
   SetHeaterModuleHeatActive(heaterObj, options.heatActive);
 
-  RPC.addHandler(deviceId + '.ToggleTurnedOn', function(args, sm, obj) {
-    SetHeaterModuleTurnedOn(obj, !obj.state.turnedOn);
-    return true;
-  }, heaterObj);
-
-  RPC.addHandler(deviceId + '.SetState', function(args, sm, obj) {
-    if (args.turnedOn !== undefined) {
-      SetHeaterModuleTurnedOn(obj, args.turnedOn);
-    }
-    if (args.heatActive !== undefined) {
-      SetHeaterModuleHeatActive(obj, args.heatActive);
-    }
-    return obj.state;
-  }, heaterObj);
-
-  RPC.addHandler(deviceId + '.GetState', function(args, sm, obj) {
-    return obj.state;
-  }, heaterObj);
-
   TZLog.infoDev(deviceId, 'Ended INIT_HEATER_MODULE');
 
   return heaterObj;

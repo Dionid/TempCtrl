@@ -19,23 +19,25 @@ let TZShadow = {
 
   _version: 0,
   _serverTopicName: "",
+
   State: {},
   DeviceId: "",
+  ServerId: "",
+
+  _connectedReport: function() {
+    return MQTT.pub(this._serverTopicName + "/update", JSON.stringify({"reported": this.State, version: this.GetCurrentVersion()}), 1);
+  },
+
+  _setCurrentVersion: function(version) {
+    this._version = version;
+  },
 
   GetCurrentVersion: function() {
     return this._version;
   },
 
-  SetCurrentVersion: function(version) {
-    this._version = version;
-  },
-
-  ConnectReport: function() {
-    return MQTT.pub(this._serverTopicName + "/update", JSON.stringify({"reported": this.State, version: this.GetCurrentVersion()}), 1);
-  },
-
   GetShadow: function(acceptedCb, rejectedCb) {
-    return RPC.call(this._serverTopicName+"/get", obj.deviceId + ".Shadow.Get", null, function(resp, err_code, err_msg, ud) {
+    return RPC.call(this._serverTopicName+"/get", this.DeviceId + ".Shadow.Get", null, function(resp, err_code, err_msg, ud) {
       if (err_code) {
         print(err_code);
         rejectedCb(err_code, err_msg, rejectedCb);
@@ -51,7 +53,41 @@ let TZShadow = {
     return MQTT.pub(this._serverTopicName + "/update", JSON.stringify({"reported": this.State, "desired": this.State, version: this.GetCurrentVersion()}), 1);
   },
 
-  init: function(options) {
+  PublishLocalUpdate: function(changedProps) {
+    let response = {
+      state: {
+        reported: changedProps,
+        desired: changedProps,
+      },
+      version: this.GetCurrentVersion()
+    };
+
+    // RESPONSE to /:server_id/:shadow_id/update {"reported": ..., "desired": ...}
+    MQTT.pub(this._serverTopicName+"/update", JSON.stringify(response), 1);
+
+    return true;
+  },
+
+  // LocalUpdate: function(changedProps) {
+  //   let state = {};
+  //
+  //   TZShadowDeltaCb({state: changedProps}, state);
+  //
+  //   let response = {
+  //     reported: state,
+  //     desired: state,
+  //     // reported: TZShadow.State,
+  //     // desired: TZShadow.State,
+  //     version: this.GetCurrentVersion()
+  //   };
+  //
+  //   // RESPONSE to /:server_id/:shadow_id/update {"reported": ...}
+  //   MQTT.pub(this._serverTopicName+"/update", JSON.stringify(response), 1);
+  //
+  //   return true;
+  // },
+
+  Init: function(options) {
     let deviceId = options.deviceId;
     let serverId = options.serverId;
 
@@ -64,7 +100,7 @@ let TZShadow = {
       if (args.version < TZShadow.GetCurrentVersion()) {
         return;
       }
-      TZShadow.SetCurrentVersion(args.version);
+      TZShadow._setCurrentVersion(args.version);
       return;
     }, null);
 
@@ -72,7 +108,7 @@ let TZShadow = {
       if (args.version < TZShadow.GetCurrentVersion()) {
         return;
       }
-      TZShadow.SetCurrentVersion(args.version);
+      TZShadow._setCurrentVersion(args.version);
       return;
     }, null);
 
@@ -81,7 +117,7 @@ let TZShadow = {
       print(JSON.stringify(edata));
       if (ev === MQTT.EV_SUBACK) {
         // print(JSON.stringify(edata));
-        TZShadow.ConnectReport();
+        TZShadow._connectedReport();
       }
     }, null);
 
@@ -94,11 +130,11 @@ let TZShadow = {
 
       TZShadowDeltaCb(args, state);
 
-      TZShadow.SetCurrentVersion(args.version);
+      TZShadow._setCurrentVersion(args.version);
 
       let response = {
-        // reported: state,
-        reported: TZShadow.State,
+        reported: state,
+        // reported: TZShadow.State,
         version: args.version
       };
 
@@ -112,15 +148,13 @@ let TZShadow = {
       TZShadowDeltaCb(args, state);
 
       let response = {
-        // reported: state,
-        // desired: state,
-        reported: TZShadow.State,
-        desired: TZShadow.State,
+        reported: state,
+        desired: state,
         version: TZShadow.GetCurrentVersion()
       };
 
       // RESPONSE to /:server_id/:shadow_id/update {"reported": ...}
-      MQTT.pub(obj.serverRoute+"/update", JSON.stringify(response), 1);
+      MQTT.pub(TZShadow._serverTopicName+"/update", JSON.stringify(response), 1);
 
       return true;
     }, null);
@@ -135,7 +169,7 @@ let TZShadow = {
 //   obj.version = version;
 // }
 //
-// function ShadowConnectReport(obj) {
+// function ShadowConnectedReport(obj) {
 //   return MQTT.pub(obj.serverRoute+"/update", {"reported": obj.deviceState, version: ShadowGetCurrentVersion(obj)});
 // }
 
@@ -193,7 +227,7 @@ let TZShadow = {
 //   MQTT.setEventHandler(function(conn, ev, edata, obj) {
 //     if (ev === MQTT.EV_SUBACK) {
 //       print(JSON.stringify(edata));
-//       ShadowConnectReport(obj);
+//       ShadowConnectedReport(obj);
 //     }
 //   }, obj);
 //
