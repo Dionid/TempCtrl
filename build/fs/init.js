@@ -6,7 +6,7 @@ load('api_timer.js');
 load('api_dht.js');
 load('api_mqtt.js');
 load('api_sys.js');
-load('api_dash.js');
+// load('api_dash.js');
 
 load('tz_rpc.js');
 load('tz_logging.js');
@@ -33,6 +33,7 @@ Timer.set(100, false, function() {
     let changedProps = args.changedProps;
     if (changedProps.turnedOn !== undefined) {
       Cfg.set({devices: {mainHeater: {turnedOn: changedProps.turnedOn}}}, true);
+      // TZ_RPC.main_server_rpc_call(globalObjs.mainHeaterObj.deviceId + '.SetState', {temp: temp, hum: hum, t: Timer.now()});
       RenderHeaterTurnedOn(changedProps.turnedOn, false);
     }
     return true;
@@ -95,3 +96,5 @@ Timer.set(500 , false , function() {
     };
   }, null);
 }, null);
+
+print('New build');

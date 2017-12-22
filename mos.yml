@@ -25,23 +25,20 @@ conds:
 config_schema:
   - ["i2c.enable", true]
   - ["mqtt.server", "iot.eclipse.org:1883"]
-  - ["dash.enable", true]
   - ["file_logger.enable", true]
   - ["file_logger.max_num_files", 4]
+  - ["dash.enable", true]
   - ["dash.token", "62e00e6e2915c9b80f80f6e212e748a8"]
   # - ["mqtt.enable", true]
   # - ["rpc.mqtt.enable", true]
   # - ["rpc.mqtt.topic", "qweyuiasdhjky/p/smart_heater/asdqwezxc/mc/rpc"]
   # - ["wifi.sta.enable", true]
-  - ["app", "o", {title: "My app custom settings"}]
-  - ["app.devId", "s", "qweqweqwe", {title: "Device uniq ID"}]
-  - ["app.minTemp", "i", 10, {title: "Min heater temperature"}]
-  - ["app.maxTemp", "i", 20, {title: "Max heater temperature"}]
-  # - ["app.modules", "s", "{}", {title: "JSON with modules"}]
+  - ["device.id", "qwertyqwerty"]
+  - ["device.type", "s", "smart_heater", {title: "JSON with modules"}]
 
   - ["server", "o", {title: "My app custom settings"}]
   - ["server.id", "s", "qweyuiasdhjky", {title: "My app custom settings"}]
-  - ["server.topicName", "s", "qweyuiasdhjky/p/smart_heater/qwertyqwerty/s/rpc", {title: "My app custom settings"}]
+  - ["server.topicName", "s", "qweyuiasdhjky/qwertyqwerty/s/rpc", {title: "My app custom settings"}]
 
   - ["devices", "o", {title: "My app custom settings"}]
 
@@ -63,6 +60,7 @@ config_schema:
   - ["devices.mainDHT.autoCtrl", "b", true, {title: "My app custom settings"}]
   - ["devices.mainDHT.minTempActions", "s", "[{\"method\":\"asdqwezxc.SetState\",\"args\":{\"heatActive\":true},\"local\":true,\"interval\":60}]", {title: "JSON with modules"}]
   - ["devices.mainDHT.maxTempActions", "s", "[{\"method\":\"asdqwezxc.SetState\",\"args\":{\"heatActive\":false},\"local\":true,\"interval\":60}]", {title: "JSON with modules"}]
+  # - ["devices.mainDHT.maxTempActions", "s", "[{\"method\":\"qwertyqwerty.Shadow.Delta\",\"args\":{\"state\": {"mainHeaterState":{"heatActive": false}},\"local\":true,\"interval\":60}]", {title: "JSON with modules"}]
   - ["devices.mainDHT.mainTimerInterval", "i", 10000, {title: "My app custom settings"}]
 
   - ["pins", "o", {title: "My app custom settings"}]

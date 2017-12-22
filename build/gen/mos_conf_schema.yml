@@ -22,9 +22,9 @@
   - 0
   - title: GPIO to use for SCL
 - - i2c.sda_gpio
-  - 12
+  - 32
 - - i2c.scl_gpio
-  - 14
+  - 33
 - - update.url
   - s
   - title: Fetch updates form here
@@ -272,6 +272,10 @@
   - b
   - true
   - title: Send logs
+- - dash.send_stats
+  - b
+  - true
+  - title: Send stats
 - - file_logger
   - o
   - title: File logger settings
@@ -426,29 +430,20 @@
   - true
 - - mqtt.server
   - iot.eclipse.org:1883
-- - dash.enable
-  - true
 - - file_logger.enable
   - true
 - - file_logger.max_num_files
   - 4
+- - dash.enable
+  - true
 - - dash.token
   - 62e00e6e2915c9b80f80f6e212e748a8
-- - app
-  - o
-  - title: My app custom settings
-- - app.devId
+- - device.id
+  - qwertyqwerty
+- - device.type
   - s
-  - qweqweqwe
-  - title: Device uniq ID
-- - app.minTemp
-  - i
-  - 10
-  - title: Min heater temperature
-- - app.maxTemp
-  - i
-  - 20
-  - title: Max heater temperature
+  - smart_heater
+  - title: JSON with modules
 - - server
   - o
   - title: My app custom settings
@@ -542,4 +537,28 @@
 - - pins.SWITCH_BUTTON
   - i
   - 2
+  - title: GPIO pin ...
+- - devices.mainHeater.HEAT_PIN
+  - i
+  - 22
+  - title: My app custom settings
+- - devices.mainHeater.POWER_PIN
+  - i
+  - 23
+  - title: My app custom settings
+- - devices.mainDHT.DHT_PIN
+  - i
+  - 4
+  - title: My app custom settings
+- - pins.DEC_BUTTON
+  - i
+  - 18
+  - title: GPIO pin ...
+- - pins.INC_BUTTON
+  - i
+  - 19
+  - title: GPIO pin ...
+- - pins.SWITCH_BUTTON
+  - i
+  - 21
   - title: GPIO pin ...

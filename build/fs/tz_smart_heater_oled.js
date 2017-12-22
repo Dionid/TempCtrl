@@ -14,7 +14,7 @@ function RenderHeaterTurnedOn(turnedOn, hide) {
     }
   } else {
     lcd.setCursor(13,0);
-    lcd.print(turnedOn ? "On" : "Off ");
+    lcd.print(turnedOn ? "On " : "Off ");
     RenderHeaterTurnedOnHide = false;
   }
   return true;
@@ -30,16 +30,20 @@ function RenderHum(hum) {
   lcd.print(JSON.stringify(hum) + "B");
 }
 
-let RenderMaxTempHide = false;
+let RenderMaxTempHide = true;
 
 function RenderMaxTemp(maxTemp, hide) {
   if (hide) {
     // if ()
-    lcd.setCursor(4,0);
-    lcd.print("       ");
+    if(!RenderMaxTempHide) {
+      lcd.setCursor(4,0);
+      lcd.print("       ");
+      RenderMaxTempHide = true;
+    }
   } else {
     lcd.setCursor(4,0);
     lcd.print(JSON.stringify(maxTemp) + "C max");
+    RenderMaxTempHide = false;
   }
 }
 //
@@ -81,31 +85,21 @@ function INIT_OLED(dhtState, heaterState) {
     heaterState: heaterState,
   };
 
-  Timer.set(749 /* milliseconds */, true /* repeat */, function(oledObj) {
-    let state = oledObj.state;
-    let selectedConfig = state.selectedConfig;
-    let isBlinking = state.isBlinking;
-    let dhtState = oledObj.dhtState;
-    let heaterState = oledObj.heaterState;
-    let maxTemp = dhtState.maxTemp;
-    let minTemp = dhtState.minTemp;
-    let turnedOn = heaterState.turnedOn;
-
-    if (selectedConfig === deviceConfigs.NONE) {
-      RenderMaxTemp(maxTemp, false);
+  Timer.set(1200 /* milliseconds */, true /* repeat */, function(oledObj) {
+    if (oledObj.state.selectedConfig === deviceConfigs.NONE) {
+      RenderMaxTemp(oledObj.dhtState.maxTemp, false);
       return;
-    } else if (selectedConfig === deviceConfigs.POWER) {
-      RenderHeaterTurnedOn(turnedOn, isBlinking);
-    } else if (selectedConfig === deviceConfigs.MIN_TEMP) {
-      RenderHeaterTurnedOn(turnedOn, false);
-      RenderMinTemp(minTemp, isBlinking);
-    } else if (selectedConfig === deviceConfigs.MAX_TEMP) {
-      RenderHeaterTurnedOn(turnedOn, false);
-      RenderMinTemp(minTemp, false);
-      RenderMaxTemp(maxTemp, isBlinking);
+    } else if (oledObj.state.selectedConfig === deviceConfigs.POWER) {
+      RenderHeaterTurnedOn(oledObj.heaterState.turnedOn, oledObj.state.isBlinking);
+    } else if (oledObj.state.selectedConfig === deviceConfigs.MIN_TEMP) {
+      RenderHeaterTurnedOn(oledObj.heaterState.turnedOn, false);
+      RenderMinTemp(oledObj.dhtState.minTemp, oledObj.state.isBlinking);
+    } else if (oledObj.state.selectedConfig === deviceConfigs.MAX_TEMP) {
+      RenderMinTemp(oledObj.dhtState.minTemp, false);
+      RenderMaxTemp(oledObj.dhtState.maxTemp, oledObj.state.isBlinking);
     }
 
-    state.isBlinking = !isBlinking;
+    oledObj.state.isBlinking = !oledObj.state.isBlinking;
   }, oledObj);
 
   Timer.set(2000 /* milliseconds */, false /* repeat */, function(oledObj) {

@@ -5,7 +5,7 @@ function SetNextSelectedConfig(obj) {
   if (newState > 3) {
     newState = 0;
   }
-  obj.oledState.selectedConfig = configNum;
+  obj.oledState.selectedConfig = newState;
 }
 
 

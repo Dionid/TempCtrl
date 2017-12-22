@@ -49,12 +49,12 @@ let TZ_RPC = {
     MQTT.setEventHandler(function(conn, ev, edata) {
       if (ev === MQTT.EV_CONNACK) {
         print('MQTT CONNECTED');
-        if (this.send_msg_qeue.length > 0) {
+        if (TZ_RPC.send_msg_qeue.length > 0) {
           let old_send_msg_qeue = this.send_msg_qeue;
           for (let i = 0; i < old_send_msg_qeue.length; i++) {
-            this.main_server_mqtt_rpc_call(old_send_msg_qeue[i]);
+            TZ_RPC.main_server_mqtt_rpc_call(old_send_msg_qeue[i]);
           }
-          this.send_msg_qeue = [];
+          TZ_RPC.send_msg_qeue = [];
         }
       }
     }, null);

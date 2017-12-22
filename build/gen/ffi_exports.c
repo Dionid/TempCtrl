@@ -11,7 +11,8 @@
 /* NOTE: signatures are fake */
 double  ceil(double);
 double  cos(double);
-void  esp_uart_config_set_params(void *, int, int, int, int, bool);
+void  esp32_uart_config_set_fifo(int, void *, int, int, int, int);
+void  esp32_uart_config_set_pins(int, void *, int, int, int, int);
 double  exp(double);
 double  fabs(double);
 void  fclose(void *);
@@ -23,6 +24,7 @@ int  fread(char *, int, int, void *);
 void  free(void *);
 void  free(void *);
 int  fwrite(char *, int, int, void *);
+int  hall_sens_read(void);
 double  log(double);
 void * malloc(int);
 void  mbuf_remove(void *, int);
@@ -45,12 +47,17 @@ void * mgos_connect(char *, void (*)(void *, int, void *, void *), void *);
 void * mgos_connect_http(char *, void (*)(void *, int, void *, void *), void *);
 void * mgos_connect_http_ssl(char *, void (*)(void *, int, void *, void *), void *, char *, char *, char *);
 void * mgos_connect_ssl(char *, void (*)(void *, int, void *, void *), void *, char *, char *, char *);
-void  mgos_dash_send_data(char *, double);
+int  mgos_debug_event_get_len(void *);
+void * mgos_debug_event_get_ptr(void *);
 void  mgos_dht_close(void *);
 void * mgos_dht_create(int, int);
 float  mgos_dht_get_humidity(void *);
 float  mgos_dht_get_temp(void *);
 void  mgos_disconnect(void *);
+void  mgos_esp_deep_sleep_d(double);
+bool  mgos_event_add_handler(int, void(*)(int, void *, void *), void *);
+bool  mgos_event_register_base(int, char *);
+int  mgos_event_trigger(int, void *);
 void * mgos_get_body_ptr(void *);
 int  mgos_get_free_heap_size();
 int  mgos_get_heap_size();
@@ -112,12 +119,12 @@ void  mgos_mqtt_add_global_handler(void (*)(void *, int, void *, void *), void *
 int  mgos_mqtt_pub(char *, void *, int, int, bool);
 void  mgos_mqtt_sub(char *, void (*)(void *, void *, int, void *, int, void *), void *);
 void  mgos_net_add_event_handler_js(void (*)(int, void *), void *);
+char * mgos_ota_status_get_msg(void *);
 void * mgos_rpc_add_handler(void *, void (*)(void *, char *, char *, void *), void *);
 bool  mgos_rpc_call(char *, char *, char *, void (*)(char *, int, char *, void *), void *);
 bool  mgos_rpc_send_response(void *, char *);
 int  mgos_set_timer(int,int,void(*)(void *),void *);
 int  mgos_strftime(char *, int, char *, int);
-int  mgos_system_deep_sleep_d(double);
 void  mgos_system_restart(int);
 void * mgos_uart_config_get_default(int);
 void  mgos_uart_config_set_basic_params(void *, int, int, int, int);
@@ -151,11 +158,13 @@ double  round(double);
 double  sin(double);
 double  sqrt(double);
 void * strdup(char *);
+int  temprature_sens_read(void);
 
 const struct mgos_ffi_export ffi_exports[] = {
   {"ceil", ceil},
   {"cos", cos},
-  {"esp_uart_config_set_params", esp_uart_config_set_params},
+  {"esp32_uart_config_set_fifo", esp32_uart_config_set_fifo},
+  {"esp32_uart_config_set_pins", esp32_uart_config_set_pins},
   {"exp", exp},
   {"fabs", fabs},
   {"fclose", fclose},
@@ -167,6 +176,7 @@ const struct mgos_ffi_export ffi_exports[] = {
   {"free", free},
   {"free", free},
   {"fwrite", fwrite},
+  {"hall_sens_read", hall_sens_read},
   {"log", log},
   {"malloc", malloc},
   {"mbuf_remove", mbuf_remove},
@@ -189,12 +199,17 @@ const struct mgos_ffi_export ffi_exports[] = {
   {"mgos_connect_http", mgos_connect_http},
   {"mgos_connect_http_ssl", mgos_connect_http_ssl},
   {"mgos_connect_ssl", mgos_connect_ssl},
-  {"mgos_dash_send_data", mgos_dash_send_data},
+  {"mgos_debug_event_get_len", mgos_debug_event_get_len},
+  {"mgos_debug_event_get_ptr", mgos_debug_event_get_ptr},
   {"mgos_dht_close", mgos_dht_close},
   {"mgos_dht_create", mgos_dht_create},
   {"mgos_dht_get_humidity", mgos_dht_get_humidity},
   {"mgos_dht_get_temp", mgos_dht_get_temp},
   {"mgos_disconnect", mgos_disconnect},
+  {"mgos_esp_deep_sleep_d", mgos_esp_deep_sleep_d},
+  {"mgos_event_add_handler", mgos_event_add_handler},
+  {"mgos_event_register_base", mgos_event_register_base},
+  {"mgos_event_trigger", mgos_event_trigger},
   {"mgos_get_body_ptr", mgos_get_body_ptr},
   {"mgos_get_free_heap_size", mgos_get_free_heap_size},
   {"mgos_get_heap_size", mgos_get_heap_size},
@@ -256,12 +271,12 @@ const struct mgos_ffi_export ffi_exports[] = {
   {"mgos_mqtt_pub", mgos_mqtt_pub},
   {"mgos_mqtt_sub", mgos_mqtt_sub},
   {"mgos_net_add_event_handler_js", mgos_net_add_event_handler_js},
+  {"mgos_ota_status_get_msg", mgos_ota_status_get_msg},
   {"mgos_rpc_add_handler", mgos_rpc_add_handler},
   {"mgos_rpc_call", mgos_rpc_call},
   {"mgos_rpc_send_response", mgos_rpc_send_response},
   {"mgos_set_timer", mgos_set_timer},
   {"mgos_strftime", mgos_strftime},
-  {"mgos_system_deep_sleep_d", mgos_system_deep_sleep_d},
   {"mgos_system_restart", mgos_system_restart},
   {"mgos_uart_config_get_default", mgos_uart_config_get_default},
   {"mgos_uart_config_set_basic_params", mgos_uart_config_set_basic_params},
@@ -295,5 +310,6 @@ const struct mgos_ffi_export ffi_exports[] = {
   {"sin", sin},
   {"sqrt", sqrt},
   {"strdup", strdup},
+  {"temprature_sens_read", temprature_sens_read},
 };
-const int ffi_exports_cnt = 142;
+const int ffi_exports_cnt = 150;

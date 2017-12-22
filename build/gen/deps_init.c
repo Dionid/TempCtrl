@@ -15,6 +15,7 @@ extern bool mgos_ota_http_client_init(void);
 extern bool mgos_wifi_init(void);
 extern bool mgos_http_server_init(void);
 extern bool mgos_rpc_common_init(void);
+extern bool mgos_shadow_init(void);
 extern bool mgos_dash_init(void);
 extern bool mgos_dht_init(void);
 extern bool mgos_file_logger_init(void);
@@ -89,7 +90,13 @@ static const struct lib_descr {
     .init = mgos_rpc_common_init,
   },
 
-  // "dash". deps: [ "ota-http-client" "rpc-common" ]
+  // "shadow". deps: [ ]
+  {
+    .title = "shadow",
+    .init = mgos_shadow_init,
+  },
+
+  // "dash". deps: [ "ota-http-client" "rpc-common" "shadow" ]
   {
     .title = "dash",
     .init = mgos_dash_init,

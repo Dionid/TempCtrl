@@ -37,8 +37,6 @@
 static void tz_s_debug_write_cb(int ev, void *ev_data, void *userdata) {
   const struct mgos_debug_hook_arg *arg =
       (const struct mgos_debug_hook_arg *) ev_data;
-  // "{fd:%d, data: %.*Q, t: %.3lf, seq:%u}", arg->fd,
-  //                 (int) arg->len, arg->data, mg_time()
   struct mbuf prefb;
   struct json_out prefbout = JSON_OUT_MBUF(&prefb);
   mbuf_init(&prefb, 100);
@@ -50,6 +48,63 @@ static void tz_s_debug_write_cb(int ev, void *ev_data, void *userdata) {
   (void) ev_data;
   (void) userdata;
 }
+
+// static struct mg_rpc_call_opts tz_mkopts(void) {
+//   struct mg_rpc_call_opts opts = {
+//       .dst = mg_mk_str(mgos_sys_config_get_dash_server()),
+//       .src = mg_mk_str(mgos_sys_config_get_device_id())
+//       // .key = mg_mk_str(mgos_sys_config_get_dash_token()),
+//       // .src = mg_mk_str_n(s_dash_src.buf, s_dash_src.len),
+//   };
+//   return opts;
+// }
+//
+// static void tz_shadow_get_cb(int ev, void *ev_data, void *userdata) {
+//   struct mg_rpc_call_opts opts = tz_mkopts();
+//   mg_rpc_callf(mgos_rpc_get_global(), mg_mk_str("Dash.Shadow.Get"), get_res_cb,
+//                NULL, &opts, NULL);
+//   (void) ev;
+//   (void) ev_data;
+//   (void) userdata;
+// }
+//
+// static void upd_res_cb(struct mg_rpc *c, void *cb_arg,
+//                        struct mg_rpc_frame_info *fi, struct mg_str result,
+//                        int error_code, struct mg_str error_msg) {
+//   if (error_code != 0) {
+//     struct mgos_shadow_error ev_data = {.code = error_code,
+//                                         .message = error_msg};
+//     mgos_event_trigger(MGOS_SHADOW_UPDATE_REJECTED, &ev_data);
+//   } else {
+//     mgos_event_trigger(MGOS_SHADOW_UPDATE_ACCEPTED, NULL);
+//   }
+//   (void) c;
+//   (void) cb_arg;
+//   (void) fi;
+//   (void) result;
+// }
+//
+// static void tz_shadow_update_cb(int ev, void *ev_data, void *userdata) {
+//   struct mgos_shadow_update_data *data = ev_data;
+//   char *fmt = NULL;
+//   if (data->version == 0) {
+//     mg_asprintf(&fmt, 0, "{state: %s}", data->json_fmt);
+//   } else {
+//     mg_asprintf(&fmt, 0, "{version: %llu, state: %s}", data->version,
+//                 data->json_fmt);
+//   }
+//   struct mg_rpc_call_opts opts = tz_mkopts();
+//   mg_rpc_vcallf(mgos_rpc_get_global(), mg_mk_str("Shadow.Update"),
+//                 upd_res_cb, NULL, &opts, fmt, data->ap);
+//   free(fmt);
+//   (void) ev;
+//   (void) userdata;
+// }
+//
+// bool mgos_tz_init() {
+//   mgos_event_add_handler(MGOS_SHADOW_GET, tz_shadow_get_cb, NULL);
+//   mgos_event_add_handler(MGOS_SHADOW_UPDATE, tz_shadow_update_cb, NULL);
+// }
 
 enum mgos_app_init_result mgos_app_init(void) {
   mgos_event_add_handler(MGOS_EVENT_LOG, tz_s_debug_write_cb, NULL);

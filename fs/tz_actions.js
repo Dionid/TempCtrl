@@ -33,6 +33,8 @@ let TZ_Actions = {
   },
 };
 
+// REPLACE RPC.CALL TO NORMAL CALL
+
 function StateChangedRpcCall(deviceId, state, changedProps) {
   RPC.call(RPC.LOCAL, deviceId + '.StateChanged', {state: state, changedProps: changedProps}, function(){}, null);
 }

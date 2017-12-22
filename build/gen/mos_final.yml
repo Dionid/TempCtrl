@@ -1,110 +1,114 @@
 name: Garage
 type: app
 version: "1.0"
-platform: esp8266
+platform: esp32
 platforms:
 - esp32
 - esp8266
 author: mongoose-os
 description: DHT sensor usage example (JavaScript)
 sources:
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/src/main.c
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/build/gen/deps_init.c
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/arduino-compat/src/Print.cpp
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/arduino-compat/src/WString.cpp
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/arduino-compat/src/mgos_arduino.cpp
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/i2c/src/mgos_i2c.c
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/i2c/src/common_gpio/mgos_i2c_gpio.c
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/arduino-wire/src/mgos_arduino_wire_c.c
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/arduino-wire/src/mgos_arduino_wire.cpp
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/arduino-LiquidCrystal_I2C/src/mgos_arduino_liquidcrystal_i2c_c.c
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/arduino-LiquidCrystal_I2C/src/LiquidCrystal_I2C.cpp
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/arduino-LiquidCrystal_I2C/src/mgos_arduino_liquidcrystal_i2c.cpp
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/ca-bundle/src/mgos_ca_bundle.c
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/wifi/src/mgos_wifi.c
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/wifi/src/mjs_wifi.c
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/wifi/esp8266/src/esp_wifi.c
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/http-server/src/mgos_http_server.c
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/rpc-common/src/mg_rpc/mg_rpc.c
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/rpc-common/src/mg_rpc/mg_rpc_channel.c
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/rpc-common/src/mg_rpc/mg_rpc_channel_http.c
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/rpc-common/src/mg_rpc/mg_rpc_channel_ws.c
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/rpc-common/src/mgos_rpc.c
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/dash/src/mgos_dash.c
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/dht/src/mgos_dht.c
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/file-logger/src/mgos_file_logger.c
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/mjs/src/mos_mjs.c
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/modules/mjs-1.22/mjs.c
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/mjs/esp8266/src/esp8266_mjs.c
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/rpc-loopback/src/mg_rpc_channel_loopback.c
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/mqtt/src/mgos_mqtt.c
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/rpc-mqtt/src/mgos_rpc_channel_mqtt.c
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/rpc-service-config/src/mgos_service_config.c
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/rpc-service-fs/src/mgos_service_filesystem.c
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/rpc-service-gpio/src/mgos_gpio_service.c
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/rpc-service-wifi/src/mgos_rpc_service_wifi.c
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/rpc-uart/src/mgos_rpc_channel_uart.c
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/src/main.c
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/build/gen/deps_init.c
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/arduino-compat/src/Print.cpp
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/arduino-compat/src/WString.cpp
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/arduino-compat/src/mgos_arduino.cpp
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/i2c/src/mgos_i2c.c
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/i2c/src/common_gpio/mgos_i2c_gpio.c
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/arduino-wire/src/mgos_arduino_wire_c.c
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/arduino-wire/src/mgos_arduino_wire.cpp
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/arduino-LiquidCrystal_I2C/src/mgos_arduino_liquidcrystal_i2c_c.c
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/arduino-LiquidCrystal_I2C/src/LiquidCrystal_I2C.cpp
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/arduino-LiquidCrystal_I2C/src/mgos_arduino_liquidcrystal_i2c.cpp
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/ca-bundle/src/mgos_ca_bundle.c
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/wifi/src/mgos_wifi.c
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/wifi/src/mjs_wifi.c
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/wifi/esp32/src/esp32_wifi.c
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/http-server/src/mgos_http_server.c
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/rpc-common/src/mg_rpc/mg_rpc.c
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/rpc-common/src/mg_rpc/mg_rpc_channel.c
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/rpc-common/src/mg_rpc/mg_rpc_channel_http.c
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/rpc-common/src/mg_rpc/mg_rpc_channel_ws.c
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/rpc-common/src/mgos_rpc.c
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/shadow/src/mgos_shadow.c
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/dash/src/mgos_dash.c
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/dht/src/mgos_dht.c
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/file-logger/src/mgos_file_logger.c
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/mjs/src/mos_mjs.c
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/modules/mjs-1.22.1/mjs.c
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/mjs/esp32/src/esp32_mjs.c
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/rpc-loopback/src/mg_rpc_channel_loopback.c
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/mqtt/src/mgos_mqtt.c
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/rpc-mqtt/src/mgos_rpc_channel_mqtt.c
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/rpc-service-config/src/mgos_service_config.c
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/rpc-service-fs/src/mgos_service_filesystem.c
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/rpc-service-gpio/src/mgos_gpio_service.c
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/rpc-service-wifi/src/mgos_rpc_service_wifi.c
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/rpc-uart/src/mgos_rpc_channel_uart.c
 includes:
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/arduino-compat/include
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/i2c/include
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/arduino-wire/include
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/arduino-LiquidCrystal_I2C/include
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/ota-http-client/include
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/wifi/include
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/http-server/include
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/rpc-common/include/mg_rpc
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/rpc-common/include
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/dash/include
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/dht/include
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/mjs/include
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/ota-http-server/include
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/rpc-loopback/include
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/mqtt/include
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/rpc-mqtt/include
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/rpc-service-config/include
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/rpc-service-fs/include
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/rpc-service-gpio/include
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/rpc-service-ota/include
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/rpc-uart/include
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/arduino-compat/include
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/i2c/include
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/arduino-wire/include
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/arduino-LiquidCrystal_I2C/include
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/ota-http-client/include
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/wifi/include
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/wifi/esp32/include
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/http-server/include
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/rpc-common/include/mg_rpc
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/rpc-common/include
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/shadow/include
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/dash/include
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/dht/include
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/mjs/include
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/ota-http-server/include
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/rpc-loopback/include
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/mqtt/include
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/rpc-mqtt/include
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/rpc-service-config/include
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/rpc-service-fs/include
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/rpc-service-gpio/include
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/rpc-service-ota/include
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/rpc-uart/include
 filesystem:
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/ca-bundle/fs/ca.pem
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/mjs/fs/api_bitbang.js
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/mjs/fs/api_config.js
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/mjs/fs/api_gpio.js
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/mjs/fs/api_grove.js
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/mjs/fs/api_http.js
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/mjs/fs/api_log.js
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/mjs/fs/api_neopixel.js
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/mjs/fs/api_net.js
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/mjs/fs/api_sys.js
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/mjs/fs/api_timer.js
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/mjs/fs/api_uart.js
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/mjs/fs/init.js
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/modules/mjs-1.22/mjs/lib/api_dataview.js
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/modules/mjs-1.22/mjs/lib/api_file.js
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/modules/mjs-1.22/mjs/lib/api_math.js
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/i2c/mjs_fs/api_i2c.js
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/arduino-LiquidCrystal_I2C/mjs_fs/api_arduino_liquidcrystal_i2c.js
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/wifi/mjs_fs/api_wifi.js
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/rpc-common/mjs_fs/api_rpc.js
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/dash/mjs_fs/api_dash.js
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/dht/mjs_fs/api_dht.js
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/mqtt/mjs_fs/api_mqtt.js
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/mjs/esp8266/fs/api_arch_uart.js
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/mjs/esp8266/fs/api_esp8266.js
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/fs/init.js
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/fs/tz_actions.js
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/fs/tz_global_state.js
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/fs/tz_logging.js
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/fs/tz_module_dht_sensor.js
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/fs/tz_module_heater.js
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/fs/tz_rpc.js
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/fs/tz_smart_heater_buttons.js
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/fs/tz_smart_heater_oled.js
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/ca-bundle/fs/ca.pem
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/mjs/fs/api_bitbang.js
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/mjs/fs/api_config.js
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/mjs/fs/api_events.js
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/mjs/fs/api_gpio.js
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/mjs/fs/api_grove.js
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/mjs/fs/api_http.js
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/mjs/fs/api_log.js
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/mjs/fs/api_neopixel.js
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/mjs/fs/api_net.js
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/mjs/fs/api_sys.js
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/mjs/fs/api_timer.js
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/mjs/fs/api_uart.js
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/mjs/fs/init.js
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/modules/mjs-1.22.1/mjs/lib/api_dataview.js
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/modules/mjs-1.22.1/mjs/lib/api_file.js
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/modules/mjs-1.22.1/mjs/lib/api_math.js
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/i2c/mjs_fs/api_i2c.js
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/arduino-LiquidCrystal_I2C/mjs_fs/api_arduino_liquidcrystal_i2c.js
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/ota-http-client/mjs_fs/api_ota.js
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/wifi/mjs_fs/api_wifi.js
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/rpc-common/mjs_fs/api_rpc.js
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/dht/mjs_fs/api_dht.js
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/mqtt/mjs_fs/api_mqtt.js
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/mjs/esp32/fs/api_arch_uart.js
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/mjs/esp32/fs/api_esp32.js
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/fs/init.js
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/fs/tz_actions.js
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/fs/tz_global_state.js
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/fs/tz_logging.js
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/fs/tz_module_dht_sensor.js
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/fs/tz_module_heater.js
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/fs/tz_rpc.js
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/fs/tz_smart_heater_buttons.js
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/fs/tz_smart_heater_oled.js
 binary_libs:
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/ota-http-client/lib/esp8266/libota-http-client.a
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/ota-http-server/lib/esp8266/libota-http-server.a
-- /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/rpc-service-ota/lib/esp8266/librpc-service-ota.a
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/ota-http-client/lib/esp32/libota-http-client.a
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/ota-http-server/lib/esp32/libota-http-server.a
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/rpc-service-ota/lib/esp32/librpc-service-ota.a
 modules:
 - origin: https://github.com/cesanta/mjs
   location: https://github.com/cesanta/mjs
@@ -134,9 +138,9 @@ config_schema:
   - 0
   - title: GPIO to use for SCL
 - - i2c.sda_gpio
-  - 12
+  - 32
 - - i2c.scl_gpio
-  - 14
+  - 33
 - - update.url
   - s
   - title: Fetch updates form here
@@ -384,6 +388,10 @@ config_schema:
   - b
   - true
   - title: Send logs
+- - dash.send_stats
+  - b
+  - true
+  - title: Send stats
 - - file_logger
   - o
   - title: File logger settings
@@ -538,29 +546,20 @@ config_schema:
   - true
 - - mqtt.server
   - iot.eclipse.org:1883
-- - dash.enable
-  - true
 - - file_logger.enable
   - true
 - - file_logger.max_num_files
   - 4
+- - dash.enable
+  - true
 - - dash.token
   - 62e00e6e2915c9b80f80f6e212e748a8
-- - app
-  - o
-  - title: My app custom settings
-- - app.devId
+- - device.id
+  - qwertyqwerty
+- - device.type
   - s
-  - qweqweqwe
-  - title: Device uniq ID
-- - app.minTemp
-  - i
-  - 10
-  - title: Min heater temperature
-- - app.maxTemp
-  - i
-  - 20
-  - title: Max heater temperature
+  - smart_heater
+  - title: JSON with modules
 - - server
   - o
   - title: My app custom settings
@@ -655,7 +654,33 @@ config_schema:
   - i
   - 2
   - title: GPIO pin ...
+- - devices.mainHeater.HEAT_PIN
+  - i
+  - 22
+  - title: My app custom settings
+- - devices.mainHeater.POWER_PIN
+  - i
+  - 23
+  - title: My app custom settings
+- - devices.mainDHT.DHT_PIN
+  - i
+  - 4
+  - title: My app custom settings
+- - pins.DEC_BUTTON
+  - i
+  - 18
+  - title: GPIO pin ...
+- - pins.INC_BUTTON
+  - i
+  - 19
+  - title: GPIO pin ...
+- - pins.SWITCH_BUTTON
+  - i
+  - 21
+  - title: GPIO pin ...
 build_vars:
+  ESP_IDF_EXTRA_COMPONENTS: ""
+  ESP_IDF_SDKCONFIG_OPTS: ""
   MGOS_ENABLE_I2C_GPIO: "1"
   MGOS_ENABLE_UPDATER: "1"
   MGOS_HAVE_ARDUINO_COMPAT: "1"
@@ -680,13 +705,14 @@ build_vars:
   MGOS_HAVE_RPC_SERVICE_OTA: "1"
   MGOS_HAVE_RPC_SERVICE_WIFI: "1"
   MGOS_HAVE_RPC_UART: "1"
+  MGOS_HAVE_SHADOW: "1"
   MGOS_HAVE_WIFI: "1"
   MGOS_WIFI_ENABLE_AP_STA: "1"
 cxxflags:
 - -Wno-unused-parameter
 cdefs:
   ARDUINO: "150"
-  ESP8266: "1"
+  ESP32: "1"
   F_CPU: "160000000"
   MG_ENABLE_DNS_SERVER: "1"
   MG_ENABLE_MQTT: "1"
@@ -718,150 +744,156 @@ cdefs:
   MGOS_HAVE_RPC_SERVICE_OTA: "1"
   MGOS_HAVE_RPC_SERVICE_WIFI: "1"
   MGOS_HAVE_RPC_UART: "1"
+  MGOS_HAVE_SHADOW: "1"
   MGOS_HAVE_WIFI: "1"
   MGOS_WIFI_ENABLE_AP_STA: "1"
 tags:
 - js
 - hw
-libs_version: "1.22"
-modules_version: "1.22"
-mongoose_os_version: "1.22"
+libs_version: 1.22.1
+modules_version: 1.22.1
+mongoose_os_version: 1.22.1
 manifest_version: 2017-05-18
 libs_handled:
 - name: arduino-compat
-  path: /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/arduino-compat
+  path: /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/arduino-compat
   sources:
-  - /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/arduino-compat/src/Print.cpp
-  - /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/arduino-compat/src/WString.cpp
-  - /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/arduino-compat/src/mgos_arduino.cpp
+  - /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/arduino-compat/src/Print.cpp
+  - /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/arduino-compat/src/WString.cpp
+  - /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/arduino-compat/src/mgos_arduino.cpp
 - name: i2c
-  path: /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/i2c
+  path: /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/i2c
   sources:
-  - /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/i2c/src/mgos_i2c.c
-  - /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/i2c/src/common_gpio/mgos_i2c_gpio.c
+  - /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/i2c/src/mgos_i2c.c
+  - /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/i2c/src/common_gpio/mgos_i2c_gpio.c
 - name: arduino-wire
-  path: /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/arduino-wire
+  path: /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/arduino-wire
   deps:
   - arduino-compat
   - i2c
   sources:
-  - /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/arduino-wire/src/mgos_arduino_wire_c.c
-  - /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/arduino-wire/src/mgos_arduino_wire.cpp
+  - /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/arduino-wire/src/mgos_arduino_wire_c.c
+  - /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/arduino-wire/src/mgos_arduino_wire.cpp
 - name: arduino-LiquidCrystal_I2C
-  path: /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/arduino-LiquidCrystal_I2C
+  path: /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/arduino-LiquidCrystal_I2C
   deps:
   - arduino-compat
   - arduino-wire
   sources:
-  - /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/arduino-LiquidCrystal_I2C/src/mgos_arduino_liquidcrystal_i2c_c.c
-  - /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/arduino-LiquidCrystal_I2C/src/LiquidCrystal_I2C.cpp
-  - /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/arduino-LiquidCrystal_I2C/src/mgos_arduino_liquidcrystal_i2c.cpp
+  - /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/arduino-LiquidCrystal_I2C/src/mgos_arduino_liquidcrystal_i2c_c.c
+  - /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/arduino-LiquidCrystal_I2C/src/LiquidCrystal_I2C.cpp
+  - /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/arduino-LiquidCrystal_I2C/src/mgos_arduino_liquidcrystal_i2c.cpp
 - name: ca-bundle
-  path: /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/ca-bundle
+  path: /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/ca-bundle
   sources:
-  - /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/ca-bundle/src/mgos_ca_bundle.c
+  - /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/ca-bundle/src/mgos_ca_bundle.c
 - name: ota-http-client
-  path: /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/ota-http-client
+  path: /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/ota-http-client
 - name: wifi
-  path: /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/wifi
+  path: /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/wifi
   sources:
-  - /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/wifi/src/mgos_wifi.c
-  - /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/wifi/src/mjs_wifi.c
-  - /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/wifi/esp8266/src/esp_wifi.c
+  - /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/wifi/src/mgos_wifi.c
+  - /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/wifi/src/mjs_wifi.c
+  - /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/wifi/esp32/src/esp32_wifi.c
 - name: http-server
-  path: /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/http-server
+  path: /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/http-server
   deps:
   - atca
   - ethernet
   - wifi
   sources:
-  - /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/http-server/src/mgos_http_server.c
+  - /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/http-server/src/mgos_http_server.c
 - name: rpc-common
-  path: /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/rpc-common
+  path: /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/rpc-common
   deps:
   - http-server
   sources:
-  - /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/rpc-common/src/mg_rpc/mg_rpc.c
-  - /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/rpc-common/src/mg_rpc/mg_rpc_channel.c
-  - /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/rpc-common/src/mg_rpc/mg_rpc_channel_http.c
-  - /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/rpc-common/src/mg_rpc/mg_rpc_channel_ws.c
-  - /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/rpc-common/src/mgos_rpc.c
+  - /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/rpc-common/src/mg_rpc/mg_rpc.c
+  - /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/rpc-common/src/mg_rpc/mg_rpc_channel.c
+  - /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/rpc-common/src/mg_rpc/mg_rpc_channel_http.c
+  - /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/rpc-common/src/mg_rpc/mg_rpc_channel_ws.c
+  - /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/rpc-common/src/mgos_rpc.c
+- name: shadow
+  path: /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/shadow
+  sources:
+  - /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/shadow/src/mgos_shadow.c
 - name: dash
-  path: /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/dash
+  path: /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/dash
   deps:
   - ota-http-client
   - rpc-common
+  - shadow
   sources:
-  - /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/dash/src/mgos_dash.c
+  - /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/dash/src/mgos_dash.c
 - name: dht
-  path: /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/dht
+  path: /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/dht
   sources:
-  - /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/dht/src/mgos_dht.c
+  - /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/dht/src/mgos_dht.c
 - name: file-logger
-  path: /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/file-logger
+  path: /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/file-logger
   sources:
-  - /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/file-logger/src/mgos_file_logger.c
+  - /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/file-logger/src/mgos_file_logger.c
 - name: mjs
-  path: /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/mjs
+  path: /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/mjs
   sources:
-  - /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/mjs/src/mos_mjs.c
-  - /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/modules/mjs-1.22/mjs.c
-  - /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/mjs/esp8266/src/esp8266_mjs.c
+  - /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/mjs/src/mos_mjs.c
+  - /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/modules/mjs-1.22.1/mjs.c
+  - /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/mjs/esp32/src/esp32_mjs.c
 - name: ota-http-server
-  path: /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/ota-http-server
+  path: /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/ota-http-server
   deps:
   - http-server
   - ota-http-client
 - name: rpc-loopback
-  path: /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/rpc-loopback
+  path: /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/rpc-loopback
   deps:
   - rpc-common
   sources:
-  - /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/rpc-loopback/src/mg_rpc_channel_loopback.c
+  - /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/rpc-loopback/src/mg_rpc_channel_loopback.c
 - name: mqtt
-  path: /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/mqtt
+  path: /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/mqtt
   sources:
-  - /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/mqtt/src/mgos_mqtt.c
+  - /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/mqtt/src/mgos_mqtt.c
 - name: rpc-mqtt
-  path: /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/rpc-mqtt
+  path: /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/rpc-mqtt
   deps:
   - mqtt
   - rpc-common
   sources:
-  - /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/rpc-mqtt/src/mgos_rpc_channel_mqtt.c
+  - /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/rpc-mqtt/src/mgos_rpc_channel_mqtt.c
 - name: rpc-service-config
-  path: /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/rpc-service-config
+  path: /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/rpc-service-config
   deps:
   - rpc-common
   sources:
-  - /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/rpc-service-config/src/mgos_service_config.c
+  - /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/rpc-service-config/src/mgos_service_config.c
 - name: rpc-service-fs
-  path: /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/rpc-service-fs
+  path: /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/rpc-service-fs
   deps:
   - rpc-common
   sources:
-  - /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/rpc-service-fs/src/mgos_service_filesystem.c
+  - /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/rpc-service-fs/src/mgos_service_filesystem.c
 - name: rpc-service-gpio
-  path: /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/rpc-service-gpio
+  path: /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/rpc-service-gpio
   deps:
   - rpc-common
   sources:
-  - /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/rpc-service-gpio/src/mgos_gpio_service.c
+  - /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/rpc-service-gpio/src/mgos_gpio_service.c
 - name: rpc-service-ota
-  path: /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/rpc-service-ota
+  path: /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/rpc-service-ota
   deps:
   - ota-http-client
   - rpc-common
 - name: rpc-service-wifi
-  path: /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/rpc-service-wifi
+  path: /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/rpc-service-wifi
   deps:
   - rpc-common
   - wifi
   sources:
-  - /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/rpc-service-wifi/src/mgos_rpc_service_wifi.c
+  - /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/rpc-service-wifi/src/mgos_rpc_service_wifi.c
 - name: rpc-uart
-  path: /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/rpc-uart
+  path: /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/rpc-uart
   deps:
   - rpc-common
   sources:
-  - /fwbuild-volumes/1.22/apps/Garage/esp8266/build_contexts/build_ctx_103579198/libs/rpc-uart/src/mgos_rpc_channel_uart.c
+  - /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/libs/rpc-uart/src/mgos_rpc_channel_uart.c

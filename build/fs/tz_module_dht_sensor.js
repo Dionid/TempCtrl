@@ -15,6 +15,8 @@ function SetDHTModuleHum(obj, hum) {
 }
 
 function DHTModuleRefreshHumAndTemp(obj) {
+  obj.state.temp = 0;
+  obj.state.hum = 0;
   let t = obj.dht.getTemp();
   let h = obj.dht.getHumidity();
 
@@ -77,11 +79,6 @@ function INIT_DHT_MODULE(options) {
     }
   };
 
-  // RPC.addHandler(deviceId + '.InitDHT', function(args, sm, dhtObj) {
-  //   dhtObj.dht = CreateDHT(dhtObj.pins.DHT_PIN);
-  //   return true;
-  // }, dhtObj);
-
   RPC.addHandler(deviceId + '.SetState', function(args, sm, dhtObj) {
     if (args.minTemp) {
       SetMinTemp(dhtObj, args.minTemp);
@@ -118,7 +115,7 @@ function INIT_DHT_MODULE(options) {
     TZ_RPC.main_server_rpc_call(obj.deviceId + '.SaveData', {temp: temp, hum: hum, t: Timer.now()});
   }, dhtObj);
 
-  Timer.set(1000 /* milliseconds */, false /* repeat */, function(obj) {
+  Timer.set(3000 /* milliseconds */, false /* repeat */, function(obj) {
     DHTModuleRefreshHumAndTemp(obj);
   }, dhtObj);
 

@@ -3,8 +3,8 @@
 #include <stddef.h>
 #include "mgos_config.h"
 
-const struct mgos_conf_entry mgos_config_schema_[176] = {
-  {.type = CONF_TYPE_OBJECT, .key = "", .num_desc = 175},
+const struct mgos_conf_entry mgos_config_schema_[175] = {
+  {.type = CONF_TYPE_OBJECT, .key = "", .num_desc = 174},
   {.type = CONF_TYPE_OBJECT, .key = "sntp", .num_desc = 5},
   {.type = CONF_TYPE_BOOL, .key = "enable", .offset = offsetof(struct mgos_config, sntp.enable)},
   {.type = CONF_TYPE_STRING, .key = "server", .offset = offsetof(struct mgos_config, sntp.server)},
@@ -20,22 +20,23 @@ const struct mgos_conf_entry mgos_config_schema_[176] = {
   {.type = CONF_TYPE_STRING, .key = "ssl_client_cert_file", .offset = offsetof(struct mgos_config, update.ssl_client_cert_file)},
   {.type = CONF_TYPE_STRING, .key = "ssl_server_name", .offset = offsetof(struct mgos_config, update.ssl_server_name)},
   {.type = CONF_TYPE_BOOL, .key = "enable_post", .offset = offsetof(struct mgos_config, update.enable_post)},
-  {.type = CONF_TYPE_OBJECT, .key = "device", .num_desc = 3},
+  {.type = CONF_TYPE_OBJECT, .key = "device", .num_desc = 4},
   {.type = CONF_TYPE_STRING, .key = "id", .offset = offsetof(struct mgos_config, device.id)},
   {.type = CONF_TYPE_STRING, .key = "password", .offset = offsetof(struct mgos_config, device.password)},
   {.type = CONF_TYPE_STRING, .key = "shadow_impl", .offset = offsetof(struct mgos_config, device.shadow_impl)},
+  {.type = CONF_TYPE_STRING, .key = "type", .offset = offsetof(struct mgos_config, device.type)},
   {.type = CONF_TYPE_OBJECT, .key = "debug", .num_desc = 10},
   {.type = CONF_TYPE_STRING, .key = "udp_log_addr", .offset = offsetof(struct mgos_config, debug.udp_log_addr)},
-  {.type = CONF_TYPE_INT, .key = "mbedtls_level", .offset = offsetof(struct mgos_config, debug.mbedtls_level)},
   {.type = CONF_TYPE_INT, .key = "level", .offset = offsetof(struct mgos_config, debug.level)},
   {.type = CONF_TYPE_STRING, .key = "filter", .offset = offsetof(struct mgos_config, debug.filter)},
   {.type = CONF_TYPE_INT, .key = "stdout_uart", .offset = offsetof(struct mgos_config, debug.stdout_uart)},
   {.type = CONF_TYPE_INT, .key = "stderr_uart", .offset = offsetof(struct mgos_config, debug.stderr_uart)},
   {.type = CONF_TYPE_INT, .key = "factory_reset_gpio", .offset = offsetof(struct mgos_config, debug.factory_reset_gpio)},
   {.type = CONF_TYPE_STRING, .key = "mg_mgr_hexdump_file", .offset = offsetof(struct mgos_config, debug.mg_mgr_hexdump_file)},
+  {.type = CONF_TYPE_INT, .key = "mbedtls_level", .offset = offsetof(struct mgos_config, debug.mbedtls_level)},
   {.type = CONF_TYPE_STRING, .key = "stdout_topic", .offset = offsetof(struct mgos_config, debug.stdout_topic)},
   {.type = CONF_TYPE_STRING, .key = "stderr_topic", .offset = offsetof(struct mgos_config, debug.stderr_topic)},
-  {.type = CONF_TYPE_OBJECT, .key = "sys", .num_desc = 7},
+  {.type = CONF_TYPE_OBJECT, .key = "sys", .num_desc = 8},
   {.type = CONF_TYPE_OBJECT, .key = "mount", .num_desc = 5},
   {.type = CONF_TYPE_STRING, .key = "path", .offset = offsetof(struct mgos_config, sys.mount.path)},
   {.type = CONF_TYPE_STRING, .key = "dev_type", .offset = offsetof(struct mgos_config, sys.mount.dev_type)},
@@ -43,6 +44,7 @@ const struct mgos_conf_entry mgos_config_schema_[176] = {
   {.type = CONF_TYPE_STRING, .key = "fs_type", .offset = offsetof(struct mgos_config, sys.mount.fs_type)},
   {.type = CONF_TYPE_STRING, .key = "fs_opts", .offset = offsetof(struct mgos_config, sys.mount.fs_opts)},
   {.type = CONF_TYPE_INT, .key = "wdt_timeout", .offset = offsetof(struct mgos_config, sys.wdt_timeout)},
+  {.type = CONF_TYPE_STRING, .key = "tz_spec", .offset = offsetof(struct mgos_config, sys.tz_spec)},
   {.type = CONF_TYPE_STRING, .key = "conf_acl", .offset = offsetof(struct mgos_config, conf_acl)},
   {.type = CONF_TYPE_OBJECT, .key = "i2c", .num_desc = 5},
   {.type = CONF_TYPE_BOOL, .key = "enable", .offset = offsetof(struct mgos_config, i2c.enable)},
@@ -116,13 +118,14 @@ const struct mgos_conf_entry mgos_config_schema_[176] = {
   {.type = CONF_TYPE_INT, .key = "baud_rate", .offset = offsetof(struct mgos_config, rpc.uart.baud_rate)},
   {.type = CONF_TYPE_INT, .key = "fc_type", .offset = offsetof(struct mgos_config, rpc.uart.fc_type)},
   {.type = CONF_TYPE_BOOL, .key = "wait_for_start_frame", .offset = offsetof(struct mgos_config, rpc.uart.wait_for_start_frame)},
-  {.type = CONF_TYPE_OBJECT, .key = "dash", .num_desc = 6},
+  {.type = CONF_TYPE_OBJECT, .key = "dash", .num_desc = 7},
   {.type = CONF_TYPE_BOOL, .key = "enable", .offset = offsetof(struct mgos_config, dash.enable)},
   {.type = CONF_TYPE_STRING, .key = "token", .offset = offsetof(struct mgos_config, dash.token)},
   {.type = CONF_TYPE_STRING, .key = "server", .offset = offsetof(struct mgos_config, dash.server)},
   {.type = CONF_TYPE_STRING, .key = "ca_file", .offset = offsetof(struct mgos_config, dash.ca_file)},
   {.type = CONF_TYPE_INT, .key = "heartbeat_interval", .offset = offsetof(struct mgos_config, dash.heartbeat_interval)},
   {.type = CONF_TYPE_BOOL, .key = "send_logs", .offset = offsetof(struct mgos_config, dash.send_logs)},
+  {.type = CONF_TYPE_BOOL, .key = "send_stats", .offset = offsetof(struct mgos_config, dash.send_stats)},
   {.type = CONF_TYPE_OBJECT, .key = "file_logger", .num_desc = 5},
   {.type = CONF_TYPE_BOOL, .key = "enable", .offset = offsetof(struct mgos_config, file_logger.enable)},
   {.type = CONF_TYPE_STRING, .key = "dir", .offset = offsetof(struct mgos_config, file_logger.dir)},
@@ -151,10 +154,6 @@ const struct mgos_conf_entry mgos_config_schema_[176] = {
   {.type = CONF_TYPE_STRING, .key = "will_message", .offset = offsetof(struct mgos_config, mqtt.will_message)},
   {.type = CONF_TYPE_INT, .key = "max_qos", .offset = offsetof(struct mgos_config, mqtt.max_qos)},
   {.type = CONF_TYPE_INT, .key = "recv_mbuf_limit", .offset = offsetof(struct mgos_config, mqtt.recv_mbuf_limit)},
-  {.type = CONF_TYPE_OBJECT, .key = "app", .num_desc = 3},
-  {.type = CONF_TYPE_STRING, .key = "devId", .offset = offsetof(struct mgos_config, app.devId)},
-  {.type = CONF_TYPE_INT, .key = "minTemp", .offset = offsetof(struct mgos_config, app.minTemp)},
-  {.type = CONF_TYPE_INT, .key = "maxTemp", .offset = offsetof(struct mgos_config, app.maxTemp)},
   {.type = CONF_TYPE_OBJECT, .key = "server", .num_desc = 2},
   {.type = CONF_TYPE_STRING, .key = "id", .offset = offsetof(struct mgos_config, server.id)},
   {.type = CONF_TYPE_STRING, .key = "topicName", .offset = offsetof(struct mgos_config, server.topicName)},
@@ -247,14 +246,14 @@ const char *mgos_config_get_device_password(struct mgos_config *cfg) {
 const char *mgos_config_get_device_shadow_impl(struct mgos_config *cfg) {
   return cfg->device.shadow_impl;
 }
+const char *mgos_config_get_device_type(struct mgos_config *cfg) {
+  return cfg->device.type;
+}
 const struct mgos_config_debug *mgos_config_get_debug(struct mgos_config *cfg) {
   return &cfg->debug;
 }
 const char *mgos_config_get_debug_udp_log_addr(struct mgos_config *cfg) {
   return cfg->debug.udp_log_addr;
-}
-int         mgos_config_get_debug_mbedtls_level(struct mgos_config *cfg) {
-  return cfg->debug.mbedtls_level;
 }
 int         mgos_config_get_debug_level(struct mgos_config *cfg) {
   return cfg->debug.level;
@@ -273,6 +272,9 @@ int         mgos_config_get_debug_factory_reset_gpio(struct mgos_config *cfg) {
 }
 const char *mgos_config_get_debug_mg_mgr_hexdump_file(struct mgos_config *cfg) {
   return cfg->debug.mg_mgr_hexdump_file;
+}
+int         mgos_config_get_debug_mbedtls_level(struct mgos_config *cfg) {
+  return cfg->debug.mbedtls_level;
 }
 const char *mgos_config_get_debug_stdout_topic(struct mgos_config *cfg) {
   return cfg->debug.stdout_topic;
@@ -303,6 +305,9 @@ const char *mgos_config_get_sys_mount_fs_opts(struct mgos_config *cfg) {
 }
 int         mgos_config_get_sys_wdt_timeout(struct mgos_config *cfg) {
   return cfg->sys.wdt_timeout;
+}
+const char *mgos_config_get_sys_tz_spec(struct mgos_config *cfg) {
+  return cfg->sys.tz_spec;
 }
 const char *mgos_config_get_conf_acl(struct mgos_config *cfg) {
   return cfg->conf_acl;
@@ -544,6 +549,9 @@ int         mgos_config_get_dash_heartbeat_interval(struct mgos_config *cfg) {
 int         mgos_config_get_dash_send_logs(struct mgos_config *cfg) {
   return cfg->dash.send_logs;
 }
+int         mgos_config_get_dash_send_stats(struct mgos_config *cfg) {
+  return cfg->dash.send_stats;
+}
 const struct mgos_config_file_logger *mgos_config_get_file_logger(struct mgos_config *cfg) {
   return &cfg->file_logger;
 }
@@ -627,18 +635,6 @@ int         mgos_config_get_mqtt_max_qos(struct mgos_config *cfg) {
 }
 int         mgos_config_get_mqtt_recv_mbuf_limit(struct mgos_config *cfg) {
   return cfg->mqtt.recv_mbuf_limit;
-}
-const struct mgos_config_app *mgos_config_get_app(struct mgos_config *cfg) {
-  return &cfg->app;
-}
-const char *mgos_config_get_app_devId(struct mgos_config *cfg) {
-  return cfg->app.devId;
-}
-int         mgos_config_get_app_minTemp(struct mgos_config *cfg) {
-  return cfg->app.minTemp;
-}
-int         mgos_config_get_app_maxTemp(struct mgos_config *cfg) {
-  return cfg->app.maxTemp;
 }
 const struct mgos_config_server *mgos_config_get_server(struct mgos_config *cfg) {
   return &cfg->server;
@@ -766,11 +762,11 @@ void mgos_config_set_device_password(struct mgos_config *cfg, const char *val) {
 void mgos_config_set_device_shadow_impl(struct mgos_config *cfg, const char *val) {
   mgos_conf_set_str(&cfg->device.shadow_impl, val);
 }
+void mgos_config_set_device_type(struct mgos_config *cfg, const char *val) {
+  mgos_conf_set_str(&cfg->device.type, val);
+}
 void mgos_config_set_debug_udp_log_addr(struct mgos_config *cfg, const char *val) {
   mgos_conf_set_str(&cfg->debug.udp_log_addr, val);
-}
-void mgos_config_set_debug_mbedtls_level(struct mgos_config *cfg, int         val) {
-  cfg->debug.mbedtls_level = val;
 }
 void mgos_config_set_debug_level(struct mgos_config *cfg, int         val) {
   cfg->debug.level = val;
@@ -789,6 +785,9 @@ void mgos_config_set_debug_factory_reset_gpio(struct mgos_config *cfg, int      
 }
 void mgos_config_set_debug_mg_mgr_hexdump_file(struct mgos_config *cfg, const char *val) {
   mgos_conf_set_str(&cfg->debug.mg_mgr_hexdump_file, val);
+}
+void mgos_config_set_debug_mbedtls_level(struct mgos_config *cfg, int         val) {
+  cfg->debug.mbedtls_level = val;
 }
 void mgos_config_set_debug_stdout_topic(struct mgos_config *cfg, const char *val) {
   mgos_conf_set_str(&cfg->debug.stdout_topic, val);
@@ -813,6 +812,9 @@ void mgos_config_set_sys_mount_fs_opts(struct mgos_config *cfg, const char *val)
 }
 void mgos_config_set_sys_wdt_timeout(struct mgos_config *cfg, int         val) {
   cfg->sys.wdt_timeout = val;
+}
+void mgos_config_set_sys_tz_spec(struct mgos_config *cfg, const char *val) {
+  mgos_conf_set_str(&cfg->sys.tz_spec, val);
 }
 void mgos_config_set_conf_acl(struct mgos_config *cfg, const char *val) {
   mgos_conf_set_str(&cfg->conf_acl, val);
@@ -1024,6 +1026,9 @@ void mgos_config_set_dash_heartbeat_interval(struct mgos_config *cfg, int       
 void mgos_config_set_dash_send_logs(struct mgos_config *cfg, int         val) {
   cfg->dash.send_logs = val;
 }
+void mgos_config_set_dash_send_stats(struct mgos_config *cfg, int         val) {
+  cfg->dash.send_stats = val;
+}
 void mgos_config_set_file_logger_enable(struct mgos_config *cfg, int         val) {
   cfg->file_logger.enable = val;
 }
@@ -1098,15 +1103,6 @@ void mgos_config_set_mqtt_max_qos(struct mgos_config *cfg, int         val) {
 }
 void mgos_config_set_mqtt_recv_mbuf_limit(struct mgos_config *cfg, int         val) {
   cfg->mqtt.recv_mbuf_limit = val;
-}
-void mgos_config_set_app_devId(struct mgos_config *cfg, const char *val) {
-  mgos_conf_set_str(&cfg->app.devId, val);
-}
-void mgos_config_set_app_minTemp(struct mgos_config *cfg, int         val) {
-  cfg->app.minTemp = val;
-}
-void mgos_config_set_app_maxTemp(struct mgos_config *cfg, int         val) {
-  cfg->app.maxTemp = val;
 }
 void mgos_config_set_server_id(struct mgos_config *cfg, const char *val) {
   mgos_conf_set_str(&cfg->server.id, val);

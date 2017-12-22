@@ -6,7 +6,7 @@ load('api_timer.js');
 load('api_dht.js');
 load('api_mqtt.js');
 load('api_sys.js');
-load('api_dash.js');
+// load('api_dash.js');
 
 load('tz_rpc.js');
 load('tz_logging.js');
@@ -33,6 +33,7 @@ Timer.set(100, false, function() {
     let changedProps = args.changedProps;
     if (changedProps.turnedOn !== undefined) {
       Cfg.set({devices: {mainHeater: {turnedOn: changedProps.turnedOn}}}, true);
+      // TZ_RPC.main_server_rpc_call(globalObjs.mainHeaterObj.deviceId + '.SetState', {temp: temp, hum: hum, t: Timer.now()});
       RenderHeaterTurnedOn(changedProps.turnedOn, false);
     }
     return true;
@@ -86,12 +87,77 @@ Timer.set(400 , false , function() {
   });
 }, null);
 
+function TZShadowDeltaCb(args, state) {
+  if (args.state.mainHeaterState !== undefined) {
+    // state.mainHeaterState = {};
+    if (args.state.mainHeaterState.turnedOn !== undefined) {
+      SetHeaterModuleTurnedOn(globalObjs.mainHeaterObj, args.state.mainHeaterState.turnedOn);
+      // state.mainHeaterState.turnedOn = args.state.mainHeaterState.turnedOn;
+    }
+    if (args.state.mainHeaterState.heatActive !== undefined) {
+      SetHeaterModuleHeatActive(globalObjs.mainHeaterObj, args.state.mainHeaterState.heatActive);
+      // state.mainHeaterState.turnedOn = args.state.mainHeaterState.heatActive;
+    }
+  }
+  if (args.state.mainTempAndHumidityState !== undefined) {
+    // state.mainTempAndHumidityState = {};
+    if (args.state.mainTempAndHumidityState.minTemp !== undefined) {
+      SetMinTemp(globalObjs.mainDHTObj, args.state.mainTempAndHumidityState.minTemp);
+      // state.mainTempAndHumidityState.minTemp = args.state.mainTempAndHumidityState.minTemp;
+    }
+    if (args.state.mainTempAndHumidityState.maxTemp !== undefined) {
+      SetMaxTemp(globalObjs.mainDHTObj, args.state.mainTempAndHumidityState.maxTemp);
+      // state.mainTempAndHumidityState.maxTemp = args.state.mainTempAndHumidityState.maxTemp;
+    }
+  }
+}
+
 Timer.set(500 , false , function() {
   let deviceId = Cfg.get('devices.mainDevice.id');
-  RPC.addHandler(deviceId + '.GetState', function(args, sm, obj) {
-    return {
-      mainHeaterState: globalObjs.mainHeaterObj.state,
-      mainDHTState: globalObjs.mainDHTObj.state,
-    };
-  }, null);
+
+  // GlobalShadowState = {
+  //   mainHeaterState: globalObjs.mainHeaterObj.state,
+  //   mainDHTState: globalObjs.mainDHTObj.state,
+  // };
+
+  TZShadow.State = {
+    mainHeaterState: globalObjs.mainHeaterObj.state,
+    mainDHTState: globalObjs.mainDHTObj.state,
+  };
+
+  // let shadow = INIT_SHADOW({
+  //   deviceId: deviceId,
+  //   serverId: serverId,
+  //   // deviceState: {
+  //   //   mainHeaterState: globalObjs.mainHeaterObj.state,
+  //   //   mainDHTState: globalObjs.mainDHTObj.state,
+  //   // },
+  //   deltaCb: function(args, state) {
+  //     if (args.state.mainHeaterState !== undefined) {
+  //       state.mainHeaterState = {};
+  //       if (args.state.mainHeaterState.turnedOn !== undefined) {
+  //         SetHeaterModuleTurnedOn(globalObjs.mainHeaterObj, args.state.mainHeaterState.turnedOn);
+  //         state.mainHeaterState.turnedOn = args.state.mainHeaterState.turnedOn;
+  //       }
+  //       if (args.state.mainHeaterState.heatActive !== undefined) {
+  //         SetHeaterModuleHeatActive(globalObjs.mainHeaterObj, args.state.mainHeaterState.heatActive);
+  //         state.mainHeaterState.turnedOn = args.state.mainHeaterState.heatActive;
+  //       }
+  //     }
+  //     if (args.state.mainTempAndHumidityState !== undefined) {
+  //       state.mainTempAndHumidityState = {};
+  //       if (args.state.mainTempAndHumidityState.minTemp !== undefined) {
+  //         SetMinTemp(globalObjs.mainDHTObj, args.state.mainTempAndHumidityState.minTemp);
+  //         state.mainTempAndHumidityState.minTemp = args.state.mainTempAndHumidityState.minTemp;
+  //       }
+  //       if (args.state.mainTempAndHumidityState.maxTemp !== undefined) {
+  //         SetMaxTemp(globalObjs.mainDHTObj, args.state.mainTempAndHumidityState.maxTemp);
+  //         state.mainTempAndHumidityState.maxTemp = args.state.mainTempAndHumidityState.maxTemp;
+  //       }
+  //     }
+  //   }
+  // });
+
 }, null);
+
+print('New build');

@@ -17,19 +17,20 @@
     "enable_post": true
   }, 
   "device": {
-    "id": "esp8266_??????", 
+    "id": "qwertyqwerty", 
     "password": "", 
-    "shadow_impl": ""
+    "shadow_impl": "", 
+    "type": "smart_heater"
   }, 
   "debug": {
     "udp_log_addr": "", 
-    "mbedtls_level": 0, 
     "level": 2, 
     "filter": "", 
     "stdout_uart": 0, 
     "stderr_uart": 0, 
     "factory_reset_gpio": -1, 
     "mg_mgr_hexdump_file": "", 
+    "mbedtls_level": 0, 
     "stdout_topic": "", 
     "stderr_topic": ""
   }, 
@@ -41,15 +42,16 @@
       "fs_type": "", 
       "fs_opts": ""
     }, 
-    "wdt_timeout": 30
+    "wdt_timeout": 30, 
+    "tz_spec": ""
   }, 
   "conf_acl": "*", 
   "i2c": {
     "enable": true, 
     "freq": 100000, 
     "debug": false, 
-    "sda_gpio": 12, 
-    "scl_gpio": 14
+    "sda_gpio": 32, 
+    "scl_gpio": 33
   }, 
   "wifi": {
     "sta": {
@@ -131,7 +133,8 @@
     "server": "wss://mongoose-os.com/dashboard/rpc", 
     "ca_file": "ca.pem", 
     "heartbeat_interval": 10, 
-    "send_logs": true
+    "send_logs": true, 
+    "send_stats": true
   }, 
   "file_logger": {
     "enable": true, 
@@ -164,11 +167,6 @@
     "max_qos": 2, 
     "recv_mbuf_limit": 3072
   }, 
-  "app": {
-    "devId": "qweqweqwe", 
-    "minTemp": 10, 
-    "maxTemp": 20
-  }, 
   "server": {
     "id": "qweyuiasdhjky", 
     "topicName": "qweyuiasdhjky/p/smart_heater/qwertyqwerty/s/rpc"
@@ -180,13 +178,13 @@
     }, 
     "mainHeater": {
       "id": "asdqwezxc", 
-      "HEAT_PIN": 13, 
-      "POWER_PIN": 16, 
+      "HEAT_PIN": 22, 
+      "POWER_PIN": 23, 
       "turnedOn": true
     }, 
     "mainDHT": {
       "id": "qweiopasd", 
-      "DHT_PIN": 0, 
+      "DHT_PIN": 4, 
       "minTemp": 10, 
       "maxTemp": 20, 
       "autoCtrl": true, 
@@ -196,8 +194,8 @@
     }
   }, 
   "pins": {
-    "DEC_BUTTON": 5, 
-    "INC_BUTTON": 4, 
-    "SWITCH_BUTTON": 2
+    "DEC_BUTTON": 18, 
+    "INC_BUTTON": 19, 
+    "SWITCH_BUTTON": 21
   }
 }
