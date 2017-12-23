@@ -77,8 +77,12 @@ let TZShadow = {
     this.DeviceId = deviceId;
     this._serverTopicName = serverId + "/" + deviceId;
 
+    RPC.addHandler(deviceId + '.GetShadow', function(args, sm, obj) {
+      return TZShadow.State;
+    }, null);
+
     RPC.addHandler(deviceId + '.Shadow.Update.Accepted', function(args, sm, obj) {
-      if (args.version < TZShadow.GetCurrentVersion()) {
+      if (args.version === undefined || args.version < TZShadow.GetCurrentVersion()) {
         return;
       }
       TZShadow._setCurrentVersion(args.version);
@@ -86,7 +90,7 @@ let TZShadow = {
     }, null);
 
     RPC.addHandler(deviceId + '.Shadow.Get.Accepted', function(args, sm, obj) {
-      if (args.version < TZShadow.GetCurrentVersion()) {
+      if (args.version === undefined || args.version < TZShadow.GetCurrentVersion()) {
         return;
       }
       TZShadow._setCurrentVersion(args.version);
@@ -94,27 +98,48 @@ let TZShadow = {
     }, null);
 
     MQTT.setEventHandler(function(conn, ev, edata) {
-      print("MQTT.setEventHandler");
-      print(JSON.stringify(edata));
+      // print("MQTT.setEventHandler");
+      // print(ev);
       if (ev === MQTT.EV_SUBACK) {
         // print(JSON.stringify(edata));
+        print("!!! MQTT.EV_SUBACK");
+        print(JSON.stringify(edata));
+        TZShadow._connectedReport();
+      } else if (ev === MQTT.EV_CONNACK) {
+        print("!!! MQTT.EV_CONNACK");
+        print(JSON.stringify(edata));
         TZShadow._connectedReport();
       }
     }, null);
 
     RPC.addHandler(deviceId + '.Shadow.Delta', function(args, sm, obj) {
-      if (args.version < TZShadow.GetCurrentVersion()) {
-        return {};
+      if (args.version === undefined || args.version < TZShadow.GetCurrentVersion()) {
+        return {
+          error: {
+            code: 409,
+            msg: "Wrong version"
+          }
+        };
       }
 
       let state = {};
 
       TZShadowDeltaCb(args, state);
 
+      let empty = true;
+      for(let k in state) {
+        // if (!empty) break;
+        empty = false;
+      }
+
+      if (empty) return true;
+
       TZShadow._setCurrentVersion(args.version);
 
       let response = {
-        reported: state,
+        state: {
+          reported: state,
+        },
         // reported: TZShadow.State,
         version: args.version
       };
@@ -128,14 +153,30 @@ let TZShadow = {
 
       TZShadowDeltaCb(args, state);
 
-      let response = {
-        reported: state,
-        desired: state,
-        version: TZShadow.GetCurrentVersion()
+      let empty = true;
+      for(let k in state) {
+        // if (!empty) break;
+        empty = false;
+      }
+
+      if (empty) return true;
+
+      let rpc = {
+        src: TZShadow.DeviceId,
+        dst: TZShadow._serverTopicName+"/rpc",
+        method: TZShadow.DeviceId + '.Shadow.Update',
+        args: {
+          state: {
+            reported: state,
+            desired: state,
+          },
+          version: TZShadow.GetCurrentVersion()
+        }
       };
 
       // RESPONSE to /:server_id/:shadow_id/update {"reported": ...}
-      MQTT.pub(TZShadow._serverTopicName+"/update", JSON.stringify(response), 1);
+      // MQTT.pub(TZShadow._serverTopicName+"/update", JSON.stringify(rpc), 1);
+      MQTT.pub(TZShadow._serverTopicName+"/rpc", JSON.stringify(rpc), 1);
 
       return true;
     }, null);

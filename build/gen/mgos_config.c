@@ -3,8 +3,8 @@
 #include <stddef.h>
 #include "mgos_config.h"
 
-const struct mgos_conf_entry mgos_config_schema_[175] = {
-  {.type = CONF_TYPE_OBJECT, .key = "", .num_desc = 174},
+const struct mgos_conf_entry mgos_config_schema_[177] = {
+  {.type = CONF_TYPE_OBJECT, .key = "", .num_desc = 176},
   {.type = CONF_TYPE_OBJECT, .key = "sntp", .num_desc = 5},
   {.type = CONF_TYPE_BOOL, .key = "enable", .offset = offsetof(struct mgos_config, sntp.enable)},
   {.type = CONF_TYPE_STRING, .key = "server", .offset = offsetof(struct mgos_config, sntp.server)},
@@ -157,10 +157,12 @@ const struct mgos_conf_entry mgos_config_schema_[175] = {
   {.type = CONF_TYPE_OBJECT, .key = "server", .num_desc = 2},
   {.type = CONF_TYPE_STRING, .key = "id", .offset = offsetof(struct mgos_config, server.id)},
   {.type = CONF_TYPE_STRING, .key = "topicName", .offset = offsetof(struct mgos_config, server.topicName)},
-  {.type = CONF_TYPE_OBJECT, .key = "devices", .num_desc = 17},
-  {.type = CONF_TYPE_OBJECT, .key = "mainDevice", .num_desc = 2},
+  {.type = CONF_TYPE_OBJECT, .key = "devices", .num_desc = 19},
+  {.type = CONF_TYPE_OBJECT, .key = "mainDevice", .num_desc = 4},
   {.type = CONF_TYPE_STRING, .key = "id", .offset = offsetof(struct mgos_config, devices.mainDevice.id)},
   {.type = CONF_TYPE_STRING, .key = "type", .offset = offsetof(struct mgos_config, devices.mainDevice.type)},
+  {.type = CONF_TYPE_STRING, .key = "mainHeaterStateName", .offset = offsetof(struct mgos_config, devices.mainDevice.mainHeaterStateName)},
+  {.type = CONF_TYPE_STRING, .key = "mainTempAndHumStateName", .offset = offsetof(struct mgos_config, devices.mainDevice.mainTempAndHumStateName)},
   {.type = CONF_TYPE_OBJECT, .key = "mainHeater", .num_desc = 4},
   {.type = CONF_TYPE_STRING, .key = "id", .offset = offsetof(struct mgos_config, devices.mainHeater.id)},
   {.type = CONF_TYPE_INT, .key = "HEAT_PIN", .offset = offsetof(struct mgos_config, devices.mainHeater.HEAT_PIN)},
@@ -657,6 +659,12 @@ const char *mgos_config_get_devices_mainDevice_id(struct mgos_config *cfg) {
 const char *mgos_config_get_devices_mainDevice_type(struct mgos_config *cfg) {
   return cfg->devices.mainDevice.type;
 }
+const char *mgos_config_get_devices_mainDevice_mainHeaterStateName(struct mgos_config *cfg) {
+  return cfg->devices.mainDevice.mainHeaterStateName;
+}
+const char *mgos_config_get_devices_mainDevice_mainTempAndHumStateName(struct mgos_config *cfg) {
+  return cfg->devices.mainDevice.mainTempAndHumStateName;
+}
 const struct mgos_config_devices_mainHeater *mgos_config_get_devices_mainHeater(struct mgos_config *cfg) {
   return &cfg->devices.mainHeater;
 }
@@ -1115,6 +1123,12 @@ void mgos_config_set_devices_mainDevice_id(struct mgos_config *cfg, const char *
 }
 void mgos_config_set_devices_mainDevice_type(struct mgos_config *cfg, const char *val) {
   mgos_conf_set_str(&cfg->devices.mainDevice.type, val);
+}
+void mgos_config_set_devices_mainDevice_mainHeaterStateName(struct mgos_config *cfg, const char *val) {
+  mgos_conf_set_str(&cfg->devices.mainDevice.mainHeaterStateName, val);
+}
+void mgos_config_set_devices_mainDevice_mainTempAndHumStateName(struct mgos_config *cfg, const char *val) {
+  mgos_conf_set_str(&cfg->devices.mainDevice.mainTempAndHumStateName, val);
 }
 void mgos_config_set_devices_mainHeater_id(struct mgos_config *cfg, const char *val) {
   mgos_conf_set_str(&cfg->devices.mainHeater.id, val);

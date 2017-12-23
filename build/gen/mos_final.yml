@@ -103,6 +103,7 @@ filesystem:
 - /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/fs/tz_module_dht_sensor.js
 - /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/fs/tz_module_heater.js
 - /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/fs/tz_rpc.js
+- /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/fs/tz_shadow.js
 - /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/fs/tz_smart_heater_buttons.js
 - /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_344964060/fs/tz_smart_heater_oled.js
 binary_libs:
@@ -569,7 +570,7 @@ config_schema:
   - title: My app custom settings
 - - server.topicName
   - s
-  - qweyuiasdhjky/p/smart_heater/qwertyqwerty/s/rpc
+  - qweyuiasdhjky/qwertyqwerty/s/rpc
   - title: My app custom settings
 - - devices
   - o
@@ -584,6 +585,14 @@ config_schema:
 - - devices.mainDevice.type
   - s
   - smart_heater
+  - title: JSON with modules
+- - devices.mainDevice.mainHeaterStateName
+  - s
+  - mainHeaterState
+  - title: JSON with modules
+- - devices.mainDevice.mainTempAndHumStateName
+  - s
+  - mainTempAndHumState
   - title: JSON with modules
 - - devices.mainHeater
   - o
@@ -629,11 +638,13 @@ config_schema:
   - title: My app custom settings
 - - devices.mainDHT.minTempActions
   - s
-  - '[{"method":"asdqwezxc.SetState","args":{"heatActive":true},"local":true,"interval":60}]'
+  - '[{"type":"rpc","method":"qwertyqwerty.Shadow.LocalDelta","args":{"state": {"mainHeaterState":{"heatActive":
+    true}}},"local":true,"interval":60}]'
   - title: JSON with modules
 - - devices.mainDHT.maxTempActions
   - s
-  - '[{"method":"asdqwezxc.SetState","args":{"heatActive":false},"local":true,"interval":60}]'
+  - '[{"type":"rpc","method":"qwertyqwerty.Shadow.LocalDelta","args":{"state": {"mainHeaterState":{"heatActive":
+    false}}},"local":true,"interval":60}]'
   - title: JSON with modules
 - - devices.mainDHT.mainTimerInterval
   - i

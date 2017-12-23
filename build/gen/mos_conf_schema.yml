@@ -453,7 +453,7 @@
   - title: My app custom settings
 - - server.topicName
   - s
-  - qweyuiasdhjky/p/smart_heater/qwertyqwerty/s/rpc
+  - qweyuiasdhjky/qwertyqwerty/s/rpc
   - title: My app custom settings
 - - devices
   - o
@@ -468,6 +468,14 @@
 - - devices.mainDevice.type
   - s
   - smart_heater
+  - title: JSON with modules
+- - devices.mainDevice.mainHeaterStateName
+  - s
+  - mainHeaterState
+  - title: JSON with modules
+- - devices.mainDevice.mainTempAndHumStateName
+  - s
+  - mainTempAndHumState
   - title: JSON with modules
 - - devices.mainHeater
   - o
@@ -513,11 +521,13 @@
   - title: My app custom settings
 - - devices.mainDHT.minTempActions
   - s
-  - '[{"method":"asdqwezxc.SetState","args":{"heatActive":true},"local":true,"interval":60}]'
+  - '[{"type":"rpc","method":"qwertyqwerty.Shadow.LocalDelta","args":{"state": {"mainHeaterState":{"heatActive":
+    true}}},"local":true,"interval":60}]'
   - title: JSON with modules
 - - devices.mainDHT.maxTempActions
   - s
-  - '[{"method":"asdqwezxc.SetState","args":{"heatActive":false},"local":true,"interval":60}]'
+  - '[{"type":"rpc","method":"qwertyqwerty.Shadow.LocalDelta","args":{"state": {"mainHeaterState":{"heatActive":
+    false}}},"local":true,"interval":60}]'
   - title: JSON with modules
 - - devices.mainDHT.mainTimerInterval
   - i

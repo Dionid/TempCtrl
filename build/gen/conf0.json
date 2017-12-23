@@ -169,12 +169,14 @@
   }, 
   "server": {
     "id": "qweyuiasdhjky", 
-    "topicName": "qweyuiasdhjky/p/smart_heater/qwertyqwerty/s/rpc"
+    "topicName": "qweyuiasdhjky/qwertyqwerty/s/rpc"
   }, 
   "devices": {
     "mainDevice": {
       "id": "qwertyqwerty", 
-      "type": "smart_heater"
+      "type": "smart_heater", 
+      "mainHeaterStateName": "mainHeaterState", 
+      "mainTempAndHumStateName": "mainTempAndHumState"
     }, 
     "mainHeater": {
       "id": "asdqwezxc", 
@@ -188,8 +190,8 @@
       "minTemp": 10, 
       "maxTemp": 20, 
       "autoCtrl": true, 
-      "minTempActions": "[{\"method\":\"asdqwezxc.SetState\",\"args\":{\"heatActive\":true},\"local\":true,\"interval\":60}]", 
-      "maxTempActions": "[{\"method\":\"asdqwezxc.SetState\",\"args\":{\"heatActive\":false},\"local\":true,\"interval\":60}]", 
+      "minTempActions": "[{\"type\":\"rpc\",\"method\":\"qwertyqwerty.Shadow.LocalDelta\",\"args\":{\"state\": {\"mainHeaterState\":{\"heatActive\": true}}},\"local\":true,\"interval\":60}]", 
+      "maxTempActions": "[{\"type\":\"rpc\",\"method\":\"qwertyqwerty.Shadow.LocalDelta\",\"args\":{\"state\": {\"mainHeaterState\":{\"heatActive\": false}}},\"local\":true,\"interval\":60}]", 
       "mainTimerInterval": 10000
     }
   }, 

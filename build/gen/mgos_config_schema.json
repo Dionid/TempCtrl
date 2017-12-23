@@ -155,6 +155,8 @@
   ["devices.mainDevice", "o", {"title": "My app custom settings"}],
   ["devices.mainDevice.id", "s", {"title": "JSON with modules"}],
   ["devices.mainDevice.type", "s", {"title": "JSON with modules"}],
+  ["devices.mainDevice.mainHeaterStateName", "s", {"title": "JSON with modules"}],
+  ["devices.mainDevice.mainTempAndHumStateName", "s", {"title": "JSON with modules"}],
   ["devices.mainHeater", "o", {"title": "My app custom settings"}],
   ["devices.mainHeater.id", "s", {"title": "JSON with modules"}],
   ["devices.mainHeater.HEAT_PIN", "i", {"title": "My app custom settings"}],
