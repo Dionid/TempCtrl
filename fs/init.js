@@ -73,7 +73,7 @@ Timer.set(200, false, function() {
       RenderHum(changedProps.hum);
     }
     if (args.report) {
-      TZShadow.PublishLocalUpdate({mainTempAndHumState: changedProps});
+      TZShadow.PublishLocalUpdate({mainTempAndHumSensorState: changedProps});
     }
     return true;
   });
@@ -99,44 +99,39 @@ function TZShadowDeltaCb(args, changedState) {
     if (args.state.mainHeaterState !== undefined) {
       let mainHeaterState = {};
       let turnedOn = args.state.mainHeaterState.turnedOn;
-      if (turnedOn !== undefined && TZShadow.State.mainHeaterState.turnedOn !== turnedOn) {
+      if (turnedOn !== undefined && globalObjs.mainHeaterObj.state.turnedOn !== turnedOn) {
         SetHeaterModuleTurnedOn(globalObjs.mainHeaterObj, turnedOn);
         mainHeaterState.turnedOn = turnedOn;
       }
       let heatActive = args.state.mainHeaterState.heatActive;
-      if (heatActive !== undefined && TZShadow.State.mainHeaterState.heatActive !== heatActive) {
+      if (heatActive !== undefined && globalObjs.mainHeaterObj.state.heatActive !== heatActive) {
         SetHeaterModuleHeatActive(globalObjs.mainHeaterObj, heatActive);
         mainHeaterState.heatActive = heatActive;
       }
-      let empty = true;
-      for(let k in mainHeaterState) {
-        empty = false;
-      }
-      // print("empty");
-      // print(empty);
-      if (!empty) {
+      if (TZIsObjFilled(mainHeaterState)) {
         changedState.mainHeaterState = mainHeaterState;
       }
     }
 
-    if (args.state.mainTempAndHumState !== undefined) {
-      let mainTempAndHumStateCh = {};
-      let minTemp = args.state.mainTempAndHumState.minTemp;
+    if (args.state.mainTempAndHumSensorState !== undefined) {
+      let mainTempAndHumSensorStateCh = {};
+      let minTemp = args.state.mainTempAndHumSensorState.minTemp;
       if (minTemp !== undefined && globalObjs.mainDHTObj.state.minTemp !== minTemp) {
         SetMinTemp(globalObjs.mainDHTObj, minTemp);
-        mainTempAndHumStateCh.minTemp = minTemp;
+        mainTempAndHumSensorStateCh.minTemp = minTemp;
       }
-      let maxTemp = args.state.mainTempAndHumState.maxTemp;
+      let maxTemp = args.state.mainTempAndHumSensorState.maxTemp;
       if (maxTemp !== undefined && globalObjs.mainDHTObj.state.maxTemp !== maxTemp) {
         SetMaxTemp(globalObjs.mainDHTObj, maxTemp);
-        mainTempAndHumStateCh.maxTemp = maxTemp;
+        mainTempAndHumSensorStateCh.maxTemp = maxTemp;
       }
-      let empty = true;
-      for(let k in mainTempAndHumStateCh) {
-        empty = false;
+      let autoCtrl = args.state.mainTempAndHumSensorState.autoCtrl;
+      if (autoCtrl !== undefined && globalObjs.mainDHTObj.state.autoCtrl !== autoCtrl) {
+        globalObjs.mainDHTObj.autoCtrl = autoCtrl;
+        mainTempAndHumSensorStateCh.autoCtrl = autoCtrl;
       }
-      if (!empty) {
-        changedState.mainTempAndHumState = mainTempAndHumStateCh;
+      if (TZIsObjFilled(mainTempAndHumSensorStateCh)) {
+        changedState.mainTempAndHumSensorState = mainTempAndHumSensorStateCh;
       }
     }
   }
@@ -150,7 +145,7 @@ Timer.set(500 , false , function() {
     serverId: Cfg.get('server.id'),
     state: {
       mainHeaterState: globalObjs.mainHeaterObj.state,
-      mainTempAndHumState: globalObjs.mainDHTObj.state,
+      mainTempAndHumSensorState: globalObjs.mainDHTObj.state,
     },
   });
 

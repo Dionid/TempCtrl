@@ -8,6 +8,7 @@ load('api_mqtt.js');
 load('api_sys.js');
 // load('api_dash.js');
 
+load('tz_utils.js');
 load('tz_rpc.js');
 load('tz_logging.js');
 load('tz_global_state.js');
@@ -107,32 +108,29 @@ function TZShadowDeltaCb(args, changedState) {
         SetHeaterModuleHeatActive(globalObjs.mainHeaterObj, heatActive);
         mainHeaterState.heatActive = heatActive;
       }
-      let empty = true;
-      for(let k in mainHeaterState) {
-        empty = false;
-      }
-      if (!empty) {
+      if (TZIsObjFilled(mainHeaterState)) {
         changedState.mainHeaterState = mainHeaterState;
       }
     }
+
     if (args.state.mainTempAndHumState !== undefined) {
-      let mainTempAndHumState = {};
+      let mainTempAndHumStateCh = {};
       let minTemp = args.state.mainTempAndHumState.minTemp;
       if (minTemp !== undefined && globalObjs.mainDHTObj.state.minTemp !== minTemp) {
         SetMinTemp(globalObjs.mainDHTObj, minTemp);
-        mainTempAndHumState.minTemp = minTemp;
+        mainTempAndHumStateCh.minTemp = minTemp;
       }
       let maxTemp = args.state.mainTempAndHumState.maxTemp;
       if (maxTemp !== undefined && globalObjs.mainDHTObj.state.maxTemp !== maxTemp) {
         SetMaxTemp(globalObjs.mainDHTObj, maxTemp);
-        mainTempAndHumState.maxTemp = maxTemp;
+        mainTempAndHumStateCh.maxTemp = maxTemp;
       }
-      let empty = true;
-      for(let k in mainTempAndHumState) {
-        empty = false;
-      }
-      if (!empty) {
-        changedState.mainTempAndHumState = mainTempAndHumState;
+      // let empty = true;
+      // for(let k in mainTempAndHumStateCh) {
+      //   empty = false;
+      // }
+      if (TZIsObjFilled(mainTempAndHumStateCh)) {
+        changedState.mainTempAndHumState = mainTempAndHumStateCh;
       }
     }
   }

@@ -38,15 +38,18 @@ let TZ_Actions = {
   },
 };
 
-// REPLACE RPC.CALL TO NORMAL CALL
+let StateChangedCbs = {};
 
+// REPLACE RPC.CALL TO NORMAL CALL
 function StateChangedRpcCall(deviceId, state, changedProps, report) {
-  RPC.call(RPC.LOCAL, deviceId + '.StateChanged', {state: state, changedProps: changedProps, report: report}, function(){}, null);
+  if (StateChangedCbs[deviceId]) StateChangedCbs[deviceId]({state: state, changedProps: changedProps, report: report});
+  // RPC.call(RPC.LOCAL, deviceId + '.StateChanged', {state: state, changedProps: changedProps, report: report}, function(){}, null);
 }
 
-function StateChangedRpcAddHandler(deviceId, cb, ud) {
-  if (ud === undefined) {
-    ud = null;
-  }
-  RPC.addHandler(deviceId + '.StateChanged', cb, ud);
+function StateChangedRpcAddHandler(deviceId, cb) {
+  // if (ud === undefined) {
+  //   ud = null;
+  // }
+  // RPC.addHandler(deviceId + '.StateChanged', cb, ud);
+  StateChangedCbs[deviceId] = cb;
 }

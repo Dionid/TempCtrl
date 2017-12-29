@@ -2,5 +2,5 @@
   "arch": "esp32",
   "platform": "esp32",
   "app_name": "Garage",
-  "build_time_ms": 26072
+  "build_time_ms": 33792
 }
