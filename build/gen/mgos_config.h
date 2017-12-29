@@ -1,6 +1,6 @@
 /*
  * Generated file - do not edit.
- * Command: /mongoose-os/fw/tools/gen_sys_config.py --c_name=mgos_config --c_global_name=mgos_sys_config --dest_dir=/fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_928621324/build/gen/ /mongoose-os/fw/src/mgos_debug_udp_config.yaml /mongoose-os/fw/src/mgos_sntp_config.yaml /mongoose-os/fw/src/mgos_updater_config.yaml /mongoose-os/fw/src/mgos_sys_config.yaml /mongoose-os/fw/platforms/esp32/src/esp32_sys_config.yaml /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_928621324/build/gen/mos_conf_schema.yml
+ * Command: /mongoose-os/fw/tools/gen_sys_config.py --c_name=mgos_config --c_global_name=mgos_sys_config --dest_dir=/fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_893974679/build/gen/ /mongoose-os/fw/src/mgos_debug_udp_config.yaml /mongoose-os/fw/src/mgos_sntp_config.yaml /mongoose-os/fw/src/mgos_updater_config.yaml /mongoose-os/fw/src/mgos_sys_config.yaml /mongoose-os/fw/platforms/esp32/src/esp32_sys_config.yaml /fwbuild-volumes/1.22.1/apps/Garage/esp32/build_contexts/build_ctx_893974679/build/gen/mos_conf_schema.yml
  */
 
 #ifndef MGOS_CONFIG_H_
@@ -213,7 +213,7 @@ struct mgos_config_devices_mainDevice {
   char *id;
   char *type;
   char *mainHeaterStateName;
-  char *mainTempAndHumStateName;
+  char *mainTempAndHumSensorStateName;
 };
 
 struct mgos_config_devices_mainHeater {
@@ -424,7 +424,7 @@ const struct mgos_config_devices_mainDevice *mgos_config_get_devices_mainDevice(
 const char *mgos_config_get_devices_mainDevice_id(struct mgos_config *cfg);
 const char *mgos_config_get_devices_mainDevice_type(struct mgos_config *cfg);
 const char *mgos_config_get_devices_mainDevice_mainHeaterStateName(struct mgos_config *cfg);
-const char *mgos_config_get_devices_mainDevice_mainTempAndHumStateName(struct mgos_config *cfg);
+const char *mgos_config_get_devices_mainDevice_mainTempAndHumSensorStateName(struct mgos_config *cfg);
 const struct mgos_config_devices_mainHeater *mgos_config_get_devices_mainHeater(struct mgos_config *cfg);
 const char *mgos_config_get_devices_mainHeater_id(struct mgos_config *cfg);
 int         mgos_config_get_devices_mainHeater_HEAT_PIN(struct mgos_config *cfg);
@@ -579,7 +579,7 @@ void mgos_config_set_server_topicName(struct mgos_config *cfg, const char *val);
 void mgos_config_set_devices_mainDevice_id(struct mgos_config *cfg, const char *val);
 void mgos_config_set_devices_mainDevice_type(struct mgos_config *cfg, const char *val);
 void mgos_config_set_devices_mainDevice_mainHeaterStateName(struct mgos_config *cfg, const char *val);
-void mgos_config_set_devices_mainDevice_mainTempAndHumStateName(struct mgos_config *cfg, const char *val);
+void mgos_config_set_devices_mainDevice_mainTempAndHumSensorStateName(struct mgos_config *cfg, const char *val);
 void mgos_config_set_devices_mainHeater_id(struct mgos_config *cfg, const char *val);
 void mgos_config_set_devices_mainHeater_HEAT_PIN(struct mgos_config *cfg, int         val);
 void mgos_config_set_devices_mainHeater_POWER_PIN(struct mgos_config *cfg, int         val);
@@ -756,7 +756,7 @@ static inline const struct mgos_config_devices_mainDevice *mgos_sys_config_get_d
 static inline const char *mgos_sys_config_get_devices_mainDevice_id(void) { return mgos_config_get_devices_mainDevice_id(&mgos_sys_config); }
 static inline const char *mgos_sys_config_get_devices_mainDevice_type(void) { return mgos_config_get_devices_mainDevice_type(&mgos_sys_config); }
 static inline const char *mgos_sys_config_get_devices_mainDevice_mainHeaterStateName(void) { return mgos_config_get_devices_mainDevice_mainHeaterStateName(&mgos_sys_config); }
-static inline const char *mgos_sys_config_get_devices_mainDevice_mainTempAndHumStateName(void) { return mgos_config_get_devices_mainDevice_mainTempAndHumStateName(&mgos_sys_config); }
+static inline const char *mgos_sys_config_get_devices_mainDevice_mainTempAndHumSensorStateName(void) { return mgos_config_get_devices_mainDevice_mainTempAndHumSensorStateName(&mgos_sys_config); }
 static inline const struct mgos_config_devices_mainHeater *mgos_sys_config_get_devices_mainHeater(void) { return mgos_config_get_devices_mainHeater(&mgos_sys_config); }
 static inline const char *mgos_sys_config_get_devices_mainHeater_id(void) { return mgos_config_get_devices_mainHeater_id(&mgos_sys_config); }
 static inline int         mgos_sys_config_get_devices_mainHeater_HEAT_PIN(void) { return mgos_config_get_devices_mainHeater_HEAT_PIN(&mgos_sys_config); }
@@ -911,7 +911,7 @@ static inline void mgos_sys_config_set_server_topicName(const char *val) { mgos_
 static inline void mgos_sys_config_set_devices_mainDevice_id(const char *val) { mgos_config_set_devices_mainDevice_id(&mgos_sys_config, val); }
 static inline void mgos_sys_config_set_devices_mainDevice_type(const char *val) { mgos_config_set_devices_mainDevice_type(&mgos_sys_config, val); }
 static inline void mgos_sys_config_set_devices_mainDevice_mainHeaterStateName(const char *val) { mgos_config_set_devices_mainDevice_mainHeaterStateName(&mgos_sys_config, val); }
-static inline void mgos_sys_config_set_devices_mainDevice_mainTempAndHumStateName(const char *val) { mgos_config_set_devices_mainDevice_mainTempAndHumStateName(&mgos_sys_config, val); }
+static inline void mgos_sys_config_set_devices_mainDevice_mainTempAndHumSensorStateName(const char *val) { mgos_config_set_devices_mainDevice_mainTempAndHumSensorStateName(&mgos_sys_config, val); }
 static inline void mgos_sys_config_set_devices_mainHeater_id(const char *val) { mgos_config_set_devices_mainHeater_id(&mgos_sys_config, val); }
 static inline void mgos_sys_config_set_devices_mainHeater_HEAT_PIN(int         val) { mgos_config_set_devices_mainHeater_HEAT_PIN(&mgos_sys_config, val); }
 static inline void mgos_sys_config_set_devices_mainHeater_POWER_PIN(int         val) { mgos_config_set_devices_mainHeater_POWER_PIN(&mgos_sys_config, val); }

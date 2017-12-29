@@ -25,11 +25,16 @@ let TZShadow = {
   ServerId: "",
 
   _connectedReport: function() {
-    return MQTT.pub(this._serverTopicName + "/update", JSON.stringify({state: {"reported": this.State}, timestamp: Timer.now(), version: this.GetCurrentVersion()}), 1);
+    print("!!! ST _connectedReport");
+    return MQTT.pub(this._serverTopicName + "/update", JSON.stringify({state: {"reported": this.State}, timestamp: TZShadow.GetFmtTimestamp(), version: this.GetCurrentVersion()}), 1);
   },
 
   _setCurrentVersion: function(version) {
     this._version = version;
+  },
+
+  GetFmtTimestamp: function() {
+    return Timer.fmt("%Y-%m-%dT%H:%M:%SZ", Timer.now());
   },
 
   GetCurrentVersion: function() {
@@ -50,7 +55,7 @@ let TZShadow = {
   },
 
   UpdateReportedAndDesire: function() {
-    return MQTT.pub(this._serverTopicName + "/update", JSON.stringify({state: {"reported": this.State, "desired": this.State}, timestamp: Timer.now(), version: this.GetCurrentVersion()}), 1);
+    return MQTT.pub(this._serverTopicName + "/update", JSON.stringify({state: {"reported": this.State, "desired": this.State}, timestamp: TZShadow.GetFmtTimestamp(), version: this.GetCurrentVersion()}), 1);
   },
 
   PublishLocalUpdate: function(changedProps) {
@@ -60,11 +65,11 @@ let TZShadow = {
         reported: changedProps,
         desired: changedProps,
       },
-      timestamp: Timer.now(),
+      timestamp: TZShadow.GetFmtTimestamp(),
       version: this.GetCurrentVersion()
     };
 
-    MQTT.pub(TZShadow._serverTopicName+"/update", JSON.stringify(updateState), 1);
+    MQTT.pub(TZShadow._serverTopicName+"/update", JSON.stringify(updatedState), 1);
 
     // let rpc = {
     //   src: TZShadow.DeviceId,
@@ -80,6 +85,9 @@ let TZShadow = {
   },
 
   checkAndSetVersion: function(version){
+    print("checkAndSetVersion");
+    print(version);
+    print(this.GetCurrentVersion());
     if (version === undefined || version < this.GetCurrentVersion()) {
       return;
     }
@@ -102,12 +110,12 @@ let TZShadow = {
 
     MQTT.sub(TZShadow._serverTopicName+"/update/accepted", function(conn, topic, msg) {
       let args = JSON.parse(msg);
-      TZShadow.checkAndSetVersion(args.version);
+      TZShadow.checkAndSetVersion(args.version || args.metadata && args.metadata.version);
     }, null);
 
     MQTT.sub(TZShadow._serverTopicName+"/get/accepted", function(conn, topic, msg) {
       let args = JSON.parse(msg);
-      TZShadow.checkAndSetVersion(args.version);
+      TZShadow.checkAndSetVersion(args.version || args.metadata && args.metadata.version);
     }, null);
 
     MQTT.sub(TZShadow._serverTopicName+"/update/delta", function(conn, topic, msg) {
@@ -139,7 +147,7 @@ let TZShadow = {
         state: {
           reported: state,
         },
-        timestamp: Timer.now(),
+        timestamp: TZShadow.GetFmtTimestamp(),
         version: args.version
       };
 
@@ -147,21 +155,23 @@ let TZShadow = {
     });
 
     RPC.addHandler(deviceId + '.Shadow.Update.Accepted', function(args, sm, obj) {
-      TZShadow.checkAndSetVersion(args.version);
+      TZShadow.checkAndSetVersion(args.version || args.metadata && args.metadata.version);
       return true;
     }, null);
 
     RPC.addHandler(deviceId + '.Shadow.Get.Accepted', function(args, sm, obj) {
-      TZShadow.checkAndSetVersion(args.version);
+      TZShadow.checkAndSetVersion(args.version || args.metadata && args.metadata.version);
       return true;
     }, null);
 
+    TZShadow._connectedReport();
+
     MQTT.setEventHandler(function(conn, ev, edata) {
       if (ev === MQTT.EV_SUBACK) {
-        TZShadow._connectedReport();
+        // TZShadow._connectedReport();
       } else if (ev === MQTT.EV_CONNACK) {
         print("!!! MQTT.EV_CONNACK");
-        print(JSON.stringify(edata));
+        // print(JSON.stringify(edata));
         TZShadow._connectedReport();
       }
     }, null);
@@ -194,7 +204,7 @@ let TZShadow = {
         state: {
           reported: state,
         },
-        timestamp: Timer.now(),
+        timestamp: TZShadow.GetFmtTimestamp(),
         version: args.version
       };
 
@@ -221,7 +231,7 @@ let TZShadow = {
           reported: state,
           desired: state,
         },
-        timestamp: Timer.now(),
+        timestamp: TZShadow.GetFmtTimestamp(),
         version: TZShadow.GetCurrentVersion()
       };
 

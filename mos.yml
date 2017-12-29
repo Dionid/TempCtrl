@@ -65,7 +65,7 @@ config_schema:
   # - ["devices.mainDHT.maxTempActions", "s", "[{\"method\":\"asdqwezxc.SetState\",\"args\":{\"heatActive\":false},\"local\":true,\"interval\":60}]", {title: "JSON with modules"}]
   - ["devices.mainDHT.minTempActions", "s", "[{\"type\":\"rpc\",\"method\":\"wtdJcLbTRrOsF.Shadow.LocalDelta\",\"args\":{\"state\": {\"mainHeaterState\":{\"heatActive\": true}}},\"local\":true,\"interval\":60}]", {title: "JSON with modules"}]
   - ["devices.mainDHT.maxTempActions", "s", "[{\"type\":\"rpc\",\"method\":\"wtdJcLbTRrOsF.Shadow.LocalDelta\",\"args\":{\"state\": {\"mainHeaterState\":{\"heatActive\": false}}},\"local\":true,\"interval\":60}]", {title: "JSON with modules"}]
-  - ["devices.mainDHT.mainTimerInterval", "i", 10000, {title: "My app custom settings"}]
+  - ["devices.mainDHT.mainTimerInterval", "i", 60000, {title: "My app custom settings"}]
 
   - ["pins", "o", {title: "My app custom settings"}]
   - ["pins.DEC_BUTTON", "i", 5, {title: "GPIO pin ..."}]

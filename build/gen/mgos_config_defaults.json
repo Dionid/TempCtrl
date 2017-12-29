@@ -17,7 +17,7 @@
     "enable_post": true
   }, 
   "device": {
-    "id": "qwertyqwerty", 
+    "id": "wtdJcLbTRrOsF", 
     "password": "", 
     "shadow_impl": "", 
     "type": "smart_heater"
@@ -169,14 +169,14 @@
   }, 
   "server": {
     "id": "qweyuiasdhjky", 
-    "topicName": "qweyuiasdhjky/qwertyqwerty/s/rpc"
+    "topicName": "qweyuiasdhjky/wtdJcLbTRrOsF/s/rpc"
   }, 
   "devices": {
     "mainDevice": {
-      "id": "qwertyqwerty", 
+      "id": "wtdJcLbTRrOsF", 
       "type": "smart_heater", 
       "mainHeaterStateName": "mainHeaterState", 
-      "mainTempAndHumStateName": "mainTempAndHumState"
+      "mainTempAndHumSensorStateName": "mainTempAndHumSensorState"
     }, 
     "mainHeater": {
       "id": "asdqwezxc", 
@@ -190,9 +190,9 @@
       "minTemp": 10, 
       "maxTemp": 20, 
       "autoCtrl": true, 
-      "minTempActions": "[{\"type\":\"rpc\",\"method\":\"qwertyqwerty.Shadow.LocalDelta\",\"args\":{\"state\": {\"mainHeaterState\":{\"heatActive\": true}}},\"local\":true,\"interval\":60}]", 
-      "maxTempActions": "[{\"type\":\"rpc\",\"method\":\"qwertyqwerty.Shadow.LocalDelta\",\"args\":{\"state\": {\"mainHeaterState\":{\"heatActive\": false}}},\"local\":true,\"interval\":60}]", 
-      "mainTimerInterval": 10000
+      "minTempActions": "[{\"type\":\"rpc\",\"method\":\"wtdJcLbTRrOsF.Shadow.LocalDelta\",\"args\":{\"state\": {\"mainHeaterState\":{\"heatActive\": true}}},\"local\":true,\"interval\":60}]", 
+      "maxTempActions": "[{\"type\":\"rpc\",\"method\":\"wtdJcLbTRrOsF.Shadow.LocalDelta\",\"args\":{\"state\": {\"mainHeaterState\":{\"heatActive\": false}}},\"local\":true,\"interval\":60}]", 
+      "mainTimerInterval": 60000
     }
   }, 
   "pins": {

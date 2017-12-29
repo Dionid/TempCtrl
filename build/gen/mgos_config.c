@@ -162,7 +162,7 @@ const struct mgos_conf_entry mgos_config_schema_[177] = {
   {.type = CONF_TYPE_STRING, .key = "id", .offset = offsetof(struct mgos_config, devices.mainDevice.id)},
   {.type = CONF_TYPE_STRING, .key = "type", .offset = offsetof(struct mgos_config, devices.mainDevice.type)},
   {.type = CONF_TYPE_STRING, .key = "mainHeaterStateName", .offset = offsetof(struct mgos_config, devices.mainDevice.mainHeaterStateName)},
-  {.type = CONF_TYPE_STRING, .key = "mainTempAndHumStateName", .offset = offsetof(struct mgos_config, devices.mainDevice.mainTempAndHumStateName)},
+  {.type = CONF_TYPE_STRING, .key = "mainTempAndHumSensorStateName", .offset = offsetof(struct mgos_config, devices.mainDevice.mainTempAndHumSensorStateName)},
   {.type = CONF_TYPE_OBJECT, .key = "mainHeater", .num_desc = 4},
   {.type = CONF_TYPE_STRING, .key = "id", .offset = offsetof(struct mgos_config, devices.mainHeater.id)},
   {.type = CONF_TYPE_INT, .key = "HEAT_PIN", .offset = offsetof(struct mgos_config, devices.mainHeater.HEAT_PIN)},
@@ -662,8 +662,8 @@ const char *mgos_config_get_devices_mainDevice_type(struct mgos_config *cfg) {
 const char *mgos_config_get_devices_mainDevice_mainHeaterStateName(struct mgos_config *cfg) {
   return cfg->devices.mainDevice.mainHeaterStateName;
 }
-const char *mgos_config_get_devices_mainDevice_mainTempAndHumStateName(struct mgos_config *cfg) {
-  return cfg->devices.mainDevice.mainTempAndHumStateName;
+const char *mgos_config_get_devices_mainDevice_mainTempAndHumSensorStateName(struct mgos_config *cfg) {
+  return cfg->devices.mainDevice.mainTempAndHumSensorStateName;
 }
 const struct mgos_config_devices_mainHeater *mgos_config_get_devices_mainHeater(struct mgos_config *cfg) {
   return &cfg->devices.mainHeater;
@@ -1127,8 +1127,8 @@ void mgos_config_set_devices_mainDevice_type(struct mgos_config *cfg, const char
 void mgos_config_set_devices_mainDevice_mainHeaterStateName(struct mgos_config *cfg, const char *val) {
   mgos_conf_set_str(&cfg->devices.mainDevice.mainHeaterStateName, val);
 }
-void mgos_config_set_devices_mainDevice_mainTempAndHumStateName(struct mgos_config *cfg, const char *val) {
-  mgos_conf_set_str(&cfg->devices.mainDevice.mainTempAndHumStateName, val);
+void mgos_config_set_devices_mainDevice_mainTempAndHumSensorStateName(struct mgos_config *cfg, const char *val) {
+  mgos_conf_set_str(&cfg->devices.mainDevice.mainTempAndHumSensorStateName, val);
 }
 void mgos_config_set_devices_mainHeater_id(struct mgos_config *cfg, const char *val) {
   mgos_conf_set_str(&cfg->devices.mainHeater.id, val);
