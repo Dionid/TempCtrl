@@ -85,9 +85,9 @@ let TZShadow = {
   },
 
   checkAndSetVersion: function(version){
-    print("checkAndSetVersion");
-    print(version);
-    print(this.GetCurrentVersion());
+    print("CheckAndSetVersion");
+    print("Current version: " + this.GetCurrentVersion());
+    print("Recieved version: " + version);
     if (version === undefined || version < this.GetCurrentVersion()) {
       return;
     }
@@ -121,12 +121,8 @@ let TZShadow = {
     MQTT.sub(TZShadow._serverTopicName+"/update/delta", function(conn, topic, msg) {
       let args = JSON.parse(msg);
       if (args.version === undefined || args.version < TZShadow.GetCurrentVersion()) {
-        return {
-          error: {
-            code: 409,
-            msg: "Wrong version"
-          }
-        };
+        // Wrong version
+        return;
       }
 
       let state = {};
