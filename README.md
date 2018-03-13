@@ -1,14 +1,4 @@
-# Mongoose OS DHT sensor usage example (JavaScript)
+# Heat gun with brains on ESP and MongooseOS
 
-## Overview
-
-This example shows how to use DHT sensors on Mongoose OS in JavaScript.
-
-## How to install this app
-
-- Install and start [mos tool](https://mongoose-os.com/software.html)
-- Switch to the Project page, find and import this app, build and flash it:
-
-<p align="center">
-  <img src="https://mongoose-os.com/images/app1.gif" width="75%">
-</p>
+1. Set your optimal temperature lvl.
+2. Heat gun will controll climate by itlself.
